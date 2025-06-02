@@ -157,12 +157,21 @@ const firebaseConfig = {
                           const assigneeFromFirebase = itemDataFromFirestore.assignee || 'none'; 
                           
                           const checkbox = item.querySelector('input[type="checkbox"]');
-                          const notesTextarea = item.querySelector('.notes-area textarea');
+                          const notesArea = item.querySelector('.notes-area');
+                          const notesDisplay = notesArea ? notesArea.querySelector('.notes-display') : null;
+                          const notesTextarea = notesArea ? notesArea.querySelector('.notes-edit') : null;
                           const assigneeSelect = item.querySelector('.assignee-select');
-  
+
                           if (checkbox) checkbox.checked = itemDataFromFirestore.checked;
                           if (notesTextarea) notesTextarea.value = itemDataFromFirestore.notes;
-                          
+
+                          // Update notes display with linkified value
+                          if (notesDisplay) notesDisplay.innerHTML = linkify(itemDataFromFirestore.notes || '');
+
+                          // Show display, hide textarea
+                          if (notesDisplay) notesDisplay.style.display = '';
+                          if (notesTextarea) notesTextarea.style.display = 'none';
+
                           if (assigneeSelect) {
                               assigneeSelect.value = assigneeFromFirebase;
                               if (assigneeSelect.value !== assigneeFromFirebase && assigneeFromFirebase !== 'none' && assigneeFromFirebase !== '') {
@@ -170,7 +179,8 @@ const firebaseConfig = {
                               }
                           }
                       });
-  
+
+                      // --- DAILY PRIORITIES DISPLAY LOGIC ---
                       if (dailyPrioritiesDisplay && dailyPrioritiesTextarea) {
                           const val = firestoreData.dailyPriorities || '';
                           dailyPrioritiesDisplay.innerHTML = linkify(val);
@@ -178,21 +188,6 @@ const firebaseConfig = {
                           dailyPrioritiesDisplay.style.display = '';
                           dailyPrioritiesTextarea.style.display = 'none';
                       }
-  
-                      checklistItemsFromDOM.forEach(item => {
-                          const itemId = item.dataset.itemId;
-                          const itemDataFromFirestore = reconstructedChecklistItems[itemId] || { checked: false, notes: '', assignee: 'none' };
-                          const notesArea = item.querySelector('.notes-area');
-                          const notesDisplay = notesArea ? notesArea.querySelector('.notes-display') : null;
-                          const notesTextarea = notesArea ? notesArea.querySelector('.notes-edit') : null;
-                          if (notesDisplay && notesTextarea) {
-                              const val = itemDataFromFirestore.notes || '';
-                              notesDisplay.innerHTML = linkify(val);
-                              notesTextarea.value = val;
-                              notesDisplay.style.display = '';
-                              notesTextarea.style.display = 'none';
-                          }
-                      });
                   } else {
                       console.log("No shared data document found! (Checklist).");
                   }
@@ -204,42 +199,83 @@ const firebaseConfig = {
                   console.error("Error listening to Firestore document (Checklist):", error);
               });
           }
-  
+
           function saveChecklistItemData(itemId, property, value) {
               if (!sharedDataDocRef) return;
               const update = {};
               update[`checklistItems.${itemId}.${property}`] = value;
               sharedDataDocRef.set(update, { merge: true })
-                  .then(() => { /* console.log(`Checklist item ${itemId} property ${property} saved.`); */ })
+                  .then(() => { /* ... */ })
                   .catch(error => console.error("Error saving checklist item:", error));
           }
-  
+
           checklistItemsFromDOM.forEach(item => {
               const itemId = item.dataset.itemId;
               const checkbox = item.querySelector('input[type="checkbox"]');
-              const notesTextarea = item.querySelector('.notes-area textarea');
+              const notesArea = item.querySelector('.notes-area');
+              const notesDisplay = notesArea ? notesArea.querySelector('.notes-display') : null;
+              const notesTextarea = notesArea ? notesArea.querySelector('.notes-edit') : null;
               const assigneeSelect = item.querySelector('.assignee-select');
               if (checkbox) checkbox.addEventListener('change', function() { saveChecklistItemData(itemId, 'checked', this.checked); });
-              if (notesTextarea) notesTextarea.addEventListener('blur', function() { saveChecklistItemData(itemId, 'notes', this.value); });
               if (assigneeSelect) assigneeSelect.addEventListener('change', function() { saveChecklistItemData(itemId, 'assignee', this.value); });
               const notesBtn = item.querySelector('.notes-btn');
-              const notesArea = item.querySelector('.notes-area');
               if (notesBtn && notesArea) {
                   notesBtn.addEventListener('click', () => {
                       notesArea.style.display = notesArea.style.display === 'none' ? 'block' : 'none';
-                      if (notesArea.style.display === 'block' && notesTextarea) notesTextarea.focus();
+                      if (notesArea.style.display === 'block' && notesDisplay) notesDisplay.focus();
+                  });
+              }
+              // --- Notes display/edit toggle logic ---
+              if (notesDisplay && notesTextarea) {
+                  // Show textarea on click/focus of display
+                  notesDisplay.addEventListener('click', () => {
+                      notesDisplay.style.display = 'none';
+                      notesTextarea.style.display = '';
+                      notesTextarea.focus();
+                  });
+                  notesDisplay.addEventListener('keydown', (e) => {
+                      if (e.key === 'Enter') {
+                          e.preventDefault();
+                          notesDisplay.click();
+                      }
+                  });
+                  // Save on blur of textarea
+                  notesTextarea.addEventListener('blur', function() {
+                      const val = notesTextarea.value;
+                      saveChecklistItemData(itemId, 'notes', val);
+                      notesDisplay.innerHTML = linkify(val);
+                      notesDisplay.style.display = '';
+                      notesTextarea.style.display = 'none';
                   });
               }
           });
-  
-          if (dailyPrioritiesTextarea) {
+
+          // --- Daily Priorities: Click to Edit/Blur to Save ---
+          if (dailyPrioritiesDisplay && dailyPrioritiesTextarea) {
+              dailyPrioritiesDisplay.addEventListener('click', () => {
+                  dailyPrioritiesDisplay.style.display = 'none';
+                  dailyPrioritiesTextarea.style.display = '';
+                  dailyPrioritiesTextarea.focus();
+              });
+              dailyPrioritiesDisplay.addEventListener('keydown', (e) => {
+                  if (e.key === 'Enter') {
+                      e.preventDefault();
+                      dailyPrioritiesDisplay.click();
+                  }
+              });
               dailyPrioritiesTextarea.addEventListener('blur', () => {
                   if (!sharedDataDocRef) return;
-                  sharedDataDocRef.set({ dailyPriorities: dailyPrioritiesTextarea.value }, { merge: true })
-                      .then(() => { /* console.log("Daily priorities saved."); */ })
+                  const val = dailyPrioritiesTextarea.value;
+                  sharedDataDocRef.set({ dailyPriorities: val }, { merge: true })
+                      .then(() => {
+                          dailyPrioritiesDisplay.innerHTML = linkify(val);
+                          dailyPrioritiesDisplay.style.display = '';
+                          dailyPrioritiesTextarea.style.display = 'none';
+                      })
                       .catch(error => console.error("Error saving daily priorities:", error));
               });
           }
+
           function updatePhaseProgress(phaseElement) { /* ... (same) ... */ 
               const allCheckboxesThisPhase = phaseElement.querySelectorAll('ul.task-list input[type="checkbox"]');
               const allCheckedThisPhase = phaseElement.querySelectorAll('ul.task-list input[type="checkbox"]:checked');
@@ -617,9 +653,13 @@ const firebaseConfig = {
   
   }); // End of DOMContentLoaded
 
-  // --- Helper: Linkify plain text URLs ---
+  // --- Helper: Linkify plain text URLs and preserve line breaks ---
   function linkify(text) {
       if (!text) return '';
+      // Replace URLs with anchor tags
       const urlPattern = /(\bhttps?:\/\/[^\s]+)/gi;
-      return text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      let html = text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      // Replace line breaks with <br>
+      html = html.replace(/\n/g, '<br>');
+      return html;
   }
