@@ -113,6 +113,11 @@ const firebaseConfig = {
                       const firestoreChecklistItems = data.checklistItems || {};
                       checklistItems.forEach(item => {
                           const itemId = item.dataset.itemId;
+                          // --- NEW DIAGNOSTIC LOGS ---
+                        console.log(`+++ Processing Item ID from DOM: ${itemId} +++`);
+                        console.log(`Full firestoreChecklistItems object:`, JSON.parse(JSON.stringify(firestoreChecklistItems))); // Log a deep copy to avoid live object issues in console
+                        console.log(`Accessing firestoreChecklistItems['${itemId}']:`, firestoreChecklistItems[itemId]);
+                        // --- END OF NEW DIAGNOSTIC LOGS ---
                           // Provide a default for itemData.assignee if itemData itself is undefined or assignee is missing
                           const itemData = firestoreChecklistItems[itemId] || { checked: false, notes: '', assignee: 'none' };
                           // Ensure assignee has a fallback even if itemData exists but assignee doesn't
