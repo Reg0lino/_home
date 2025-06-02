@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-        // Authentication check - MUST be the very first script
-        if (sessionStorage.getItem('isAuthenticated') !== 'true') {
-            window.location.href = 'index.html';
-        }
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Home Buying & Moving Checklist</title>
@@ -22,7 +16,10 @@
             <a href="documents.html">Important Documents</a>
             <a href="deadlines.html">Critical Deadlines</a>
         </nav>
-        <button id="theme-toggle">Toggle Dark/Light Mode</button>
+        <div class="header-controls">
+            <button id="theme-toggle">Toggle Dark/Light Mode</button>
+            <button id="logout-button" style="margin-left: 10px;">Logout</button>
+        </div>
     </header>
 
     <main id="checklist-app">
@@ -232,7 +229,8 @@
             <h3>Making a Competitive Offer:</h3>
             <ul class="task-list">
                 <li data-item-id="p2_offer_comps"><input type="checkbox" id="cb_p2_offer_comps"><label for="cb_p2_offer_comps">Analyze Comparable Sales (Comps)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="agent">Agent</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
-                <li data-item-id="p2_offer_price"><input type="checkbox" id="cb_p2_offer_price"><label for="cb_p2_offer_price">Determine Your Offer Price</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_price"><input type="checkbox" id="cb_p2_offer_price"><label for="cb_p2_offer_price">Determine Your Offer Price</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option>
+<option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
                 <li data-item-id="p2_offer_earnest"><input type="checkbox" id="cb_p2_offer_earnest"><label for="cb_p2_offer_earnest">Earnest Money Deposit</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
                 <li data-item-id="p2_offer_contingencies"><input type="checkbox" id="cb_p2_offer_contingencies"><label for="cb_p2_offer_contingencies">Contingencies - Understand Risks & Benefits</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="attorney">Attorney</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
                 <li data-item-id="p2_offer_escalation"><input type="checkbox" id="cb_p2_offer_escalation"><label for="cb_p2_offer_escalation">Consider an Escalation Clause</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>

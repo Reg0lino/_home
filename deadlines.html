@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-        if (sessionStorage.getItem('isAuthenticated') !== 'true') {
-            window.location.href = 'index.html';
-        }
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Critical Deadlines</title>
@@ -21,7 +16,10 @@
             <a href="documents.html">Important Documents</a>
             <a href="deadlines.html" class="active-nav">Critical Deadlines</a>
         </nav>
-        <button id="theme-toggle">Toggle Dark/Light Mode</button>
+        <div class="header-controls">
+            <button id="theme-toggle">Toggle Dark/Light Mode</button>
+            <button id="logout-button" style="margin-left: 10px;">Logout</button>
+        </div>
     </header>
 
     <main id="deadlines-tracker" class="static-content">
