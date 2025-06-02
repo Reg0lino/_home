@@ -587,19 +587,17 @@ const firebaseConfig = {
               });
           }
       } // End of initializeDeadlinesTracker
-  
-      // --- FUNCTION TO INITIALIZE CONTACTS PAGE ---
+
     // --- FUNCTION TO INITIALIZE CONTACTS PAGE ---
     function initializeContactsPage() {
-        const contactFields = document.querySelectorAll('#contacts-content .editable[data-ls-key]');
+        const contactFieldsFromDOM = document.querySelectorAll('#contacts-content .editable[data-ls-key]'); // Renamed for clarity
 
-        // Set up placeholder handling and save listeners
-        contactFields.forEach(field => {
+        // Set up placeholder handling and save listeners (this part is mostly fine)
+        contactFieldsFromDOM.forEach(field => {
             const key = field.dataset.lsKey; 
             
             if (!field.dataset.placeholderOriginalText) {
                 field.dataset.placeholderOriginalText = field.textContent.trim();
-                // console.log(`Stored placeholder for ${key}: '${field.dataset.placeholderOriginalText}'`);
             }
             handleContentEditablePlaceholder(field, field.dataset.placeholderOriginalText); 
 
@@ -607,6 +605,7 @@ const firebaseConfig = {
                 if (!sharedDataDocRef || !currentUser) return;
                 const update = {};
                 const valueToSave = field.textContent.trim() === field.dataset.placeholderOriginalText ? '' : field.textContent.trim();
+                // This save logic creates the flat fields like "contacts.contact_agent_name"
                 update[`contacts.${key}`] = valueToSave; 
                 sharedDataDocRef.set(update, { merge: true })
                     .then(() => console.log(`Contact field ${key} saved with value: '${valueToSave}'`))
@@ -625,39 +624,51 @@ const firebaseConfig = {
             sharedDataDocRef.onSnapshot(doc => {
                 console.log("--- Contacts Page onSnapshot Fired ---");
                 if (doc.exists) {
-                    const data = doc.data();
-                    const firestoreContacts = data.contacts || {}; 
-                    console.log("Full 'contacts' object from Firestore:", JSON.parse(JSON.stringify(firestoreContacts)));
+                    const firestoreData = doc.data(); // This is the raw document data
+                    console.log("Raw Firestore data for contacts page:", JSON.parse(JSON.stringify(firestoreData)));
 
-                    contactFields.forEach(field => {
-                        const key = field.dataset.lsKey; 
+                    // --- NEW LOGIC TO RECONSTRUCT firestoreContacts object ---
+                    const reconstructedContacts = {};
+                    for (const rawKey in firestoreData) {
+                        if (firestoreData.hasOwnProperty(rawKey) && rawKey.startsWith('contacts.')) {
+                            // Example rawKey: "contacts.contact_agent_name"
+                            const parts = rawKey.split('.'); // ["contacts", "contact_agent_name"]
+                            if (parts.length === 2) {
+                                const contactFieldKey = parts[1]; // "contact_agent_name"
+                                reconstructedContacts[contactFieldKey] = firestoreData[rawKey];
+                            }
+                        }
+                    }
+                    console.log("Reconstructed 'contacts' object:", JSON.parse(JSON.stringify(reconstructedContacts)));
+                    // --- END OF NEW LOGIC ---
+
+                    contactFieldsFromDOM.forEach(field => {
+                        const keyFromDOM = field.dataset.lsKey; // e.g., 'contact_agent_name'
                         
                         if (!field.dataset.placeholderOriginalText) {
-                            // This should ideally not happen if the above setup ran correctly
                             field.dataset.placeholderOriginalText = field.textContent.trim(); 
-                            console.warn(`Placeholder for ${key} was set late: '${field.dataset.placeholderOriginalText}'`);
+                            console.warn(`Placeholder for ${keyFromDOM} was set late: '${field.dataset.placeholderOriginalText}'`);
                         }
 
-                        const savedValue = firestoreContacts[key]; 
+                        // Use the reconstructedContacts object
+                        const savedValue = reconstructedContacts[keyFromDOM]; 
 
-                        console.log(`--- Processing Contact Field: ${key} ---`);
-                        console.log(`   Value from Firestore (firestoreContacts['${key}']): '${savedValue}' (type: ${typeof savedValue})`);
-                        console.log(`   Placeholder for this field: '${field.dataset.placeholderOriginalText}'`);
-                        console.log(`   Current field textContent BEFORE update: '${field.textContent}'`);
+                        // console.log(`--- Processing Contact Field: ${keyFromDOM} ---`); // Kept for verbosity if needed
+                        // console.log(`   Value from RECONSTRUCTED (reconstructedContacts['${keyFromDOM}']): '${savedValue}' (type: ${typeof savedValue})`);
+                        // console.log(`   Placeholder for this field: '${field.dataset.placeholderOriginalText}'`);
+                        // console.log(`   Current field textContent BEFORE update: '${field.textContent}'`);
 
                         if (savedValue !== undefined && savedValue.trim() !== '') {
                             field.textContent = savedValue;
-                            console.log(`   Applied Firestore value: '${savedValue}'`);
                         } else {
                             field.textContent = field.dataset.placeholderOriginalText; 
-                            console.log(`   Applied placeholder text: '${field.dataset.placeholderOriginalText}' (because savedValue was '${savedValue}')`);
                         }
-                        console.log(`   Current field textContent AFTER update: '${field.textContent}'`);
-                        console.log(`------------------------------------`);
+                        // console.log(`   Current field textContent AFTER update: '${field.textContent}'`);
+                        // console.log(`------------------------------------`);
                     });
                 } else {
                     console.warn("Shared data document does not exist. Contacts will show placeholders.");
-                     contactFields.forEach(field => { 
+                     contactFieldsFromDOM.forEach(field => { 
                         if (!field.dataset.placeholderOriginalText) {
                             field.dataset.placeholderOriginalText = field.textContent.trim();
                         }
