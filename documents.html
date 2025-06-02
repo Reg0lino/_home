@@ -40,10 +40,10 @@
                     </tr>
                 </thead>
                 <tbody id="documents-table-body">
-                    <!-- JS will populate this from localStorage and allow adding new rows -->
+                    <!-- JS will populate this from Firestore and allow adding new rows -->
                     <!-- Example Row (structure for JS):
                     <tr data-doc-id="doc_1678886400000">
-                        <td contenteditable="true" class="doc-name">Pre-Approval Letter</td>
+                        <td contenteditable="true" class="doc-name editable-cell" data-placeholder="Document Name">Pre-Approval Letter</td>
                         <td>
                             <select class="doc-status">
                                 <option value="needed">Needed</option>
@@ -63,8 +63,8 @@
                                 <option value="lender">Lender</option>
                             </select>
                         </td>
-                        <td contenteditable="true" class="doc-link" placeholder="Paste GDrive/Dropbox link..."></td>
-                        <td contenteditable="true" class="doc-notes" placeholder="Details..."></td>
+                        <td contenteditable="true" class="doc-link editable-cell" data-placeholder="Cloud link..."></td>
+                        <td contenteditable="true" class="doc-notes editable-cell" data-placeholder="Details..."></td>
                         <td><button class="delete-row-btn">Delete</button></td>
                     </tr>
                     -->

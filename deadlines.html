@@ -40,11 +40,11 @@
                     </tr>
                 </thead>
                 <tbody id="deadlines-table-body">
-                    <!-- JS will populate this from localStorage and allow adding new rows -->
+                    <!-- JS will populate this from Firestore and allow adding new rows -->
                     <!-- Example Row (structure for JS):
                     <tr data-deadline-id="deadline_1678886400000">
                         <td><input type="date" class="deadline-date"></td>
-                        <td contenteditable="true" class="deadline-description">Offer Acceptance Deadline</td>
+                        <td contenteditable="true" class="deadline-description editable-cell" data-placeholder="Deadline Description">Offer Acceptance Deadline</td>
                         <td>
                             <select class="deadline-responsible">
                                 <option value="none">N/A</option>
@@ -54,7 +54,7 @@
                                 <option value="attorney">Attorney</option>
                             </select>
                         </td>
-                        <td contenteditable="true" class="deadline-notes">Must respond by 5 PM</td>
+                        <td contenteditable="true" class="deadline-notes editable-cell" data-placeholder="Details...">Must respond by 5 PM</td>
                         <td><button class="add-to-calendar-btn">Add to Calendar</button></td>
                         <td><button class="delete-row-btn">Delete</button></td>
                     </tr>

@@ -1,9 +1,9 @@
 // --- FIREBASE INITIALIZATION (should be at the very top) ---
 const firebaseConfig = {
-    apiKey: "AIzaSyA5CXcX7hM6QH13Q-EXN8mCg8Kyc7H-fQc", // YOUR ACTUAL CONFIG
+    apiKey: "AIzaSyA5CXcX7hM6QH13Q-EXN8mCg8Kyc7H-fQc", 
     authDomain: "home-881fe.firebaseapp.com",
     projectId: "home-881fe",
-    storageBucket: "home-881fe.appspot.com", // Corrected if it was firebasestorage.app
+    storageBucket: "home-881fe.appspot.com", 
     messagingSenderId: "420018374054",
     appId: "1:420018374054:web:b90c0376a0c301ef787b67",
     measurementId: "G-KEGM94MV70"
