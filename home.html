@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+            // If not authenticated, redirect back to the password page
+            window.location.href = 'index.html';
+        }
+    </script>
+    <meta charset="UTF-A"> <!-- Corrected to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long Island Home Buying Checklist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>My Long Island Home Buying & Moving Checklist</h1>
+    </header>
+    <main>
+        <section id="phase1">
+            <h2>Phase 1: Initial Preparations & Financial Planning</h2>
+
+            <h3>Defining Your Needs & Budget:</h3>
+            <ul>
+                <li><input type="checkbox" id="p1_needs_reevaluate"><label for="p1_needs_reevaluate">Re-evaluate "Must-Haves" vs. "Nice-to-Haves"</label></li>
+                <li><input type="checkbox" id="p1_needs_budgeting"><label for="p1_needs_budgeting">Detailed Budgeting & Affordability</label></li>
+                <li><input type="checkbox" id="p1_needs_downpayment"><label for="p1_needs_downpayment">Down Payment Strategy ($200k Consideration)</label></li>
+            </ul>
+
+            <h3>Financial Readiness:</h3>
+            <ul>
+                <li><input type="checkbox" id="p1_fin_docs"><label for="p1_fin_docs">Gather All Financial Documents</label></li>
+                <li><input type="checkbox" id="p1_fin_credit"><label for="p1_fin_credit">Credit Score & Report Review</label></li>
+                <li><input type="checkbox" id="p1_fin_preapproval"><label for="p1_fin_preapproval">Mortgage Pre-Approval (Crucial First Step)</label></li>
+            </ul>
+
+            <h3>Assembling Your Professional Team:</h3>
+            <ul>
+                <li><input type="checkbox" id="p1_team_agent"><label for="p1_team_agent">Select a Buyer's Real Estate Agent</label></li>
+                <li><input type="checkbox" id="p1_team_attorney"><label for="p1_team_attorney">Select a Real Estate Attorney (Required in NY)</label></li>
+                <li><input type="checkbox" id="p1_team_inspectors"><label for="p1_team_inspectors">Identify Potential Home Inspectors</label></li>
+                <li><input type="checkbox" id="p1_team_appraisal"><label for="p1_team_appraisal">Understand the Appraisal Process</label></li>
+            </ul>
+        </section>
+
+        <section id="phase2">
+            <h2>Phase 2: The House Hunt & Making an Offer</h2>
+             <h3>Searching for Your Home:</h3>
+            <ul>
+                <li><input type="checkbox" id="p2_search_area"><label for="p2_search_area">Refine Search Area</label></li>
+                <li><input type="checkbox" id="p2_search_strategy"><label for="p2_search_strategy">Property Search Strategy</label></li>
+                <li><input type="checkbox" id="p2_search_viewing"><label for="p2_search_viewing">Efficient Property Viewing</label></li>
+            </ul>
+
+            <h3>Making a Competitive Offer:</h3>
+            <ul>
+                <li><input type="checkbox" id="p2_offer_comps"><label for="p2_offer_comps">Analyze Comparable Sales (Comps)</label></li>
+                <li><input type="checkbox" id="p2_offer_price"><label for="p2_offer_price">Determine Your Offer Price</label></li>
+                <li><input type="checkbox" id="p2_offer_earnest"><label for="p2_offer_earnest">Earnest Money Deposit</label></li>
+                <li><input type="checkbox" id="p2_offer_contingencies"><label for="p2_offer_contingencies">Contingencies - Understand Risks & Benefits</label></li>
+                <li><input type="checkbox" id="p2_offer_escalation"><label for="p2_offer_escalation">Consider an Escalation Clause</label></li>
+                <li><input type="checkbox" id="p2_offer_timeline"><label for="p2_offer_timeline">Seller's Timeline Flexibility</label></li>
+                <li><input type="checkbox" id="p2_offer_packet"><label for="p2_offer_packet">Prepare "Property Information Packet"</label></li>
+                <li><input type="checkbox" id="p2_offer_submit"><label for="p2_offer_submit">Offer Submission & Negotiation</label></li>
+            </ul>
+        </section>
+
+        <section id="phase3">
+            <h2>Phase 3: Due Diligence & Closing Process</h2>
+            <h3>After Offer Acceptance:</h3>
+            <ul>
+                <li><input type="checkbox" id="p3_due_inspection_schedule"><label for="p3_due_inspection_schedule">Schedule Home Inspection Immediately</label></li>
+                <li><input type="checkbox" id="p3_due_inspection_review"><label for="p3_due_inspection_review">Review Inspection Report Thoroughly</label></li>
+                <li><input type="checkbox" id="p3_due_appraisal"><label for="p3_due_appraisal">Lender Orders Appraisal</label></li>
+                <li><input type="checkbox" id="p3_due_insurance"><label for="p3_due_insurance">Secure Homeowners Insurance</label></li>
+                <li><input type="checkbox" id="p3_due_title"><label for="p3_due_title">Title Search & Insurance</label></li>
+                <li><input type="checkbox" id="p3_due_mortgage_commitment"><label for="p3_due_mortgage_commitment">Final Mortgage Commitment</label></li>
+                <li><input type="checkbox" id="p3_due_closing_disclosure"><label for="p3_due_closing_disclosure">Review Closing Disclosure (CD)</label></li>
+                <li><input type="checkbox" id="p3_due_walkthrough"><label for="p3_due_walkthrough">Final Walk-Through</label></li>
+            </ul>
+
+            <h3>Closing Day:</h3>
+            <ul>
+                <li><input type="checkbox" id="p3_closing_funds"><label for="p3_closing_funds">Prepare Certified Funds</label></li>
+                <li><input type="checkbox" id="p3_closing_id"><label for="p3_closing_id">Bring Valid Photo ID</label></li>
+                <li><input type="checkbox" id="p3_closing_docs"><label for="p3_closing_docs">Sign All Documents</label></li>
+                <li><input type="checkbox" id="p3_closing_keys"><label for="p3_closing_keys">Receive Keys!</label></li>
+            </ul>
+        </section>
+
+        <section id="phase4">
+            <h2>Phase 4: Moving & Transition Logistics</h2>
+            <h3>Planning Your Move Out:</h3>
+            <ul>
+                <li><input type="checkbox" id="p4_move_date"><label for="p4_move_date">Set a Target Move-Out Date</label></li>
+                <li><input type="checkbox" id="p4_move_declutter"><label for="p4_move_declutter">Declutter & Downsize Ruthlessly</label></li>
+                <li><input type="checkbox" id="p4_move_junk"><label for="p4_move_junk">Junk Removal Services (Consider Costs & Timeframes)</label></li>
+                <li><input type="checkbox" id="p4_move_yard"><label for="p4_move_yard">Yard Cleanup for Current Residence</label></li>
+                <li><input type="checkbox" id="p4_move_repairs"><label for="p4_move_repairs">Address Urgent Repairs for Current Home</label></li>
+                <li><input type="checkbox" id="p4_move_packing_strategy"><label for="p4_move_packing_strategy">Packing Strategy</label></li>
+                <li><input type="checkbox" id="p4_move_movers"><label for="p4_move_movers">Hiring Professional Movers (Consider Costs & Timeframes)</label></li>
+            </ul>
+
+            <h3>Transitioning to Your New Home:</h3>
+            <ul>
+                <li><input type="checkbox" id="p4_trans_utilities"><label for="p4_trans_utilities">Arrange Utilities</label></li>
+                <li><input type="checkbox" id="p4_trans_address"><label for="p4_trans_address">Change of Address</label></li>
+                <li><input type="checkbox" id="p4_trans_pets_children"><label for="p4_trans_pets_children">Plan for Pets/Children on Moving Day</label></li>
+                <li><input type="checkbox" id="p4_trans_deep_clean"><label for="p4_trans_deep_clean">Deep Clean New Home (Optional, Before Moving In)</label></li>
+            </ul>
+        </section>
+
+        <section id="phase5">
+            <h2>Phase 5: Post-Closing & Settling In</h2>
+            <ul>
+                <li><input type="checkbox" id="p5_settle_rekey"><label for="p5_settle_rekey">Rekey Locks</label></li>
+                <li><input type="checkbox" id="p5_settle_detectors"><label for="p5_settle_detectors">Test Smoke/Carbon Monoxide Detectors</label></li>
+                <li><input type="checkbox" id="p5_settle_water_shutoff"><label for="p5_settle_water_shutoff">Locate Main Water Shut-Off Valve & Circuit Breaker Panel</label></li>
+                <li><input type="checkbox" id="p5_settle_unpack"><label for="p5_settle_unpack">Unpack Systematically</label></li>
+                <li><input type="checkbox" id="p5_settle_maintenance"><label for="p5_settle_maintenance">Begin Home Maintenance Planning</label></li>
+                <li><input type="checkbox" id="p5_settle_homestead"><label for="p5_settle_homestead">File for Homestead Exemption (If applicable)</label></li>
+                <li><input type="checkbox" id="p5_settle_explore"><label for="p5_settle_explore">Explore Your New Neighborhood</label></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Happy Home Owning!</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

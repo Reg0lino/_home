@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Protected Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        h1 {
+            color: #1c1e21;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #606770;
+        }
+        input[type="password"] {
+            width: calc(100% - 22px); /* Adjust for padding */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #1877f2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #166fe5;
+        }
+        .error-message {
+            color: red;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Password</h1>
+        <p>Please enter the password to access the Home Buying Checklist.</p>
+        <label for="password">Password:</label>
+        <input type="password" id="passwordInput" name="password">
+        <button onclick="checkPassword()">Submit</button>
+        <p id="errorMessage" class="error-message" style="display:none;">Incorrect password. Please try again.</p>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const correctPassword = "BarnabySimon123"; // Your password
+            const enteredPassword = document.getElementById("passwordInput").value;
+            const errorMessageElement = document.getElementById("errorMessage");
+
+            if (enteredPassword === correctPassword) {
+                // Store a token in session storage to indicate successful login
+                // This helps prevent direct access to home.html without a password
+                sessionStorage.setItem('isAuthenticated', 'true');
+                window.location.href = "home.html"; // Redirect to your checklist
+            } else {
+                errorMessageElement.style.display = "block";
+                document.getElementById("passwordInput").value = ""; // Clear the input
+                document.getElementById("passwordInput").focus();    // Focus back on input
+            }
+        }
+
+        // Optional: Allow pressing Enter to submit
+        document.getElementById("passwordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default form submission if it were in a form
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
