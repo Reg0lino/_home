@@ -589,45 +589,88 @@ const firebaseConfig = {
       } // End of initializeDeadlinesTracker
   
       // --- FUNCTION TO INITIALIZE CONTACTS PAGE ---
-      function initializeContactsPage() { /* ... (same as before) ... */
-          const contactFields = document.querySelectorAll('#contacts-content .editable[data-ls-key]');
-          contactFields.forEach(field => {
-              const key = field.dataset.lsKey;
-              handleContentEditablePlaceholder(field, field.textContent.trim()); 
-              field.addEventListener('blur', () => {
-                  if (!sharedDataDocRef) return;
-                  const update = {};
-                  const valueToSave = field.textContent.trim() === field.dataset.placeholderOriginalText ? '' : field.textContent.trim();
-                  update[`contacts.${key}`] = valueToSave;
-                  sharedDataDocRef.set(update, { merge: true })
-                      .then(() => console.log(`Contact field ${key} saved with value: '${valueToSave}'`))
-                      .catch(err => console.error("Error saving contact field:", err));
-              });
-              field.addEventListener('keypress', (event) => {
-                  if (event.key === 'Enter') { event.preventDefault(); field.blur(); }
-              });
-          });
-          if (sharedDataDocRef) {
-              sharedDataDocRef.onSnapshot(doc => {
-                  if (doc.exists) {
-                      const data = doc.data();
-                      const firestoreContacts = data.contacts || {};
-                      contactFields.forEach(field => {
-                          const key = field.dataset.lsKey;
-                          if (!field.dataset.placeholderOriginalText) field.dataset.placeholderOriginalText = field.textContent.trim();
-                          const savedValue = firestoreContacts[key];
-                          if (savedValue !== undefined && savedValue.trim() !== '') field.textContent = savedValue;
-                          else field.textContent = field.dataset.placeholderOriginalText; 
-                      });
-                  } else {
-                      console.log("Contacts data section does not exist in Firestore yet.");
-                       contactFields.forEach(field => {
-                          if (!field.dataset.placeholderOriginalText) field.dataset.placeholderOriginalText = field.textContent.trim();
-                          field.textContent = field.dataset.placeholderOriginalText;
-                      });
-                  }
-              }, error => console.error("Error loading contacts from Firestore:", error));
-          }
-      } // End of initializeContactsPage
+    // --- FUNCTION TO INITIALIZE CONTACTS PAGE ---
+    function initializeContactsPage() {
+        const contactFields = document.querySelectorAll('#contacts-content .editable[data-ls-key]');
+
+        // Set up placeholder handling and save listeners
+        contactFields.forEach(field => {
+            const key = field.dataset.lsKey; 
+            
+            if (!field.dataset.placeholderOriginalText) {
+                field.dataset.placeholderOriginalText = field.textContent.trim();
+                // console.log(`Stored placeholder for ${key}: '${field.dataset.placeholderOriginalText}'`);
+            }
+            handleContentEditablePlaceholder(field, field.dataset.placeholderOriginalText); 
+
+            field.addEventListener('blur', () => {
+                if (!sharedDataDocRef || !currentUser) return;
+                const update = {};
+                const valueToSave = field.textContent.trim() === field.dataset.placeholderOriginalText ? '' : field.textContent.trim();
+                update[`contacts.${key}`] = valueToSave; 
+                sharedDataDocRef.set(update, { merge: true })
+                    .then(() => console.log(`Contact field ${key} saved with value: '${valueToSave}'`))
+                    .catch(err => console.error("Error saving contact field:", err));
+            });
+            field.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') { 
+                    event.preventDefault(); 
+                    field.blur(); 
+                }
+            });
+        });
+        
+        // Load contacts from Firestore and apply
+        if (sharedDataDocRef) {
+            sharedDataDocRef.onSnapshot(doc => {
+                console.log("--- Contacts Page onSnapshot Fired ---");
+                if (doc.exists) {
+                    const data = doc.data();
+                    const firestoreContacts = data.contacts || {}; 
+                    console.log("Full 'contacts' object from Firestore:", JSON.parse(JSON.stringify(firestoreContacts)));
+
+                    contactFields.forEach(field => {
+                        const key = field.dataset.lsKey; 
+                        
+                        if (!field.dataset.placeholderOriginalText) {
+                            // This should ideally not happen if the above setup ran correctly
+                            field.dataset.placeholderOriginalText = field.textContent.trim(); 
+                            console.warn(`Placeholder for ${key} was set late: '${field.dataset.placeholderOriginalText}'`);
+                        }
+
+                        const savedValue = firestoreContacts[key]; 
+
+                        console.log(`--- Processing Contact Field: ${key} ---`);
+                        console.log(`   Value from Firestore (firestoreContacts['${key}']): '${savedValue}' (type: ${typeof savedValue})`);
+                        console.log(`   Placeholder for this field: '${field.dataset.placeholderOriginalText}'`);
+                        console.log(`   Current field textContent BEFORE update: '${field.textContent}'`);
+
+                        if (savedValue !== undefined && savedValue.trim() !== '') {
+                            field.textContent = savedValue;
+                            console.log(`   Applied Firestore value: '${savedValue}'`);
+                        } else {
+                            field.textContent = field.dataset.placeholderOriginalText; 
+                            console.log(`   Applied placeholder text: '${field.dataset.placeholderOriginalText}' (because savedValue was '${savedValue}')`);
+                        }
+                        console.log(`   Current field textContent AFTER update: '${field.textContent}'`);
+                        console.log(`------------------------------------`);
+                    });
+                } else {
+                    console.warn("Shared data document does not exist. Contacts will show placeholders.");
+                     contactFields.forEach(field => { 
+                        if (!field.dataset.placeholderOriginalText) {
+                            field.dataset.placeholderOriginalText = field.textContent.trim();
+                        }
+                        field.textContent = field.dataset.placeholderOriginalText;
+                    });
+                }
+            }, error => {
+                console.error("Error loading contacts from Firestore:", error);
+                alert("Error loading contacts. Please try again.");
+            });
+        } else {
+            console.warn("sharedDataDocRef not available for contacts page initialization.");
+        }
+    } // End of initializeContactsPage
   
   }); // End of DOMContentLoaded
