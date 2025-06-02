@@ -1,524 +1,405 @@
-/* General Reset & Body Styles (from previous + new) */
+/* CSS Custom Properties (Variables) Definitions */
 :root {
-    --primary-color-light: #5cb85c; /* Green for progress, accents */
-    --primary-color-dark: #4cae4c;
-    --secondary-color-light: #4a90e2; /* Blue for buttons, links */
-    --secondary-color-dark: #357abd;
-
-    --background-light: #f4f4f4;
-    --text-color-light: #333;
-    --container-bg-light: #fff;
-    --border-color-light: #e0e0e0; /* Slightly softer border */
-    --header-bg-light: #3a3a3a; /* Darker header */
-    --header-text-light: #fff;
-    --nav-link-light: #ccc;
-    --nav-link-active-light: #fff;
-    --button-bg-light: var(--secondary-color-light);
-    --button-text-light: #fff;
-    --notes-bg-light: #f0f0f0;
-    --item-bg-light: #fdfdfd; /* Slightly off-white items */
-    --item-border-light: var(--primary-color-light);
-    --table-header-bg-light: #e9e9e9;
-
-
-    --background-dark: #121212; /* Darker overall dark bg */
-    --text-color-dark: #e0e0e0; /* Lighter dark text */
-    --container-bg-dark: #1e1e1e; /* Darker cards */
-    --border-color-dark: #333; /* Darker borders */
-    --header-bg-dark: #1e1e1e;
-    --header-text-dark: #e0e0e0;
-    --nav-link-dark: #aaa;
-    --nav-link-active-dark: #e0e0e0;
-    --button-bg-dark: var(--secondary-color-dark);
-    --button-text-dark: #e0e0e0;
-    --notes-bg-dark: #2c2c2c;
-    --item-bg-dark: #252525;
-    --item-border-dark: var(--primary-color-dark);
-    --table-header-bg-dark: #2a2a2a;
+    /* --- Default Light Theme (Fallback & Base) --- */
+    --theme-name: "Default Light";
+    --page-bg: #f4f4f4;
+    --text-color: #333;
+    --card-bg: #fff;
+    --item-bg: #fdfdfd;
+    --notes-bg: #f0f0f0;
+    --border-color: #e0e0e0;
+    --table-header-bg: #e9e9e9;
+    --header-bg: #3a3a3a;
+    --header-text: #fff;
+    --nav-link: #ccc;
+    --nav-link-active-bg: #5cb85c;
+    --nav-link-active-text: #fff;
+    --primary-accent: #5cb85c; /* Green */
+    --secondary-accent: #4a90e2; /* Blue */
+    --button-text: #fff;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(0,0,0,0.08);
 }
 
+body.theme-default-dark {
+    --theme-name: "Default Dark";
+    --page-bg: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --item-bg: #252525;
+    --notes-bg: #2c2c2c;
+    --border-color: #333;
+    --table-header-bg: #2a2a2a;
+    --header-bg: #1e1e1e;
+    --header-text: #e0e0e0;
+    --nav-link: #aaa;
+    --nav-link-active-bg: #4cae4c;
+    --nav-link-active-text: #e0e0e0;
+    --primary-accent: #4cae4c; /* Darker Green */
+    --secondary-accent: #357abd; /* Darker Blue */
+    --button-text: #e0e0e0;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(0,0,0,0.25);
+}
+
+body.theme-blueprint-bliss {
+    --theme-name: "Blueprint Bliss";
+    --page-bg: #E8F1F2; /* Very light desaturated cyan */
+    --text-color: #2C3E50; /* Dark navy/charcoal */
+    --card-bg: #FFFFFF;
+    --item-bg: #F8FAFB;
+    --notes-bg: #DDEAF0; /* Slightly darker than page for contrast */
+    --border-color: #BDC3C7; /* Soft grey */
+    --table-header-bg: #DAE4E8;
+    --header-bg: #3498DB; /* Cerulean blue */
+    --header-text: #FFFFFF;
+    --nav-link: #ECF0F1; /* Light grey for links on blue header */
+    --nav-link-active-bg: #2980B9; /* Darker blue */
+    --nav-link-active-text: #FFFFFF;
+    --primary-accent: #3498DB; /* Cerulean blue */
+    --secondary-accent: #F1C40F; /* Sunny yellow */
+    --button-text: #FFFFFF;
+    --item-border-accent: var(--secondary-accent); /* Yellow border for items */
+    --shadow-color: rgba(44, 62, 80, 0.1);
+}
+
+body.theme-house-hunt-hustle {
+    --theme-name: "House Hunt Hustle";
+    --page-bg: #ECEFF1; /* Light energetic grey */
+    --text-color: #37474F; /* Dark slate grey */
+    --card-bg: #FFFFFF;
+    --item-bg: #FAFAFA;
+    --notes-bg: #E0E0E0;
+    --border-color: #CFD8DC;
+    --table-header-bg: #E0E5E8;
+    --header-bg: #FF6F00; /* Vibrant orange */
+    --header-text: #FFFFFF;
+    --nav-link: #FFE0B2; /* Light orange for links on orange header */
+    --nav-link-active-bg: #E65100; /* Darker orange */
+    --nav-link-active-text: #FFFFFF;
+    --primary-accent: #FF6F00; /* Vibrant orange */
+    --secondary-accent: #76FF03; /* Zesty lime green */
+    --button-text: #FFFFFF;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(0,0,0,0.1);
+}
+
+body.theme-keys-in-hand-haze {
+    --theme-name: "Keys in Hand Haze";
+    --page-bg: #EAE0F4; /* Soft lavender - previously #E6E0F8 */
+    --text-color: #4A0072; /* Deep plum - previously #6A0DAD */
+    --card-bg: #FDF7FF; /* Creamy off-white - previously #FFF8DC */
+    --item-bg: #F8F0FC; /* Lighter lavender */
+    --notes-bg: #E1D4ED;
+    --border-color: #D8BFD8; /* Thistle / light plum */
+    --table-header-bg: #E8DAF5;
+    --header-bg: #BCA0DC; /* Muted Teal/Lavender mix - previously #79B4B7 */
+    --header-text: #2E003E; /* Darker plum for contrast on header */
+    --nav-link: #E6D9F0; /* Lighter for links on header */
+    --nav-link-active-bg: #A27EB4; /* Darker active */
+    --nav-link-active-text: #FFFFFF;
+    --primary-accent: #BCA0DC; /* Muted Teal/Lavender - was soft gold */
+    --secondary-accent: #FFC0CB; /* Soft Rose Gold/Pink - was pale sky blue */
+    --button-text: #FFFFFF;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(74, 0, 114, 0.07);
+}
+
+
+body.theme-moving-day-mayhem {
+    --theme-name: "Moving Day Mayhem";
+    --page-bg: #F5F5DC; /* Cardboard box beige */
+    --text-color: #795548; /* Dark brown marker */
+    --card-bg: #FFFACD; /* Lemon chiffon (lighter box interior) */
+    --item-bg: #FFF8E1; /* Lighter beige for items */
+    --notes-bg: #EFEBE9; /* Light warm grey for notes */
+    --border-color: #D7CCC8; /* Brownish grey border */
+    --table-header-bg: #E3DACE;
+    --header-bg: #FF8C00; /* Packing tape orange */
+    --header-text: #FFFFFF;
+    --nav-link: #FFE0B2; /* Lighter orange for links */
+    --nav-link-active-bg: #E65100; /* Darker orange */
+    --nav-link-active-text: #FFFFFF;
+    --primary-accent: #FF8C00; /* Packing tape orange */
+    --secondary-accent: #008080; /* Teal */
+    --button-text: #FFFFFF;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(121, 85, 72, 0.1);
+}
+
+body.theme-zenith-zone-dark {
+    --theme-name: "Zenith Zone (Dark)";
+    --page-bg: #1A202C; /* Very dark desaturated blue */
+    --text-color: #E2E8F0; /* Light grey/off-white */
+    --card-bg: #2D3748; /* Slightly lighter dark grey */
+    --item-bg: #272E3A; /* Slightly different dark for items */
+    --notes-bg: #222831; /* Even darker for notes */
+    --border-color: #4A5568; /* Mid dark grey */
+    --table-header-bg: #2A303C;
+    --header-bg: #2D3748; /* Same as card */
+    --header-text: #E2E8F0;
+    --nav-link: #A0AEC0; /* Silver/grey */
+    --nav-link-active-bg: #4FD1C5; /* Desaturated teal */
+    --nav-link-active-text: #1A202C; /* Dark text on light teal */
+    --primary-accent: #4FD1C5; /* Desaturated teal */
+    --secondary-accent: #B794F4; /* Muted lavender (desaturated) */
+    --button-text: #1A202C; /* Dark text on light teal buttons */
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(0,0,0,0.3);
+}
+
+body.theme-zenith-zone-light {
+    --theme-name: "Zenith Zone (Light)";
+    --page-bg: #F7FAFC; /* Very light greige */
+    --text-color: #2D3748; /* Dark slate */
+    --card-bg: #FFFFFF;
+    --item-bg: #FDFEFF;
+    --notes-bg: #EDF2F7;
+    --border-color: #E2E8F0;
+    --table-header-bg: #F0F4F8;
+    --header-bg: #A0C4FF; /* Dusty blue */
+    --header-text: #1A202C; /* Dark text on light blue header */
+    --nav-link: #4A5568; /* Darker grey links on dusty blue header */
+    --nav-link-active-bg: #7498D3; /* Darker dusty blue */
+    --nav-link-active-text: #FFFFFF;
+    --primary-accent: #A0C4FF; /* Dusty blue */
+    --secondary-accent: #8FBC8F; /* Muted olive green */
+    --button-text: #1A202C; /* Dark text on dusty blue buttons */
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(0,0,0,0.06);
+}
+
+
+/* --- General Styles Using Variables --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: var(--background-light);
-    color: var(--text-color-light);
+    background-color: var(--page-bg);
+    color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
-}
-
-body.dark-mode {
-    background-color: var(--background-dark);
-    color: var(--text-color-dark);
 }
 
 /* Header & Navigation */
 header {
-    background-color: var(--header-bg-light);
-    color: var(--header-text-light);
-    padding: 0.8rem 1rem; /* Adjusted padding */
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 0.8rem 1rem;
     text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    display: flex; /* For aligning title and theme toggle */
-    flex-direction: column; /* Stack title, nav, then toggle (or adjust for wider screens) */
+    box-shadow: 0 2px 5px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
     align-items: center;
-}
-body.dark-mode header {
-    background-color: var(--header-bg-dark);
-    color: var(--header-text-dark);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 header h1 {
     margin: 0 0 0.7rem 0;
-    font-size: 1.6em; /* Slightly smaller */
+    font-size: 1.6em;
 }
 
 nav {
     margin-bottom: 0.7rem;
     display: flex;
-    flex-wrap: wrap; /* Allow nav links to wrap on smaller screens */
+    flex-wrap: wrap;
     justify-content: center;
 }
 
 nav a {
-    color: var(--nav-link-light);
-    margin: 5px 10px; /* Adjusted margin for wrapping */
+    color: var(--nav-link);
+    margin: 5px 10px;
     text-decoration: none;
     font-weight: bold;
-    padding: 6px 12px; /* Adjusted padding */
+    padding: 6px 12px;
     border-radius: 4px;
     transition: background-color 0.2s, color 0.2s;
 }
-body.dark-mode nav a {
-    color: var(--nav-link-dark);
-}
 
 nav a:hover, nav a.active-nav {
-    color: var(--nav-link-active-light) !important; /* Ensure override */
-    background-color: var(--primary-color-light) !important;
-}
-body.dark-mode nav a:hover, body.dark-mode nav a.active-nav {
-    color: var(--nav-link-active-dark) !important;
-    background-color: var(--primary-color-dark) !important;
+    color: var(--nav-link-active-text) !important;
+    background-color: var(--nav-link-active-bg) !important;
 }
 
-#theme-toggle {
-    background-color: rgba(255,255,255,0.1); /* More subtle toggle */
-    color: var(--header-text-light);
-    border: 1px solid var(--nav-link-light);
+.header-controls { /* For theme selector and logout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 0.5rem;
+    width: 100%; /* Allow it to take space for potential centering */
+}
+
+#theme-selector, /* New ID for the theme dropdown */
+#theme-toggle, /* Old toggle, can be repurposed or removed if selector replaces it */
+#logout-button {
+    background-color: rgba(0,0,0,0.1); /* Subtle background */
+    color: var(--header-text);
+    border: 1px solid var(--nav-link); /* Match nav link border for consistency */
     padding: 6px 12px;
-    border-radius: 20px; /* Pill shape */
+    border-radius: 20px;
     cursor: pointer;
     font-size: 0.8em;
     transition: background-color 0.3s, border-color 0.3s;
-    /* Position it if header is flex row for title and toggle */
-    /* position: absolute; top: 15px; right: 20px; */
 }
-#theme-toggle:hover {
-    background-color: rgba(255,255,255,0.2);
-}
-body.dark-mode #theme-toggle {
+#theme-selector:hover,
+#theme-toggle:hover,
+#logout-button:hover {
     background-color: rgba(0,0,0,0.2);
-    color: var(--header-text-dark);
-    border-color: var(--nav-link-dark);
 }
-body.dark-mode #theme-toggle:hover {
-    background-color: rgba(0,0,0,0.3);
+/* Specific styling for the select if needed */
+#theme-selector {
+    -webkit-appearance: none; /* Removes default chrome/safari styling */
+    -moz-appearance: none;    /* Removes default firefox styling */
+    appearance: none;         /* Removes default styling */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); /* Basic dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    padding-right: 30px; /* Make space for arrow */
 }
+/* Ensure the select arrow color changes with theme text */
+body.theme-default-dark #theme-selector,
+body.theme-blueprint-bliss #theme-selector, /* Add for all themes that have dark header text */
+body.theme-house-hunt-hustle #theme-selector,
+body.theme-moving-day-mayhem #theme-selector {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23cccccc%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+}
+
 
 /* Main Content Area */
 main {
     padding: 20px;
-    max-width: 960px; /* Slightly wider */
+    max-width: 960px;
     margin: 20px auto;
-    background-color: var(--container-bg-light);
-    box-shadow: 0 0 15px rgba(0,0,0,0.08); /* Softer shadow */
+    background-color: var(--card-bg); /* Changed from container-bg for clarity */
+    box-shadow: 0 0 15px var(--shadow-color);
     border-radius: 8px;
-}
-body.dark-mode main {
-    background-color: var(--container-bg-dark);
-    box-shadow: 0 0 15px rgba(0,0,0,0.25);
 }
 
 hr.section-divider {
     border: 0;
     height: 1px;
-    background-color: var(--border-color-light);
+    background-color: var(--border-color);
     margin: 30px 0;
-}
-body.dark-mode hr.section-divider {
-    background-color: var(--border-color-dark);
 }
 
 /* Quick View Dashboard */
-#quick-view-dashboard {
-    padding: 10px 0;
-}
-#quick-view-dashboard h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.4em;
-    color: var(--primary-color-light);
-}
-body.dark-mode #quick-view-dashboard h2 {
-    color: var(--primary-color-dark);
-}
-
-.dashboard-columns {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-.dashboard-column {
-    flex: 1;
-    min-width: 280px; /* Ensure columns don't get too narrow */
-    background-color: var(--item-bg-light);
-    padding: 15px;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-body.dark-mode .dashboard-column {
-    background-color: var(--item-bg-dark);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-.dashboard-column h3 {
-    margin-top: 0;
-    font-size: 1.1em;
-    border-bottom: 1px solid var(--border-color-light);
-    padding-bottom: 8px;
-    margin-bottom: 12px;
-}
-body.dark-mode .dashboard-column h3 {
-    border-bottom-color: var(--border-color-dark);
-}
-.dashboard-column ul {
-    padding-left: 0;
-    list-style: none;
-}
-.dashboard-column ul li {
-    padding: 6px 0;
-    font-size: 0.95em;
-    border-bottom: 1px dashed var(--border-color-light);
-}
-body.dark-mode .dashboard-column ul li {
-    border-bottom-color: var(--border-color-dark);
-}
-.dashboard-column ul li:last-child {
-    border-bottom: none;
-}
-#daily-priorities {
-    width: calc(100% - 20px);
-    min-height: 100px;
-    padding: 8px;
-    border: 1px solid var(--border-color-light);
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 0.95em;
-    background-color: var(--notes-bg-light);
-}
-body.dark-mode #daily-priorities {
-    background-color: var(--notes-bg-dark);
-    border-color: var(--border-color-dark);
-    color: var(--text-color-dark);
-}
-
+#quick-view-dashboard { padding: 10px 0; }
+#quick-view-dashboard h2 { text-align: center; margin-bottom: 20px; font-size: 1.4em; color: var(--primary-accent); }
+.dashboard-columns { display: flex; flex-wrap: wrap; gap: 20px; }
+.dashboard-column { flex: 1; min-width: 280px; background-color: var(--item-bg); padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px var(--shadow-color); }
+.dashboard-column h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 12px; }
+.dashboard-column ul { padding-left: 0; list-style: none; }
+.dashboard-column ul li { padding: 6px 0; font-size: 0.95em; border-bottom: 1px dashed var(--border-color); }
+.dashboard-column ul li:last-child { border-bottom: none; }
+#daily-priorities { width: calc(100% - 20px); min-height: 100px; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; font-family: inherit; font-size: 0.95em; background-color: var(--notes-bg); color: var(--text-color); }
 
 /* Checklist Filters */
-#checklist-filters {
-    padding: 15px;
-    background-color: var(--item-bg-light);
-    margin-bottom: 20px;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-body.dark-mode #checklist-filters {
-    background-color: var(--item-bg-dark);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-#checklist-filters h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    text-align: center;
-}
-.filter-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
-}
-.filter-controls label {
-    font-weight: bold;
-    font-size: 0.9em;
-}
-.filter-controls select, .filter-controls button {
-    padding: 8px 10px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color-light);
-    background-color: var(--container-bg-light);
-    color: var(--text-color-light);
-    font-size: 0.9em;
-}
-body.dark-mode .filter-controls select, body.dark-mode .filter-controls button {
-    border-color: var(--border-color-dark);
-    background-color: var(--notes-bg-dark);
-    color: var(--text-color-dark);
-}
-#reset-filters {
-    background-color: var(--secondary-color-light);
-    color: white;
-    cursor: pointer;
-}
-body.dark-mode #reset-filters {
-    background-color: var(--secondary-color-dark);
-}
+#checklist-filters { padding: 15px; background-color: var(--item-bg); margin-bottom: 20px; border-radius: 6px; box-shadow: 0 2px 4px var(--shadow-color); }
+#checklist-filters h3 { margin-top: 0; margin-bottom: 15px; text-align: center; }
+.filter-controls { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: center; }
+.filter-controls label { font-weight: bold; font-size: 0.9em; }
+.filter-controls select, .filter-controls button { padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-color); font-size: 0.9em; }
+#reset-filters { background-color: var(--secondary-accent); color: var(--button-text); cursor: pointer; }
 
 
-/* Checklist Section Styles (mostly same, some adjustments) */
-.checklist-phase {
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    /* border-bottom removed, using hr.section-divider now */
-}
-.checklist-phase:last-child {
-    border-bottom: none;
+/* Checklist Section Styles */
+.checklist-phase { margin-bottom: 30px; padding-bottom: 20px; }
+.checklist-phase:last-child { border-bottom: none; }
+.phase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+.phase-header h2 { color: var(--text-color); padding-bottom: 0; margin: 0; font-size: 1.5em; }
+.phase-progress { display: flex; align-items: center; font-size: 0.9em; }
+.phase-progress .progress-text { margin-right: 10px; color: var(--text-color); }
+
+main h3 { /* For subheadings within phases */
+    color: var(--text-color);
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
 }
 
-.phase-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color-light);
-}
-body.dark-mode .phase-header {
-    border-bottom-color: var(--border-color-dark);
-}
+ul.task-list { list-style: none; padding: 0; }
+li { margin-bottom: 12px; padding: 12px; background-color: var(--item-bg); border-left: 4px solid var(--item-border-accent); border-radius: 4px; display: flex; flex-wrap: wrap; align-items: center; transition: background-color 0.3s, opacity 0.3s; box-shadow: 0 1px 3px var(--shadow-color); }
+li.filtered-out { display: none; }
+input[type="checkbox"] { margin-right: 12px; min-width: 18px; width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-accent); }
+li label { flex-grow: 1; cursor: pointer; color: var(--text-color); } /* Ensure li label is specifically targeted if needed */
+input[type="checkbox"]:checked + label { text-decoration: line-through; color: #888; }
+body.dark-mode input[type="checkbox"]:checked + label { color: #777; }
 
+.item-controls { display: flex; align-items: center; margin-left: auto; padding-left: 10px; }
+.assignee-select { padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-color); font-size: 0.9em; margin-right: 8px; }
+.notes-btn { background-color: var(--secondary-accent); color: var(--button-text); border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85em; }
+.notes-btn:hover { opacity: 0.9; }
+.notes-area { width: 100%; margin-top: 10px; }
+.notes-area textarea { width: calc(100% - 20px); min-height: 60px; padding: 8px; border-radius: 4px; border: 1px solid var(--border-color); font-family: inherit; font-size: 0.95em; background-color: var(--notes-bg); color: var(--text-color); }
 
-.phase-header h2 {
-    color: var(--text-color-light);
-    /* border-bottom: 2px solid var(--primary-color-light); */ /* Removed, header has its own border */
-    padding-bottom: 0;
-    margin: 0;
-    font-size: 1.5em;
-}
-body.dark-mode .phase-header h2 {
-    color: var(--text-color-dark);
-    /* border-bottom-color: var(--primary-color-dark); */
-}
+/* Progress Bar Styles */
+.overall-progress-container { margin-bottom: 30px; padding: 15px; background-color: var(--item-bg); border-radius: 5px; text-align: center; box-shadow: 0 2px 4px var(--shadow-color); }
+.progress-bar-bg { width: 100%; background-color: var(--notes-bg); /* Use notes-bg for better contrast */ border-radius: 5px; height: 20px; margin-top: 5px; overflow: hidden; }
+.progress-bar-bg.small-progress { height: 10px; width: 100px; }
+.progress-bar-fill { height: 100%; width: 0%; background-color: var(--primary-accent); border-radius: 5px; transition: width 0.5s ease-in-out; text-align: center; color: var(--button-text); font-weight: bold; font-size: 0.8em; line-height: 20px; }
+.progress-bar-bg.small-progress .progress-bar-fill { line-height: 10px; }
+#overall-progress-text { font-weight: bold; font-size: 1.1em; color: var(--text-color); }
 
-ul.task-list { /* Added class for filtering */
-    list-style: none;
-    padding: 0;
-}
-
-/* Individual list item styles - largely unchanged */
-li {
-    margin-bottom: 12px;
-    padding: 12px;
-    background-color: var(--item-bg-light);
-    border-left: 4px solid var(--item-border-light);
-    border-radius: 4px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    transition: background-color 0.3s, opacity 0.3s; /* Added opacity for filtering */
-}
-body.dark-mode li {
-    background-color: var(--item-bg-dark);
-    border-left-color: var(--item-border-dark);
-}
-li.filtered-out { /* For JS filtering */
-    display: none;
-    /* opacity: 0.3;
-    pointer-events: none; */
-}
-
+/* Static Content Pages (Guide, Contacts, Documents, Deadlines) */
+.static-content { padding: 20px; }
+.static-content h2 { border-bottom: 2px solid var(--primary-accent); padding-bottom: 5px; margin-bottom: 20px; font-size: 1.6em; color: var(--text-color);}
+.static-content article p, .static-content article li { margin-bottom: 1em; }
+.static-content hr { border: 0; height: 1px; background-color: var(--border-color); margin: 20px 0; }
 
 /* Tables for Documents and Deadlines */
-.table-container {
-    overflow-x: auto; /* Allow horizontal scrolling on small screens */
-    margin-top: 20px;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95em;
-}
-th, td {
-    border: 1px solid var(--border-color-light);
-    padding: 10px 12px; /* Increased padding */
-    text-align: left;
-    vertical-align: middle; /* Better alignment */
-}
-body.dark-mode th, body.dark-mode td {
-    border-color: var(--border-color-dark);
-}
-thead th {
-    background-color: var(--table-header-bg-light);
-    font-weight: bold;
-    color: var(--text-color-light);
-}
-body.dark-mode thead th {
-    background-color: var(--table-header-bg-dark);
-    color: var(--text-color-dark);
-}
-tbody tr:nth-child(even) {
-    background-color: var(--item-bg-light);
-}
-body.dark-mode tbody tr:nth-child(even) {
-    background-color: var(--item-bg-dark);
-}
-tbody tr:hover {
-    background-color: var(--notes-bg-light); /* Lighter hover */
-}
-body.dark-mode tbody tr:hover {
-    background-color: var(--notes-bg-dark);
-}
+.table-container { overflow-x: auto; margin-top: 20px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
+th, td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; vertical-align: middle; }
+thead th { background-color: var(--table-header-bg); font-weight: bold; color: var(--text-color); }
+tbody tr:nth-child(even) { background-color: var(--item-bg); } /* Use item-bg for alternating rows */
+tbody tr:hover { background-color: var(--notes-bg); }
+table input[type="date"], table input[type="text"], table select, table textarea, td[contenteditable="true"] { width: 95%; padding: 6px; border: 1px solid var(--border-color); border-radius: 3px; background-color: var(--card-bg); color: var(--text-color); font-size: 1em; }
+td[contenteditable="true"] { min-height: 20px; cursor: text; }
+td[contenteditable="true"]:focus { outline: 1px solid var(--primary-accent); }
 
-table input[type="date"],
-table input[type="text"],
-table select,
-table textarea,
-td[contenteditable="true"] {
-    width: 95%;
-    padding: 6px;
-    border: 1px solid var(--border-color-light);
-    border-radius: 3px;
-    background-color: var(--container-bg-light);
-    color: var(--text-color-light);
-    font-size: 1em;
-}
-body.dark-mode table input,
-body.dark-mode table select,
-body.dark-mode table textarea,
-body.dark-mode td[contenteditable="true"] {
-    background-color: var(--notes-bg-dark);
-    color: var(--text-color-dark);
-    border-color: var(--border-color-dark);
-}
-td[contenteditable="true"] {
-    min-height: 20px; /* Ensure it's clickable */
-    cursor: text;
-}
-td[contenteditable="true"]:focus {
-    outline: 1px solid var(--primary-color-light);
-}
-body.dark-mode td[contenteditable="true"]:focus {
-    outline-color: var(--primary-color-dark);
-}
-
-.standard-btn, .delete-row-btn, .add-to-calendar-btn {
-    background-color: var(--button-bg-light);
-    color: var(--button-text-light);
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.2s;
-    margin: 5px 0;
-}
-.standard-btn:hover, .delete-row-btn:hover, .add-to-calendar-btn:hover {
-    opacity: 0.85;
-}
-body.dark-mode .standard-btn,
-body.dark-mode .delete-row-btn,
-body.dark-mode .add-to-calendar-btn {
-    background-color: var(--button-bg-dark);
-    color: var(--button-text-dark);
-}
-.delete-row-btn {
-    background-color: #d9534f; /* Red for delete */
-}
-body.dark-mode .delete-row-btn {
-    background-color: #c9302c;
-}
-
-/* Static Content Pages (Guide, Contacts) - styles largely same */
-.static-content h2 {
-    border-bottom: 2px solid var(--primary-color-light);
-    padding-bottom: 5px;
-    margin-bottom: 20px;
-    font-size: 1.6em;
-}
-body.dark-mode .static-content h2 {
-    border-bottom-color: var(--primary-color-dark);
-}
+.standard-btn, .delete-row-btn, .add-to-calendar-btn { background-color: var(--secondary-accent); color: var(--button-text); border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s; margin: 5px 0; }
+.standard-btn:hover, .delete-row-btn:hover, .add-to-calendar-btn:hover { opacity: 0.85; }
+.delete-row-btn { background-color: #d9534f; color: white; } /* Keep delete red */
+body.dark-mode .delete-row-btn { background-color: #c9302c; }
 
 
-/* Footer - largely same */
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: var(--header-bg-light); /* Match header */
-    color: var(--header-text-light);
-    margin-top: 30px;
-    font-size: 0.9em;
-}
-body.dark-mode footer {
-    background-color: var(--header-bg-dark);
-    color: var(--header-text-dark);
-}
+/* Contacts Page Specific Styles */
+.contact-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.contact-entry { background-color: var(--item-bg); padding: 15px; border-radius: 5px; border-left: 4px solid var(--item-border-accent); box-shadow: 0 1px 3px var(--shadow-color); }
+.contact-entry h3 { margin-top: 0; font-size: 1.1em; color: var(--primary-accent); }
+.contact-entry p { margin: 5px 0; font-size: 0.95em; }
+.editable { display: inline-block; min-width: 100px; padding: 2px 4px; border: 1px dashed transparent; cursor: text; border-radius: 3px; }
+.editable:hover, .editable:focus { border-color: var(--primary-accent); background-color: var(--page-bg); /* Use page-bg for edit highlight */ }
+
+/* Footer */
+footer { text-align: center; padding: 20px; background-color: var(--header-bg); color: var(--header-text); margin-top: 30px; font-size: 0.9em; }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    header {
-        padding: 0.8rem;
-    }
-    header h1 {
-        font-size: 1.3em;
-    }
-    nav a {
-        margin: 3px 5px; /* Closer for smaller screens */
-        font-size: 0.85em;
-        padding: 5px 8px;
-    }
-    #theme-toggle {
-        /* Kept within header flow now */
-        margin-top: 8px;
-    }
-    .dashboard-columns {
-        flex-direction: column; /* Stack dashboard columns */
-    }
-    .filter-controls {
-        flex-direction: column;
-        align-items: stretch; /* Make selects/buttons full width */
-    }
-    .filter-controls label {
-        margin-bottom: 3px;
-    }
-    .filter-controls select, .filter-controls button {
-        width: 100%;
-    }
-    /* Table specific responsiveness might be needed if content is too wide */
-    th, td {
-        padding: 8px; /* Smaller padding on small screens for tables */
-    }
+    header { padding: 0.8rem; }
+    header h1 { font-size: 1.3em; }
+    nav { margin-bottom: 0.5rem; }
+    nav a { margin: 3px 5px; font-size: 0.85em; padding: 5px 8px; }
+    .header-controls { flex-direction: column; gap: 8px; margin-top: 8px; }
+    #theme-selector, #logout-button { width: auto; min-width: 150px; text-align: center;}
+
+    .dashboard-columns { flex-direction: column; }
+    .filter-controls { flex-direction: column; align-items: stretch; }
+    .filter-controls label { margin-bottom: 3px; }
+    .filter-controls select, .filter-controls button { width: 100%; }
+    th, td { padding: 8px; }
 }
 
-/* Ensure item controls and notes area behavior on small screens */
-@media (max-width: 600px) { /* Adjust breakpoint as needed */
-    li .item-controls {
-        margin-left: 0;
-        width: 100%;
-        margin-top: 8px;
-        justify-content: flex-start; /* Or space-between */
-    }
-    li {
-        flex-direction: column;
-        align-items: flex-start; /* Align items to the start */
-    }
-    li input[type="checkbox"] {
-        margin-bottom: 5px; /* Space below checkbox */
-    }
-    li label {
-        width: 100%; /* Ensure label takes full width before controls */
-    }
+@media (max-width: 600px) {
+    li .item-controls { margin-left: 0; width: 100%; margin-top: 8px; justify-content: flex-start; }
+    li { flex-direction: column; align-items: flex-start; }
+    li input[type="checkbox"] { margin-bottom: 5px; }
+    li label { width: 100%; }
+    .phase-header { flex-direction: column; align-items: flex-start; }
+    .phase-progress { margin-top: 5px; width: 100%; }
+    .phase-progress .small-progress { width: calc(100% - 50px); }
 }

@@ -29,25 +29,48 @@ const firebaseConfig = {
   
   // --- DOMContentLoaded ---
   document.addEventListener('DOMContentLoaded', () => {
-      // --- THEME TOGGLE (Runs on all pages) ---
-      const themeToggleBtn = document.getElementById('theme-toggle');
+      // --- THEME SELECTOR LOGIC (Replaces old theme toggle logic) ---
+      const themeSelector = document.getElementById('theme-selector');
       const body = document.body;
+      const defaultTheme = "theme-default-light"; // Define a default theme
   
-      function applyTheme() {
-          if (localStorage.getItem('theme') === 'dark-mode') {
-              body.classList.add('dark-mode');
+      function applySelectedTheme(themeClassName) {
+          // Remove any existing theme classes from the body
+          // This regex matches any class starting with 'theme-'
+          const themeRegex = /\btheme-[a-zA-Z0-9-]+\b/g;
+          body.className = body.className.replace(themeRegex, '').trim();
+  
+          // Add the new theme class if it's not the default placeholder or empty
+          if (themeClassName && themeClassName !== "none" && themeClassName !== "") {
+              body.classList.add(themeClassName);
+              console.log("Applied theme:", themeClassName);
           } else {
-              body.classList.remove('dark-mode');
+              body.classList.add(defaultTheme); // Apply default if no valid theme
+              console.log("Applied default theme as no valid theme was selected/stored.");
+          }
+  
+          // Update the selector to show the currently applied theme
+          if (themeSelector) {
+              themeSelector.value = themeClassName || defaultTheme;
           }
       }
-      applyTheme();
   
-      if (themeToggleBtn) {
-          themeToggleBtn.addEventListener('click', () => {
-              body.classList.toggle('dark-mode');
-              localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode');
+      // Load and apply saved theme on initial page load
+      const savedTheme = localStorage.getItem('selectedTheme');
+      if (savedTheme) {
+          applySelectedTheme(savedTheme);
+      } else {
+          applySelectedTheme(defaultTheme); // Apply default if no theme is saved
+      }
+  
+      if (themeSelector) {
+          themeSelector.addEventListener('change', (event) => {
+              const selectedThemeClass = event.target.value;
+              applySelectedTheme(selectedThemeClass);
+              localStorage.setItem('selectedTheme', selectedThemeClass);
           });
       }
+      // --- END OF THEME SELECTOR LOGIC ---
   
       // --- AUTHENTICATION STATE LISTENER & LOGOUT ---
       if (auth) {
@@ -56,7 +79,7 @@ const firebaseConfig = {
           auth.onAuthStateChanged(user => {
               if (user) {
                   currentUser = user;
-                  console.log("User signed in:", currentUser.uid, "Page:", window.location.pathname);
+                  // console.log("User signed in:", currentUser.uid, "Page:", window.location.pathname);
                   sharedDataDocRef = db.collection(SHARED_DATA_COLLECTION).doc(SHARED_DATA_DOC_ID);
                   
                   if (document.getElementById('checklist-app')) {
@@ -75,7 +98,7 @@ const firebaseConfig = {
                       window.location.pathname !== '/' &&
                       !window.location.pathname.endsWith('/_home/') &&
                       !window.location.pathname.endsWith('/_home/index.html')) {
-                      console.log("User not signed in, redirecting to login from:", window.location.pathname);
+                      // console.log("User not signed in, redirecting to login from:", window.location.pathname);
                       window.location.href = 'index.html';
                   }
               }
@@ -106,9 +129,9 @@ const firebaseConfig = {
   
           if (sharedDataDocRef) {
               sharedDataDocRef.onSnapshot((doc) => {
-                  if (doc.exists) { // Corrected: .exists is a property for compat SDK
+                  if (doc.exists) {
                       const firestoreData = doc.data();
-                      console.log("Raw Firestore data received for checklist:", JSON.parse(JSON.stringify(firestoreData)));
+                      // console.log("Raw Firestore data received for checklist:", JSON.parse(JSON.stringify(firestoreData)));
   
                       const reconstructedChecklistItems = {};
                       for (const key in firestoreData) {
@@ -125,7 +148,7 @@ const firebaseConfig = {
                               }
                           }
                       }
-                      console.log("Reconstructed checklistItems object:", JSON.parse(JSON.stringify(reconstructedChecklistItems)));
+                      // console.log("Reconstructed checklistItems object:", JSON.parse(JSON.stringify(reconstructedChecklistItems)));
   
                       checklistItemsFromDOM.forEach(item => {
                           const itemId = item.dataset.itemId;
@@ -140,17 +163,10 @@ const firebaseConfig = {
                           if (notesTextarea) notesTextarea.value = itemDataFromFirestore.notes;
                           
                           if (assigneeSelect) {
-                              // console.log(`--- Processing Item from DOM: ${itemId} ---`);
-                              // console.log(`Value from RECONSTRUCTED data (assigneeFromFirebase): '${assigneeFromFirebase}'`);
-                              // console.log(`Current select value BEFORE setting: '${assigneeSelect.value}'`);
                               assigneeSelect.value = assigneeFromFirebase;
-                              // console.log(`Current select value AFTER attempting to set to '${assigneeFromFirebase}': '${assigneeSelect.value}'`);
-                              if (assigneeSelect.value !== assigneeFromFirebase && assigneeFromFirebase !== 'none') {
-                                  // console.warn(`WARN: Assignee for ${itemId} DID NOT SET AS EXPECTED.`);
-                              } else {
-                                  // console.log(`Assignee for ${itemId} set to '${assigneeFromFirebase}' (or successfully defaulted).`);
+                              if (assigneeSelect.value !== assigneeFromFirebase && assigneeFromFirebase !== 'none' && assigneeFromFirebase !== '') {
+                                  console.warn(`Assignee for ${itemId} ('${assigneeFromFirebase}') not found in select options. Current value: '${assigneeSelect.value}'. Options:`, Array.from(assigneeSelect.options).map(opt=>opt.value));
                               }
-                              // console.log(`---------------------------------`);
                           }
                       });
   
@@ -158,29 +174,27 @@ const firebaseConfig = {
                           dailyPrioritiesTextarea.value = firestoreData.dailyPriorities || '';
                       }
                   } else {
-                      console.log("No shared data document found! (Checklist). You might need to add initial data to Firestore.");
+                      console.log("No shared data document found! (Checklist).");
                   }
                   setTimeout(() => {
-                      // console.log("Updating UI (Progress/Dashboard/Filters) after onSnapshot processing.");
                       updateAllProgressAndDashboard();
                       applyFilters();
                   }, 0);
               }, (error) => {
                   console.error("Error listening to Firestore document (Checklist):", error);
-                  alert("Error loading checklist data. Please try refreshing the page.");
               });
           }
   
-          function saveChecklistItemData(itemId, property, value) { /* ... (same as before) ... */
+          function saveChecklistItemData(itemId, property, value) {
               if (!sharedDataDocRef) return;
               const update = {};
               update[`checklistItems.${itemId}.${property}`] = value;
               sharedDataDocRef.set(update, { merge: true })
-                  .then(() => console.log(`Checklist item ${itemId} property ${property} saved.`))
+                  .then(() => { /* console.log(`Checklist item ${itemId} property ${property} saved.`); */ })
                   .catch(error => console.error("Error saving checklist item:", error));
           }
   
-          checklistItemsFromDOM.forEach(item => { /* ... (same as before) ... */
+          checklistItemsFromDOM.forEach(item => {
               const itemId = item.dataset.itemId;
               const checkbox = item.querySelector('input[type="checkbox"]');
               const notesTextarea = item.querySelector('.notes-area textarea');
@@ -198,15 +212,15 @@ const firebaseConfig = {
               }
           });
   
-          if (dailyPrioritiesTextarea) { /* ... (same as before) ... */
+          if (dailyPrioritiesTextarea) {
               dailyPrioritiesTextarea.addEventListener('blur', () => {
                   if (!sharedDataDocRef) return;
                   sharedDataDocRef.set({ dailyPriorities: dailyPrioritiesTextarea.value }, { merge: true })
-                      .then(() => console.log("Daily priorities saved."))
+                      .then(() => { /* console.log("Daily priorities saved."); */ })
                       .catch(error => console.error("Error saving daily priorities:", error));
               });
           }
-          function updatePhaseProgress(phaseElement) { /* ... (same as before) ... */
+          function updatePhaseProgress(phaseElement) { /* ... (same) ... */ 
               const allCheckboxesThisPhase = phaseElement.querySelectorAll('ul.task-list input[type="checkbox"]');
               const allCheckedThisPhase = phaseElement.querySelectorAll('ul.task-list input[type="checkbox"]:checked');
               const totalTasks = allCheckboxesThisPhase.length;
@@ -216,7 +230,7 @@ const firebaseConfig = {
               if (progressTextEl) progressTextEl.textContent = `${completedTasks}/${totalTasks}`;
               if (progressBarFillEl) progressBarFillEl.style.width = `${totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0}%`;
           }
-          function updateOverallProgress() { /* ... (same as before) ... */
+          function updateOverallProgress() { /* ... (same) ... */
               const allCheckboxes = document.querySelectorAll('#checklist-app ul.task-list input[type="checkbox"]');
               const completedTasksOverall = document.querySelectorAll('#checklist-app ul.task-list input[type="checkbox"]:checked').length;
               const totalTasksOverall = allCheckboxes.length;
@@ -228,7 +242,7 @@ const firebaseConfig = {
                   overallProgressBarFillEl.textContent = `${Math.round(percentage)}%`;
               }
           }
-          function populateQuickViewDashboard() { /* ... (same as before, including the 'both' fix) ... */
+          function populateQuickViewDashboard() { /* ... (same, includes 'both' fix) ... */
               const steveTasksList = document.getElementById('steve-next-tasks');
               const nicoleTasksList = document.getElementById('nicole-next-tasks');
               if (!steveTasksList || !nicoleTasksList) return;
@@ -264,7 +278,7 @@ const firebaseConfig = {
               if (steveTaskCount === 0) steveTasksList.innerHTML = '<li>No pending tasks for Steve.</li>';
               if (nicoleTaskCount === 0) nicoleTasksList.innerHTML = '<li>No pending tasks for Nicole.</li>';
           }
-          function applyFilters() { /* ... (same as before, needs update for 'both') ... */
+          function applyFilters() { /* ... (same, includes 'both' fix for assignee filter) ... */
               if (!filterAssigneeSelect || !filterStatusSelect) return;
               const selectedAssignee = filterAssigneeSelect.value;
               const selectedStatus = filterStatusSelect.value;
@@ -272,39 +286,32 @@ const firebaseConfig = {
                   const assignee = item.querySelector('.assignee-select').value;
                   const checkbox = item.querySelector('input[type="checkbox"]');
                   let showItem = true;
-                  if (selectedAssignee !== 'all') { // Only apply assignee filter if not 'all'
-                    if (selectedAssignee === 'steve') {
-                        if (assignee !== 'steve' && assignee !== 'both') {
-                            showItem = false;
-                        }
-                    } else if (selectedAssignee === 'nicole') {
-                        if (assignee !== 'nicole' && assignee !== 'both') {
-                            showItem = false;
-                        }
-                    } else { // For "both", "agent", "attorney", "none", etc. - direct match
-                        if (assignee !== selectedAssignee) {
-                            showItem = false;
-                        }
-                    }
-                }
-                // --- END OF MODIFIED Assignee filter logic ---
+                  if (selectedAssignee !== 'all') { 
+                      if (selectedAssignee === 'steve') {
+                          if (assignee !== 'steve' && assignee !== 'both') showItem = false;
+                      } else if (selectedAssignee === 'nicole') {
+                          if (assignee !== 'nicole' && assignee !== 'both') showItem = false;
+                      } else { 
+                          if (assignee !== selectedAssignee) showItem = false;
+                      }
+                  }
                   if (selectedStatus === 'complete' && !checkbox.checked) showItem = false;
                   else if (selectedStatus === 'incomplete' && checkbox.checked) showItem = false;
                   item.style.display = showItem ? '' : 'none';
               });
           }
-          if (filterAssigneeSelect && filterStatusSelect) { /* ... (same as before) ... */
+          if (filterAssigneeSelect && filterStatusSelect) { /* ... (same) ... */
               filterAssigneeSelect.addEventListener('change', applyFilters);
               filterStatusSelect.addEventListener('change', applyFilters);
           }
-          if (resetFiltersBtn) { /* ... (same as before) ... */
+          if (resetFiltersBtn) { /* ... (same) ... */
               resetFiltersBtn.addEventListener('click', () => {
                   if (filterAssigneeSelect) filterAssigneeSelect.value = 'all';
                   if (filterStatusSelect) filterStatusSelect.value = 'all';
                   applyFilters();
               });
           }
-          function updateAllProgressAndDashboard() { /* ... (same as before) ... */
+          function updateAllProgressAndDashboard() { /* ... (same) ... */
               document.querySelectorAll('.checklist-phase').forEach(updatePhaseProgress);
               updateOverallProgress();
               populateQuickViewDashboard();
@@ -312,7 +319,7 @@ const firebaseConfig = {
       } // End of initializeChecklistApp
   
       // --- Helper for ContentEditable Placeholders ---
-      function handleContentEditablePlaceholder(element, placeholderText) { /* ... (same as before) ... */
+      function handleContentEditablePlaceholder(element, placeholderText) { /* ... (same) ... */
           if (!element.dataset.placeholderOriginalText) {
               element.dataset.placeholderOriginalText = placeholderText || element.textContent.trim();
           }
@@ -328,11 +335,10 @@ const firebaseConfig = {
       }
   
       // --- FUNCTION TO INITIALIZE DOCUMENTS TRACKER PAGE ---
-      function initializeDocumentsTracker() {
+      function initializeDocumentsTracker() { /* ... (same as last working version with .exists fix) ... */ 
           const addDocBtn = document.getElementById('add-document-row');
           const docsTableBody = document.getElementById('documents-table-body');
-  
-          function renderDocsTable(docsData = []) { /* ... (same as before) ... */ 
+          function renderDocsTable(docsData = []) { 
               docsTableBody.innerHTML = '';
               (docsData || []).forEach((doc) => {
                   const row = docsTableBody.insertRow();
@@ -363,20 +369,18 @@ const firebaseConfig = {
                       const docIdToDelete = e.target.closest('tr').dataset.docId;
                       if (sharedDataDocRef) {
                           sharedDataDocRef.get().then(docSnap => {
-                              if (docSnap.exists) { // CORRECTED HERE
+                              if (docSnap.exists) { 
                                   const currentDocs = (docSnap.data().documents || []).filter(d => d.id !== docIdToDelete);
                                   sharedDataDocRef.set({ documents: currentDocs }, { merge: true })
-                                      .then(() => console.log("Document deleted from Firestore."))
+                                      .then(() => { /* console.log("Document deleted from Firestore."); */ })
                                       .catch(error => console.error("Error deleting document:", error));
-                              } else {
-                                  console.warn("Attempted to delete document row, but main shared document doesn't exist.");
                               }
                           }).catch(error => console.error("Error fetching document before delete:", error));
                       }
                   });
               });
           }
-          function getCurrentDocsFromTable() { /* ... (same as before) ... */
+          function getCurrentDocsFromTable() { 
               const docs = [];
               docsTableBody.querySelectorAll('tr').forEach(row => {
                   const nameCell = row.querySelector('.doc-name');
@@ -393,11 +397,11 @@ const firebaseConfig = {
               });
               return docs;
           }
-          function updateDocsInFirestore() { /* ... (same as before) ... */
+          function updateDocsInFirestore() { 
               if (!sharedDataDocRef) return;
               const currentDocs = getCurrentDocsFromTable();
               sharedDataDocRef.set({ documents: currentDocs }, { merge: true })
-                  .then(() => console.log("Documents updated in Firestore."))
+                  .then(() => { /* console.log("Documents updated in Firestore."); */ })
                   .catch(error => console.error("Error updating documents:", error));
           }
           if (addDocBtn) {
@@ -405,32 +409,29 @@ const firebaseConfig = {
                   if (!sharedDataDocRef) return;
                   const newDocId = `doc_${Date.now()}`;
                   const newDoc = { id: newDocId, name: '', status: 'needed', responsible: 'none', link: '', notes: '' };
-                  sharedDataDocRef.get().then(doc => { // doc here is the DocumentSnapshot
-                      const currentDocs = doc.exists && doc.data().documents ? doc.data().documents : []; // CORRECTED HERE
+                  sharedDataDocRef.get().then(doc => { 
+                      const currentDocs = doc.exists && doc.data().documents ? doc.data().documents : []; 
                       currentDocs.push(newDoc);
                       sharedDataDocRef.set({ documents: currentDocs }, { merge: true })
-                          .then(() => console.log("New document added to Firestore."))
+                          .then(() => { /* console.log("New document added to Firestore."); */ })
                           .catch(error => console.error("Error adding new document:", error));
                   }).catch(error => console.error("Error fetching doc before adding new document:", error));
               });
           }
-          if (sharedDataDocRef) { /* ... (same as before) ... */
+          if (sharedDataDocRef) { 
               sharedDataDocRef.onSnapshot((doc) => {
-                  if (doc.exists) renderDocsTable(doc.data().documents || []); // CORRECTED HERE
+                  if (doc.exists) renderDocsTable(doc.data().documents || []);
                   else renderDocsTable([]);
-              }, (error) => {
-                  console.error("Error listening to documents:", error);
-                  alert("Error loading documents data.");
-              });
+              }, (error) => console.error("Error listening to documents:", error));
           }
-      } // End of initializeDocumentsTracker
+      }
   
       // --- FUNCTION TO INITIALIZE DEADLINES TRACKER PAGE ---
-      function initializeDeadlinesTracker() {
+      function initializeDeadlinesTracker() { /* ... (same as last working version with .exists fix) ... */ 
           const addDeadlineBtn = document.getElementById('add-deadline-row');
           const deadlinesTableBody = document.getElementById('deadlines-table-body');
-          function generateICS(deadline) { /* ... (same as before) ... */ 
-               const startDate = deadline.date ? new Date(deadline.date + 'T09:00:00') : new Date();
+          function generateICS(deadline) { 
+              const startDate = deadline.date ? new Date(deadline.date + 'T09:00:00') : new Date();
               if (isNaN(startDate)) { alert("Invalid date for calendar event."); return; }
               const endDate = new Date(startDate);
               endDate.setHours(startDate.getHours() + 1);
@@ -449,7 +450,7 @@ const firebaseConfig = {
               link.download = `${(deadline.description || 'Deadline').replace(/[^a-z0-9]/gi, '_')}.ics`;
               document.body.appendChild(link); link.click(); document.body.removeChild(link);
           }
-          function renderDeadlinesTable(deadlinesData = []) { /* ... (same as before) ... */
+          function renderDeadlinesTable(deadlinesData = []) { 
               deadlinesTableBody.innerHTML = '';
               const sortedDeadlines = (deadlinesData || []).sort((a,b) => new Date(a.date) - new Date(b.date));
               sortedDeadlines.forEach((deadline) => {
@@ -479,19 +480,17 @@ const firebaseConfig = {
                   row.querySelector('.delete-row-btn').addEventListener('click', (e) => {
                       const deadlineIdToDelete = e.target.closest('tr').dataset.deadlineId;
                        if (sharedDataDocRef) {
-                          sharedDataDocRef.get().then(docSnap => { // docSnap is DocumentSnapshot
-                              if (docSnap.exists) { // CORRECTED HERE
+                          sharedDataDocRef.get().then(docSnap => { 
+                              if (docSnap.exists) { 
                                   const currentDeadlines = (docSnap.data().deadlines || []).filter(d => d.id !== deadlineIdToDelete);
                                   sharedDataDocRef.set({ deadlines: currentDeadlines }, { merge: true })
-                                      .then(() => console.log("Deadline deleted from Firestore."))
+                                      .then(() => { /* console.log("Deadline deleted from Firestore."); */ })
                                       .catch(error => console.error("Error deleting deadline:", error));
-                              } else {
-                                  console.warn("Attempted to delete deadline row, but main shared document doesn't exist.");
                               }
                           }).catch(error => console.error("Error fetching document before deadline delete:", error));
                       }
                   });
-                  row.querySelector('.add-to-calendar-btn').addEventListener('click', (e) => { /* ... (same as before) ... */
+                  row.querySelector('.add-to-calendar-btn').addEventListener('click', (e) => { 
                       const deadlineId = e.target.closest('tr').dataset.deadlineId;
                       const currentDeadlines = getCurrentDeadlinesFromTable();
                       const deadline = currentDeadlines.find(d => d.id === deadlineId);
@@ -499,7 +498,7 @@ const firebaseConfig = {
                   });
               });
           }
-          function getCurrentDeadlinesFromTable() { /* ... (same as before) ... */
+          function getCurrentDeadlinesFromTable() { 
                const deadlines = [];
               deadlinesTableBody.querySelectorAll('tr').forEach(row => {
                   const descriptionCell = row.querySelector('.deadline-description');
@@ -514,11 +513,11 @@ const firebaseConfig = {
               });
               return deadlines;
           }
-          function updateDeadlinesInFirestore() { /* ... (same as before) ... */
+          function updateDeadlinesInFirestore() { 
               if (!sharedDataDocRef) return;
               const currentDeadlines = getCurrentDeadlinesFromTable();
               sharedDataDocRef.set({ deadlines: currentDeadlines }, { merge: true })
-                  .then(() => console.log("Deadlines updated in Firestore."))
+                  .then(() => { /* console.log("Deadlines updated in Firestore."); */ })
                   .catch(error => console.error("Error updating deadlines:", error));
           }
           if (addDeadlineBtn) {
@@ -526,28 +525,25 @@ const firebaseConfig = {
                   if (!sharedDataDocRef) return;
                   const newDeadlineId = `deadline_${Date.now()}`;
                   const newDeadline = { id: newDeadlineId, date: '', description: '', responsible: 'none', notes: '' };
-                  sharedDataDocRef.get().then(doc => { // doc is DocumentSnapshot
-                      const currentDeadlines = doc.exists && doc.data().deadlines ? doc.data().deadlines : []; // CORRECTED HERE
+                  sharedDataDocRef.get().then(doc => { 
+                      const currentDeadlines = doc.exists && doc.data().deadlines ? doc.data().deadlines : []; 
                       currentDeadlines.push(newDeadline);
                       sharedDataDocRef.set({ deadlines: currentDeadlines }, { merge: true })
-                          .then(() => console.log("New deadline added to Firestore."))
+                          .then(() => { /* console.log("New deadline added to Firestore."); */ })
                           .catch(error => console.error("Error adding new deadline:", error));
                   }).catch(error => console.error("Error fetching doc before adding new deadline:", error));
               });
           }
-          if (sharedDataDocRef) { /* ... (same as before) ... */
+          if (sharedDataDocRef) { 
               sharedDataDocRef.onSnapshot((doc) => {
-                  if (doc.exists) renderDeadlinesTable(doc.data().deadlines || []); // CORRECTED HERE
+                  if (doc.exists) renderDeadlinesTable(doc.data().deadlines || []); 
                   else renderDeadlinesTable([]);
-              }, (error) => {
-                  console.error("Error listening to deadlines:", error);
-                  alert("Error loading deadlines data.");
-              });
+              }, (error) => console.error("Error listening to deadlines:", error));
           }
       } // End of initializeDeadlinesTracker
   
       // --- FUNCTION TO INITIALIZE CONTACTS PAGE ---
-      function initializeContactsPage() { /* ... (same as before) ... */
+      function initializeContactsPage() { /* ... (same as last working version with .exists fix) ... */ 
           const contactFields = document.querySelectorAll('#contacts-content .editable[data-ls-key]');
           contactFields.forEach(field => {
               const key = field.dataset.lsKey;
@@ -558,7 +554,7 @@ const firebaseConfig = {
                   const valueToSave = field.textContent.trim() === field.dataset.placeholderOriginalText ? '' : field.textContent.trim();
                   update[`contacts.${key}`] = valueToSave;
                   sharedDataDocRef.set(update, { merge: true })
-                      .then(() => console.log(`Contact field ${key} saved with value: '${valueToSave}'`))
+                      .then(() => { /* console.log(`Contact field ${key} saved with value: '${valueToSave}'`); */ })
                       .catch(err => console.error("Error saving contact field:", err));
               });
               field.addEventListener('keypress', (event) => {
@@ -566,17 +562,16 @@ const firebaseConfig = {
               });
           });
           if (sharedDataDocRef) {
-              sharedDataDocRef.onSnapshot(doc => { // doc is DocumentSnapshot
-                  if (doc.exists) { // CORRECTED HERE
+              sharedDataDocRef.onSnapshot(doc => { 
+                  if (doc.exists) { 
                       const data = doc.data();
-                      const firestoreContacts = {}; // Reconstruct from flat fields
+                      const firestoreContacts = {}; 
                       for (const rawKey in data) {
                           if (data.hasOwnProperty(rawKey) && rawKey.startsWith('contacts.')) {
                               const parts = rawKey.split('.');
                               if (parts.length === 2) firestoreContacts[parts[1]] = data[rawKey];
                           }
                       }
-                      // console.log("Reconstructed contacts for display:", firestoreContacts);
                       contactFields.forEach(field => {
                           const key = field.dataset.lsKey;
                           if (!field.dataset.placeholderOriginalText) field.dataset.placeholderOriginalText = field.textContent.trim();
@@ -585,7 +580,7 @@ const firebaseConfig = {
                           else field.textContent = field.dataset.placeholderOriginalText; 
                       });
                   } else {
-                      console.log("Contacts data section does not exist in Firestore yet.");
+                      // console.log("Contacts data section does not exist in Firestore yet.");
                        contactFields.forEach(field => {
                           if (!field.dataset.placeholderOriginalText) field.dataset.placeholderOriginalText = field.textContent.trim();
                           field.textContent = field.dataset.placeholderOriginalText;
