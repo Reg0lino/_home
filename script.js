@@ -346,7 +346,7 @@ const firebaseConfig = {
                   const row = docsTableBody.insertRow();
                   row.dataset.docId = doc.id;
                   row.innerHTML = `
-                      <td contenteditable="true" class="doc-name editable-cell">${doc.name || ''}</td>
+                      <td contenteditable="true" class="doc-name editable-cell" data-placeholder="Document Name">${doc.name || ''}</td>
                       <td>
                           <select class="doc-status">
                               <option value="needed" ${doc.status === 'needed' ? 'selected' : ''}>Needed</option>
@@ -367,16 +367,13 @@ const firebaseConfig = {
                               <option value="lender" ${doc.responsible === 'lender' ? 'selected' : ''}>Lender</option>
                           </select>
                       </td>
-                      <td contenteditable="true" class="doc-link editable-cell">${doc.link || ''}</td>
-                      <td contenteditable="true" class="doc-notes editable-cell">${doc.notes || ''}</td>
+                      <td contenteditable="true" class="doc-link editable-cell" data-placeholder="Cloud link...">${doc.link || ''}</td>
+                      <td contenteditable="true" class="doc-notes editable-cell" data-placeholder="Details...">${doc.notes || ''}</td>
                       <td><button class="delete-row-btn">Delete</button></td>
                   `;
                   row.querySelectorAll('.editable-cell').forEach(cell => {
-                      // Determine placeholder from an attribute or default
-                      const placeholder = cell.classList.contains('doc-name') ? 'Document Name' : 
-                                        cell.classList.contains('doc-link') ? 'Cloud link...' : 
-                                        cell.classList.contains('doc-notes') ? 'Details...' : '';
-                      handleContentEditablePlaceholder(cell, placeholder);
+                      // Use data-placeholder attribute if present
+                      handleContentEditablePlaceholder(cell, cell.dataset.placeholder || '');
                   });
               });
               addDocEventListeners();
@@ -490,7 +487,7 @@ const firebaseConfig = {
                   row.dataset.deadlineId = deadline.id;
                   row.innerHTML = `
                       <td><input type="date" class="deadline-date" value="${deadline.date || ''}"></td>
-                      <td contenteditable="true" class="deadline-description editable-cell">${deadline.description || ''}</td>
+                      <td contenteditable="true" class="deadline-description editable-cell" data-placeholder="Deadline Description">${deadline.description || ''}</td>
                       <td>
                           <select class="deadline-responsible">
                               <option value="none" ${deadline.responsible === 'none' ? 'selected' : ''}>N/A</option>
@@ -501,14 +498,12 @@ const firebaseConfig = {
                               <option value="attorney" ${deadline.responsible === 'attorney' ? 'selected' : ''}>Attorney</option>
                           </select>
                       </td>
-                      <td contenteditable="true" class="deadline-notes editable-cell">${deadline.notes || ''}</td>
+                      <td contenteditable="true" class="deadline-notes editable-cell" data-placeholder="Details...">${deadline.notes || ''}</td>
                       <td><button class="add-to-calendar-btn">To Calendar</button></td>
                       <td><button class="delete-row-btn">Delete</button></td>
                   `;
                   row.querySelectorAll('.editable-cell').forEach(cell => {
-                      const placeholder = cell.classList.contains('deadline-description') ? 'Deadline Description' : 
-                                        cell.classList.contains('deadline-notes') ? 'Details...' : '';
-                      handleContentEditablePlaceholder(cell, placeholder);
+                      handleContentEditablePlaceholder(cell, cell.dataset.placeholder || '');
                   });
               });
               addDeadlineEventListeners();
