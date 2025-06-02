@@ -13,122 +13,80 @@
 </head>
 <body>
     <header>
-        <h1>My Long Island Home Buying & Moving Checklist</h1>
+        <h1>Our Home Buying & Moving Checklist</h1>
         <nav>
-            <a href="home.html">Checklist</a>
+            <a href="home.html">Dashboard & Checklist</a>
             <a href="guide.html">The Blueprint</a>
             <a href="contacts.html" class="active-nav">Key Contacts</a>
+            <a href="documents.html">Important Documents</a>
+            <a href="deadlines.html">Critical Deadlines</a>
         </nav>
         <button id="theme-toggle">Toggle Dark/Light Mode</button>
     </header>
 
     <main id="contacts-content" class="static-content">
         <h2>Key Contacts</h2>
-        <p>Keep all your important contact information organized here.</p>
+        <p>Keep all your important contact information organized here. Click any field to edit.</p>
         <hr>
 
         <div class="contact-list">
             <div class="contact-entry">
                 <h3>Real Estate Agent</h3>
-                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_agent_name">Enter Name</span></p>
-                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_agent_phone">Enter Phone</span></p>
-                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_agent_email">Enter Email</span></p>
-                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_agent_notes">Enter Notes</span></p>
+                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_agent_name" data-ls-key="contact_agent_name">Enter Name</span></p>
+                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_agent_phone" data-ls-key="contact_agent_phone">Enter Phone</span></p>
+                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_agent_email" data-ls-key="contact_agent_email">Enter Email</span></p>
+                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_agent_notes" data-ls-key="contact_agent_notes">Enter Notes</span></p>
             </div>
 
             <div class="contact-entry">
                 <h3>Real Estate Attorney</h3>
-                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_attorney_name">Enter Name</span></p>
-                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_attorney_phone">Enter Phone</span></p>
-                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_attorney_email">Enter Email</span></p>
-                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_attorney_notes">Enter Notes</span></p>
+                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_attorney_name" data-ls-key="contact_attorney_name">Enter Name</span></p>
+                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_attorney_phone" data-ls-key="contact_attorney_phone">Enter Phone</span></p>
+                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_attorney_email" data-ls-key="contact_attorney_email">Enter Email</span></p>
+                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_attorney_notes" data-ls-key="contact_attorney_notes">Enter Notes</span></p>
             </div>
 
             <div class="contact-entry">
                 <h3>Mortgage Lender/Broker</h3>
-                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_lender_company">Enter Company</span></p>
-                <p><strong>Loan Officer:</strong> <span contenteditable="true" class="editable" id="contact_lender_officer">Enter Name</span></p>
-                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_lender_phone">Enter Phone</span></p>
-                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_lender_email">Enter Email</span></p>
-                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_lender_notes">Enter Notes</span></p>
+                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_lender_company" data-ls-key="contact_lender_company">Enter Company</span></p>
+                <p><strong>Loan Officer:</strong> <span contenteditable="true" class="editable" id="contact_lender_officer" data-ls-key="contact_lender_officer">Enter Name</span></p>
+                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_lender_phone" data-ls-key="contact_lender_phone">Enter Phone</span></p>
+                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_lender_email" data-ls-key="contact_lender_email">Enter Email</span></p>
+                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_lender_notes" data-ls-key="contact_lender_notes">Enter Notes</span></p>
             </div>
 
             <div class="contact-entry">
                 <h3>Home Inspector</h3>
-                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_inspector_company">Enter Company</span></p>
-                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_inspector_name">Enter Name</span></p>
-                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_inspector_phone">Enter Phone</span></p>
-                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_inspector_email">Enter Email</span></p>
-                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_inspector_notes">Enter Notes</span></p>
+                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_inspector_company" data-ls-key="contact_inspector_company">Enter Company</span></p>
+                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_inspector_name" data-ls-key="contact_inspector_name">Enter Name</span></p>
+                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_inspector_phone" data-ls-key="contact_inspector_phone">Enter Phone</span></p>
+                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_inspector_email" data-ls-key="contact_inspector_email">Enter Email</span></p>
+                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_inspector_notes" data-ls-key="contact_inspector_notes">Enter Notes</span></p>
             </div>
 
             <div class="contact-entry">
                 <h3>Insurance Agent</h3>
-                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_insurance_company">Enter Company</span></p>
-                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_insurance_name">Enter Name</span></p>
-                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_insurance_phone">Enter Phone</span></p>
-                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_insurance_email">Enter Email</span></p>
-                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_insurance_notes">Enter Notes</span></p>
+                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_insurance_company" data-ls-key="contact_insurance_company">Enter Company</span></p>
+                <p><strong>Name:</strong> <span contenteditable="true" class="editable" id="contact_insurance_name" data-ls-key="contact_insurance_name">Enter Name</span></p>
+                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_insurance_phone" data-ls-key="contact_insurance_phone">Enter Phone</span></p>
+                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_insurance_email" data-ls-key="contact_insurance_email">Enter Email</span></p>
+                <p><strong>Notes:</strong> <span contenteditable="true" class="editable" id="contact_insurance_notes" data-ls-key="contact_insurance_notes">Enter Notes</span></p>
             </div>
 
              <div class="contact-entry">
                 <h3>Moving Company</h3>
-                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_mover_company">Enter Company</span></p>
-                <p><strong>Contact Person:</strong> <span contenteditable="true" class="editable" id="contact_mover_person">Enter Name</span></p>
-                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_mover_phone">Enter Phone</span></p>
-                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_mover_email">Enter Email</span></p>
-                <p><strong>Quote/Notes:</strong> <span contenteditable="true" class="editable" id="contact_mover_notes">Enter Quote/Notes</span></p>
+                <p><strong>Company:</strong> <span contenteditable="true" class="editable" id="contact_mover_company" data-ls-key="contact_mover_company">Enter Company</span></p>
+                <p><strong>Contact Person:</strong> <span contenteditable="true" class="editable" id="contact_mover_person" data-ls-key="contact_mover_person">Enter Name</span></p>
+                <p><strong>Phone:</strong> <span contenteditable="true" class="editable" id="contact_mover_phone" data-ls-key="contact_mover_phone">Enter Phone</span></p>
+                <p><strong>Email:</strong> <span contenteditable="true" class="editable" id="contact_mover_email" data-ls-key="contact_mover_email">Enter Email</span></p>
+                <p><strong>Quote/Notes:</strong> <span contenteditable="true" class="editable" id="contact_mover_notes" data-ls-key="contact_mover_notes">Enter Quote/Notes</span></p>
             </div>
-
-            <!-- Add more contact types as needed -->
-
         </div>
     </main>
 
     <footer>
         <p>Everyone you need, in one place.</p>
     </footer>
-    <script>
-        // Theme toggle script
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const body = document.body;
-
-            function applyTheme() {
-                if (localStorage.getItem('theme') === 'dark-mode') {
-                    body.classList.add('dark-mode');
-                } else {
-                    body.classList.remove('dark-mode');
-                }
-            }
-            applyTheme();
-
-            if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    body.classList.toggle('dark-mode');
-                    if (body.classList.contains('dark-mode')) {
-                        localStorage.setItem('theme', 'dark-mode');
-                    } else {
-                        localStorage.setItem('theme', 'light-mode');
-                    }
-                });
-            }
-
-            // Editable content saving for contacts
-            const editableFields = document.querySelectorAll('.editable');
-            editableFields.forEach(field => {
-                // Load saved content
-                const savedValue = localStorage.getItem(field.id);
-                if (savedValue) {
-                    field.textContent = savedValue;
-                }
-
-                // Save content on blur (when focus is lost)
-                field.addEventListener('blur', () => {
-                    localStorage.setItem(field.id, field.textContent);
-                });
-            });
-        });
-    </script>
+    <script src="script.js"></script> <!-- General script for theme toggle and editable fields -->
 </body>
 </html>

@@ -1,35 +1,40 @@
-/* General Reset & Body Styles */
+/* General Reset & Body Styles (from previous + new) */
 :root {
     --primary-color-light: #5cb85c; /* Green for progress, accents */
     --primary-color-dark: #4cae4c;
+    --secondary-color-light: #4a90e2; /* Blue for buttons, links */
+    --secondary-color-dark: #357abd;
+
     --background-light: #f4f4f4;
     --text-color-light: #333;
     --container-bg-light: #fff;
-    --border-color-light: #eee;
-    --header-bg-light: #333;
+    --border-color-light: #e0e0e0; /* Slightly softer border */
+    --header-bg-light: #3a3a3a; /* Darker header */
     --header-text-light: #fff;
-    --nav-link-light: #ddd;
+    --nav-link-light: #ccc;
     --nav-link-active-light: #fff;
-    --button-bg-light: #5cb85c;
+    --button-bg-light: var(--secondary-color-light);
     --button-text-light: #fff;
     --notes-bg-light: #f0f0f0;
-    --item-bg-light: #f9f9f9;
-    --item-border-light: #5cb85c;
+    --item-bg-light: #fdfdfd; /* Slightly off-white items */
+    --item-border-light: var(--primary-color-light);
+    --table-header-bg-light: #e9e9e9;
 
 
-    --background-dark: #18191a; /* Facebook dark bg */
-    --text-color-dark: #e4e6eb; /* Facebook dark text */
-    --container-bg-dark: #242526; /* Facebook dark cards */
-    --border-color-dark: #3e4042; /* Facebook dark borders */
-    --header-bg-dark: #242526;
-    --header-text-dark: #e4e6eb;
-    --nav-link-dark: #b0b3b8;
-    --nav-link-active-dark: #e4e6eb;
-    --button-bg-dark: #4a5c82; /* A slightly muted blue for dark mode */
-    --button-text-dark: #e4e6eb;
-    --notes-bg-dark: #3a3b3c;
-    --item-bg-dark: #303132;
-    --item-border-dark: #4a5c82;
+    --background-dark: #121212; /* Darker overall dark bg */
+    --text-color-dark: #e0e0e0; /* Lighter dark text */
+    --container-bg-dark: #1e1e1e; /* Darker cards */
+    --border-color-dark: #333; /* Darker borders */
+    --header-bg-dark: #1e1e1e;
+    --header-text-dark: #e0e0e0;
+    --nav-link-dark: #aaa;
+    --nav-link-active-dark: #e0e0e0;
+    --button-bg-dark: var(--secondary-color-dark);
+    --button-text-dark: #e0e0e0;
+    --notes-bg-dark: #2c2c2c;
+    --item-bg-dark: #252525;
+    --item-border-dark: var(--primary-color-dark);
+    --table-header-bg-dark: #2a2a2a;
 }
 
 body {
@@ -51,12 +56,15 @@ body.dark-mode {
 header {
     background-color: var(--header-bg-light);
     color: var(--header-text-light);
-    padding: 1rem 0;
+    padding: 0.8rem 1rem; /* Adjusted padding */
     text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex; /* For aligning title and theme toggle */
+    flex-direction: column; /* Stack title, nav, then toggle (or adjust for wider screens) */
+    align-items: center;
 }
 body.dark-mode header {
     background-color: var(--header-bg-dark);
@@ -65,81 +73,216 @@ body.dark-mode header {
 }
 
 header h1 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.8em;
+    margin: 0 0 0.7rem 0;
+    font-size: 1.6em; /* Slightly smaller */
 }
 
 nav {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
+    display: flex;
+    flex-wrap: wrap; /* Allow nav links to wrap on smaller screens */
+    justify-content: center;
 }
 
 nav a {
     color: var(--nav-link-light);
-    margin: 0 15px;
+    margin: 5px 10px; /* Adjusted margin for wrapping */
     text-decoration: none;
     font-weight: bold;
-    padding: 5px 10px;
+    padding: 6px 12px; /* Adjusted padding */
     border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.2s, color 0.2s;
 }
 body.dark-mode nav a {
     color: var(--nav-link-dark);
 }
 
 nav a:hover, nav a.active-nav {
-    color: var(--nav-link-active-light);
-    background-color: var(--primary-color-light);
+    color: var(--nav-link-active-light) !important; /* Ensure override */
+    background-color: var(--primary-color-light) !important;
 }
 body.dark-mode nav a:hover, body.dark-mode nav a.active-nav {
-    color: var(--nav-link-active-dark);
-    background-color: var(--button-bg-dark); /* Using button color for active nav in dark */
+    color: var(--nav-link-active-dark) !important;
+    background-color: var(--primary-color-dark) !important;
 }
-
 
 #theme-toggle {
-    background-color: var(--button-bg-light);
-    color: var(--button-text-light);
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
+    background-color: rgba(255,255,255,0.1); /* More subtle toggle */
+    color: var(--header-text-light);
+    border: 1px solid var(--nav-link-light);
+    padding: 6px 12px;
+    border-radius: 20px; /* Pill shape */
     cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
-    position: absolute;
-    top: 15px;
-    right: 20px;
+    font-size: 0.8em;
+    transition: background-color 0.3s, border-color 0.3s;
+    /* Position it if header is flex row for title and toggle */
+    /* position: absolute; top: 15px; right: 20px; */
 }
 #theme-toggle:hover {
-    opacity: 0.9;
+    background-color: rgba(255,255,255,0.2);
 }
 body.dark-mode #theme-toggle {
-    background-color: var(--button-bg-dark);
-    color: var(--button-text-dark);
+    background-color: rgba(0,0,0,0.2);
+    color: var(--header-text-dark);
+    border-color: var(--nav-link-dark);
 }
-
+body.dark-mode #theme-toggle:hover {
+    background-color: rgba(0,0,0,0.3);
+}
 
 /* Main Content Area */
 main {
     padding: 20px;
-    max-width: 900px;
+    max-width: 960px; /* Slightly wider */
     margin: 20px auto;
     background-color: var(--container-bg-light);
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    box-shadow: 0 0 15px rgba(0,0,0,0.08); /* Softer shadow */
     border-radius: 8px;
 }
 body.dark-mode main {
     background-color: var(--container-bg-dark);
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
 }
 
-/* Checklist Section Styles */
+hr.section-divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color-light);
+    margin: 30px 0;
+}
+body.dark-mode hr.section-divider {
+    background-color: var(--border-color-dark);
+}
+
+/* Quick View Dashboard */
+#quick-view-dashboard {
+    padding: 10px 0;
+}
+#quick-view-dashboard h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    color: var(--primary-color-light);
+}
+body.dark-mode #quick-view-dashboard h2 {
+    color: var(--primary-color-dark);
+}
+
+.dashboard-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.dashboard-column {
+    flex: 1;
+    min-width: 280px; /* Ensure columns don't get too narrow */
+    background-color: var(--item-bg-light);
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+body.dark-mode .dashboard-column {
+    background-color: var(--item-bg-dark);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+.dashboard-column h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid var(--border-color-light);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+body.dark-mode .dashboard-column h3 {
+    border-bottom-color: var(--border-color-dark);
+}
+.dashboard-column ul {
+    padding-left: 0;
+    list-style: none;
+}
+.dashboard-column ul li {
+    padding: 6px 0;
+    font-size: 0.95em;
+    border-bottom: 1px dashed var(--border-color-light);
+}
+body.dark-mode .dashboard-column ul li {
+    border-bottom-color: var(--border-color-dark);
+}
+.dashboard-column ul li:last-child {
+    border-bottom: none;
+}
+#daily-priorities {
+    width: calc(100% - 20px);
+    min-height: 100px;
+    padding: 8px;
+    border: 1px solid var(--border-color-light);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.95em;
+    background-color: var(--notes-bg-light);
+}
+body.dark-mode #daily-priorities {
+    background-color: var(--notes-bg-dark);
+    border-color: var(--border-color-dark);
+    color: var(--text-color-dark);
+}
+
+
+/* Checklist Filters */
+#checklist-filters {
+    padding: 15px;
+    background-color: var(--item-bg-light);
+    margin-bottom: 20px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+body.dark-mode #checklist-filters {
+    background-color: var(--item-bg-dark);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+#checklist-filters h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+.filter-controls label {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+.filter-controls select, .filter-controls button {
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color-light);
+    background-color: var(--container-bg-light);
+    color: var(--text-color-light);
+    font-size: 0.9em;
+}
+body.dark-mode .filter-controls select, body.dark-mode .filter-controls button {
+    border-color: var(--border-color-dark);
+    background-color: var(--notes-bg-dark);
+    color: var(--text-color-dark);
+}
+#reset-filters {
+    background-color: var(--secondary-color-light);
+    color: white;
+    cursor: pointer;
+}
+body.dark-mode #reset-filters {
+    background-color: var(--secondary-color-dark);
+}
+
+
+/* Checklist Section Styles (mostly same, some adjustments) */
 .checklist-phase {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color-light);
-}
-body.dark-mode .checklist-phase {
-    border-bottom-color: var(--border-color-dark);
+    /* border-bottom removed, using hr.section-divider now */
 }
 .checklist-phase:last-child {
     border-bottom: none;
@@ -150,50 +293,32 @@ body.dark-mode .checklist-phase {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color-light);
 }
+body.dark-mode .phase-header {
+    border-bottom-color: var(--border-color-dark);
+}
+
 
 .phase-header h2 {
     color: var(--text-color-light);
-    border-bottom: 2px solid var(--primary-color-light);
-    padding-bottom: 5px;
+    /* border-bottom: 2px solid var(--primary-color-light); */ /* Removed, header has its own border */
+    padding-bottom: 0;
     margin: 0;
     font-size: 1.5em;
 }
 body.dark-mode .phase-header h2 {
     color: var(--text-color-dark);
-    border-bottom-color: var(--primary-color-dark);
+    /* border-bottom-color: var(--primary-color-dark); */
 }
 
-
-.phase-progress {
-    display: flex;
-    align-items: center;
-    font-size: 0.9em;
-}
-.phase-progress .progress-text {
-    margin-right: 10px;
-    color: var(--text-color-light);
-}
-body.dark-mode .phase-progress .progress-text {
-    color: var(--text-color-dark);
-}
-
-
-h3 {
-    color: var(--text-color-light);
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-}
-body.dark-mode h3 {
-    color: var(--text-color-dark);
-}
-
-ul {
+ul.task-list { /* Added class for filtering */
     list-style: none;
     padding: 0;
 }
 
+/* Individual list item styles - largely unchanged */
 li {
     margin-bottom: 12px;
     padding: 12px;
@@ -201,251 +326,138 @@ li {
     border-left: 4px solid var(--item-border-light);
     border-radius: 4px;
     display: flex;
-    flex-wrap: wrap; /* Allow notes area to wrap */
+    flex-wrap: wrap;
     align-items: center;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, opacity 0.3s; /* Added opacity for filtering */
 }
 body.dark-mode li {
     background-color: var(--item-bg-dark);
     border-left-color: var(--item-border-dark);
 }
-
-
-input[type="checkbox"] {
-    margin-right: 12px;
-    min-width: 18px; /* Ensure checkbox doesn't shrink too much */
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: var(--primary-color-light); /* Modern way to style checkbox color */
-}
-body.dark-mode input[type="checkbox"] {
-    accent-color: var(--primary-color-dark);
+li.filtered-out { /* For JS filtering */
+    display: none;
+    /* opacity: 0.3;
+    pointer-events: none; */
 }
 
 
-label {
-    flex-grow: 1;
-    cursor: pointer;
+/* Tables for Documents and Deadlines */
+.table-container {
+    overflow-x: auto; /* Allow horizontal scrolling on small screens */
+    margin-top: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+}
+th, td {
+    border: 1px solid var(--border-color-light);
+    padding: 10px 12px; /* Increased padding */
+    text-align: left;
+    vertical-align: middle; /* Better alignment */
+}
+body.dark-mode th, body.dark-mode td {
+    border-color: var(--border-color-dark);
+}
+thead th {
+    background-color: var(--table-header-bg-light);
+    font-weight: bold;
     color: var(--text-color-light);
 }
-body.dark-mode label {
+body.dark-mode thead th {
+    background-color: var(--table-header-bg-dark);
     color: var(--text-color-dark);
 }
-
-input[type="checkbox"]:checked + label {
-    text-decoration: line-through;
-    color: #888; /* Same for both modes for checked items */
+tbody tr:nth-child(even) {
+    background-color: var(--item-bg-light);
 }
-body.dark-mode input[type="checkbox"]:checked + label {
-    color: #777;
+body.dark-mode tbody tr:nth-child(even) {
+    background-color: var(--item-bg-dark);
 }
-
-
-.item-controls {
-    display: flex;
-    align-items: center;
-    margin-left: auto; /* Pushes controls to the right */
-    padding-left: 10px; /* Space between label and controls */
+tbody tr:hover {
+    background-color: var(--notes-bg-light); /* Lighter hover */
+}
+body.dark-mode tbody tr:hover {
+    background-color: var(--notes-bg-dark);
 }
 
-.assignee-select {
-    padding: 5px 8px;
-    border-radius: 4px;
+table input[type="date"],
+table input[type="text"],
+table select,
+table textarea,
+td[contenteditable="true"] {
+    width: 95%;
+    padding: 6px;
     border: 1px solid var(--border-color-light);
+    border-radius: 3px;
     background-color: var(--container-bg-light);
     color: var(--text-color-light);
-    font-size: 0.9em;
-    margin-right: 8px;
+    font-size: 1em;
 }
-body.dark-mode .assignee-select {
-    border-color: var(--border-color-dark);
-    background-color: var(--notes-bg-dark); /* Using notes bg for consistency */
-    color: var(--text-color-dark);
-}
-
-.notes-btn {
-    background-color: var(--button-bg-light);
-    color: var(--button-text-light);
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85em;
-}
-.notes-btn:hover {
-    opacity: 0.9;
-}
-body.dark-mode .notes-btn {
-    background-color: var(--button-bg-dark);
-    color: var(--button-text-dark);
-}
-
-.notes-area {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.notes-area textarea {
-    width: calc(100% - 20px); /* Full width minus padding */
-    min-height: 60px;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid var(--border-color-light);
-    font-family: inherit;
-    font-size: 0.95em;
-    background-color: var(--notes-bg-light);
-    color: var(--text-color-light);
-}
-body.dark-mode .notes-area textarea {
+body.dark-mode table input,
+body.dark-mode table select,
+body.dark-mode table textarea,
+body.dark-mode td[contenteditable="true"] {
     background-color: var(--notes-bg-dark);
     color: var(--text-color-dark);
     border-color: var(--border-color-dark);
 }
-
-
-/* Progress Bar Styles */
-.overall-progress-container {
-    margin-bottom: 30px;
-    padding: 15px;
-    background-color: var(--item-bg-light);
-    border-radius: 5px;
-    text-align: center;
+td[contenteditable="true"] {
+    min-height: 20px; /* Ensure it's clickable */
+    cursor: text;
 }
-body.dark-mode .overall-progress-container {
-    background-color: var(--item-bg-dark);
+td[contenteditable="true"]:focus {
+    outline: 1px solid var(--primary-color-light);
+}
+body.dark-mode td[contenteditable="true"]:focus {
+    outline-color: var(--primary-color-dark);
 }
 
-.progress-bar-bg {
-    width: 100%;
-    background-color: var(--border-color-light);
-    border-radius: 5px;
-    height: 20px;
-    margin-top: 5px;
-    overflow: hidden; /* Important for border-radius on fill */
+.standard-btn, .delete-row-btn, .add-to-calendar-btn {
+    background-color: var(--button-bg-light);
+    color: var(--button-text-light);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+    margin: 5px 0;
 }
-body.dark-mode .progress-bar-bg {
-    background-color: var(--border-color-dark);
+.standard-btn:hover, .delete-row-btn:hover, .add-to-calendar-btn:hover {
+    opacity: 0.85;
 }
-
-.progress-bar-bg.small-progress {
-    height: 10px;
-    width: 100px; /* For phase progress bars */
+body.dark-mode .standard-btn,
+body.dark-mode .delete-row-btn,
+body.dark-mode .add-to-calendar-btn {
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
 }
-
-.progress-bar-fill {
-    height: 100%;
-    width: 0%; /* Starts at 0, JS will update */
-    background-color: var(--primary-color-light);
-    border-radius: 5px;
-    transition: width 0.5s ease-in-out;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    font-size: 0.8em;
-    line-height: 20px; /* For overall progress bar text */
+.delete-row-btn {
+    background-color: #d9534f; /* Red for delete */
 }
-.progress-bar-bg.small-progress .progress-bar-fill {
-    line-height: 10px; /* For phase progress bar text */
-}
-body.dark-mode .progress-bar-fill {
-    background-color: var(--primary-color-dark);
+body.dark-mode .delete-row-btn {
+    background-color: #c9302c;
 }
 
-
-#overall-progress-text {
-    font-weight: bold;
-    font-size: 1.1em;
-    color: var(--text-color-light);
-}
-body.dark-mode #overall-progress-text {
-    color: var(--text-color-dark);
-}
-
-/* Static Content Pages (Guide, Contacts) */
-.static-content {
-    padding: 20px;
-}
+/* Static Content Pages (Guide, Contacts) - styles largely same */
 .static-content h2 {
     border-bottom: 2px solid var(--primary-color-light);
     padding-bottom: 5px;
     margin-bottom: 20px;
+    font-size: 1.6em;
 }
 body.dark-mode .static-content h2 {
     border-bottom-color: var(--primary-color-dark);
 }
 
-.static-content article p, .static-content article li {
-    margin-bottom: 1em;
-}
 
-.static-content hr {
-    border: 0;
-    height: 1px;
-    background-color: var(--border-color-light);
-    margin: 20px 0;
-}
-body.dark-mode .static-content hr {
-    background-color: var(--border-color-dark);
-}
-
-
-/* Contacts Page Specific Styles */
-.contact-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.contact-entry {
-    background-color: var(--item-bg-light);
-    padding: 15px;
-    border-radius: 5px;
-    border-left: 4px solid var(--item-border-light);
-}
-body.dark-mode .contact-entry {
-    background-color: var(--item-bg-dark);
-    border-left-color: var(--item-border-dark);
-}
-
-
-.contact-entry h3 {
-    margin-top: 0;
-    font-size: 1.1em;
-    color: var(--primary-color-light);
-}
-body.dark-mode .contact-entry h3 {
-    color: var(--primary-color-dark);
-}
-
-.contact-entry p {
-    margin: 5px 0;
-    font-size: 0.95em;
-}
-
-.editable {
-    display: inline-block; /* Allows padding/border if needed */
-    min-width: 100px; /* So it's clickable even when empty */
-    padding: 2px 4px;
-    border: 1px dashed transparent; /* Hidden border, shows on focus */
-    cursor: text;
-    border-radius: 3px;
-}
-.editable:hover, .editable:focus {
-    border-color: var(--primary-color-light); /* Show border on hover/focus */
-    background-color: var(--background-light);
-}
-body.dark-mode .editable:hover, body.dark-mode .editable:focus {
-    border-color: var(--primary-color-dark);
-    background-color: var(--background-dark);
-}
-
-
-/* Footer */
+/* Footer - largely same */
 footer {
     text-align: center;
     padding: 20px;
-    background-color: var(--header-bg-light);
+    background-color: var(--header-bg-light); /* Match header */
     color: var(--header-text-light);
     margin-top: 30px;
     font-size: 0.9em;
@@ -457,41 +469,56 @@ body.dark-mode footer {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    header {
+        padding: 0.8rem;
+    }
     header h1 {
-        font-size: 1.5em;
+        font-size: 1.3em;
     }
     nav a {
-        margin: 0 8px;
-        font-size: 0.9em;
+        margin: 3px 5px; /* Closer for smaller screens */
+        font-size: 0.85em;
+        padding: 5px 8px;
     }
     #theme-toggle {
-        font-size: 0.8em;
-        padding: 6px 10px;
-        top: 10px;
-        right: 10px;
+        /* Kept within header flow now */
+        margin-top: 8px;
     }
-    .item-controls {
-        margin-left: 0; /* Stack controls below label on small screens */
+    .dashboard-columns {
+        flex-direction: column; /* Stack dashboard columns */
+    }
+    .filter-controls {
+        flex-direction: column;
+        align-items: stretch; /* Make selects/buttons full width */
+    }
+    .filter-controls label {
+        margin-bottom: 3px;
+    }
+    .filter-controls select, .filter-controls button {
+        width: 100%;
+    }
+    /* Table specific responsiveness might be needed if content is too wide */
+    th, td {
+        padding: 8px; /* Smaller padding on small screens for tables */
+    }
+}
+
+/* Ensure item controls and notes area behavior on small screens */
+@media (max-width: 600px) { /* Adjust breakpoint as needed */
+    li .item-controls {
+        margin-left: 0;
         width: 100%;
         margin-top: 8px;
-        justify-content: flex-start;
+        justify-content: flex-start; /* Or space-between */
     }
     li {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: flex-start; /* Align items to the start */
     }
-    input[type="checkbox"] {
-        margin-bottom: 5px;
+    li input[type="checkbox"] {
+        margin-bottom: 5px; /* Space below checkbox */
     }
-    .phase-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .phase-progress {
-        margin-top: 5px;
-        width: 100%;
-    }
-    .phase-progress .small-progress {
-        width: calc(100% - 50px); /* Adjust for text */
+    li label {
+        width: 100%; /* Ensure label takes full width before controls */
     }
 }

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script>
+        // Authentication check - MUST be the very first script
         if (sessionStorage.getItem('isAuthenticated') !== 'true') {
             window.location.href = 'index.html';
         }
@@ -13,17 +14,22 @@
 </head>
 <body>
     <header>
-        <h1>My Long Island Home Buying & Moving Checklist</h1>
+        <h1>Our Home Buying & Moving Checklist</h1>
         <nav>
-            <a href="home.html">Checklist</a>
+            <a href="home.html">Dashboard & Checklist</a>
             <a href="guide.html" class="active-nav">The Blueprint</a>
             <a href="contacts.html">Key Contacts</a>
+            <a href="documents.html">Important Documents</a>
+            <a href="deadlines.html">Critical Deadlines</a>
         </nav>
         <button id="theme-toggle">Toggle Dark/Light Mode</button>
     </header>
 
     <main id="guide-content" class="static-content">
         <h2>The 30-Day Blueprint: Accelerating Your First Home Purchase</h2>
+        <div id="guide-toc">
+            <!-- JS will populate this if you add that feature -->
+        </div>
         <hr>
 
         <article>
@@ -332,7 +338,6 @@
             </details>
         </article>
     </main>
-
 
     <footer>
         <p>Refer to this guide often!</p>

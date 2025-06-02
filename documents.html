@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Documents Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Our Home Buying & Moving Checklist</h1>
+        <nav>
+            <a href="home.html">Dashboard & Checklist</a>
+            <a href="guide.html">The Blueprint</a>
+            <a href="contacts.html">Key Contacts</a>
+            <a href="documents.html" class="active-nav">Important Documents</a>
+            <a href="deadlines.html">Critical Deadlines</a>
+        </nav>
+        <button id="theme-toggle">Toggle Dark/Light Mode</button>
+    </header>
+
+    <main id="documents-tracker" class="static-content">
+        <h2>Important Documents Tracker</h2>
+        <p>Track the status of all critical paperwork. Add links to your secure cloud storage.</p>
+        <button id="add-document-row" class="standard-btn">Add New Document</button>
+        <hr>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document Name</th>
+                        <th>Status</th>
+                        <th>Person Responsible</th>
+                        <th>Link to Cloud Storage</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="documents-table-body">
+                    <!-- JS will populate this from localStorage and allow adding new rows -->
+                    <!-- Example Row (structure for JS):
+                    <tr data-doc-id="doc_1678886400000">
+                        <td contenteditable="true" class="doc-name">Pre-Approval Letter</td>
+                        <td>
+                            <select class="doc-status">
+                                <option value="needed">Needed</option>
+                                <option value="requested">Requested</option>
+                                <option value="received">Received</option>
+                                <option value="submitted">Submitted</option>
+                                <option value="approved">Approved</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="doc-responsible">
+                                <option value="none">N/A</option>
+                                <option value="me">Me</option>
+                                <option value="fiancee">Fiancée</option>
+                                <option value="agent">Agent</option>
+                                <option value="attorney">Attorney</option>
+                                <option value="lender">Lender</option>
+                            </select>
+                        </td>
+                        <td contenteditable="true" class="doc-link" placeholder="Paste GDrive/Dropbox link..."></td>
+                        <td contenteditable="true" class="doc-notes" placeholder="Details..."></td>
+                        <td><button class="delete-row-btn">Delete</button></td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>Stay on top of your documents!</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        if (sessionStorage.getItem('isAuthenticated') !== 'true') {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Deadlines</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Our Home Buying & Moving Checklist</h1>
+        <nav>
+            <a href="home.html">Dashboard & Checklist</a>
+            <a href="guide.html">The Blueprint</a>
+            <a href="contacts.html">Key Contacts</a>
+            <a href="documents.html">Important Documents</a>
+            <a href="deadlines.html" class="active-nav">Critical Deadlines</a>
+        </nav>
+        <button id="theme-toggle">Toggle Dark/Light Mode</button>
+    </header>
+
+    <main id="deadlines-tracker" class="static-content">
+        <h2>Critical Dates & Deadlines</h2>
+        <p>Manually track key dates. Use the 'Add to Calendar' to get reminders via your personal calendar.</p>
+        <button id="add-deadline-row" class="standard-btn">Add New Deadline</button>
+        <hr>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Event/Deadline Description</th>
+                        <th>Responsible</th>
+                        <th>Notes</th>
+                        <th>Calendar</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="deadlines-table-body">
+                    <!-- JS will populate this from localStorage and allow adding new rows -->
+                    <!-- Example Row (structure for JS):
+                    <tr data-deadline-id="deadline_1678886400000">
+                        <td><input type="date" class="deadline-date"></td>
+                        <td contenteditable="true" class="deadline-description">Offer Acceptance Deadline</td>
+                        <td>
+                            <select class="deadline-responsible">
+                                <option value="none">N/A</option>
+                                <option value="me">Me</option>
+                                <option value="fiancee">Fiancée</option>
+                                <option value="agent">Agent</option>
+                                <option value="attorney">Attorney</option>
+                            </select>
+                        </td>
+                        <td contenteditable="true" class="deadline-notes">Must respond by 5 PM</td>
+                        <td><button class="add-to-calendar-btn">Add to Calendar</button></td>
+                        <td><button class="delete-row-btn">Delete</button></td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>Don't miss a deadline!</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
