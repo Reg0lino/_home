@@ -272,15 +272,22 @@ const firebaseConfig = {
                   const assignee = item.querySelector('.assignee-select').value;
                   const checkbox = item.querySelector('input[type="checkbox"]');
                   let showItem = true;
-                  if (selectedAssignee !== 'all') { 
-                      if (selectedAssignee === 'steve') {
-                          if (assignee !== 'steve' && assignee !== 'both') showItem = false;
-                      } else if (selectedAssignee === 'nicole') {
-                          if (assignee !== 'nicole' && assignee !== 'both') showItem = false;
-                      } else { 
-                          if (assignee !== selectedAssignee) showItem = false;
-                      }
-                  }
+                  if (selectedAssignee !== 'all') { // Only apply assignee filter if not 'all'
+                    if (selectedAssignee === 'steve') {
+                        if (assignee !== 'steve' && assignee !== 'both') {
+                            showItem = false;
+                        }
+                    } else if (selectedAssignee === 'nicole') {
+                        if (assignee !== 'nicole' && assignee !== 'both') {
+                            showItem = false;
+                        }
+                    } else { // For "both", "agent", "attorney", "none", etc. - direct match
+                        if (assignee !== selectedAssignee) {
+                            showItem = false;
+                        }
+                    }
+                }
+                // --- END OF MODIFIED Assignee filter logic ---
                   if (selectedStatus === 'complete' && !checkbox.checked) showItem = false;
                   else if (selectedStatus === 'incomplete' && checkbox.checked) showItem = false;
                   item.style.display = showItem ? '' : 'none';
