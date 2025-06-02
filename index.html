@@ -7,38 +7,61 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #f0f2f5; /* Light mode background */
+            color: #333; /* Light mode text */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #18191a; /* Dark mode background */
+            color: #e4e6eb; /* Dark mode text */
         }
         .container {
-            background-color: #fff;
+            background-color: #fff; /* Light mode container */
             padding: 30px 40px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             text-align: center;
+            transition: background-color 0.3s;
+        }
+        body.dark-mode .container {
+            background-color: #242526; /* Dark mode container */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         h1 {
-            color: #1c1e21;
+            color: #1c1e21; /* Light mode heading */
             margin-bottom: 20px;
+        }
+        body.dark-mode h1 {
+            color: #e4e6eb; /* Dark mode heading */
         }
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #606770;
+            color: #606770; /* Light mode label */
+        }
+        body.dark-mode label {
+            color: #b0b3b8; /* Dark mode label */
         }
         input[type="password"] {
-            width: calc(100% - 22px); /* Adjust for padding */
+            width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 20px;
-            border: 1px solid #dddfe2;
+            border: 1px solid #dddfe2; /* Light mode border */
             border-radius: 6px;
             font-size: 16px;
+            background-color: #fff; /* Light mode input bg */
+            color: #1c1e21; /* Light mode input text */
+        }
+        body.dark-mode input[type="password"] {
+            border-color: #3e4042; /* Dark mode border */
+            background-color: #3a3b3c; /* Dark mode input bg */
+            color: #e4e6eb; /* Dark mode input text */
         }
         button {
             background-color: #1877f2;
@@ -64,34 +87,41 @@
     <div class="container">
         <h1>Enter Password</h1>
         <p>Please enter the password to access the Home Buying Checklist.</p>
-        <label for="password">Password:</label>
+        <label for="passwordInput">Password:</label>
         <input type="password" id="passwordInput" name="password">
         <button onclick="checkPassword()">Submit</button>
         <p id="errorMessage" class="error-message" style="display:none;">Incorrect password. Please try again.</p>
     </div>
 
     <script>
+        // Basic theme persistence for password page
+        function applyTheme() {
+            if (localStorage.getItem('theme') === 'dark-mode') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
+        applyTheme(); // Apply theme on initial load
+
         function checkPassword() {
-            const correctPassword = "BarnabySimon123"; // Your password
+            const correctPassword = "BarnabySimon123";
             const enteredPassword = document.getElementById("passwordInput").value;
             const errorMessageElement = document.getElementById("errorMessage");
 
             if (enteredPassword === correctPassword) {
-                // Store a token in session storage to indicate successful login
-                // This helps prevent direct access to home.html without a password
                 sessionStorage.setItem('isAuthenticated', 'true');
-                window.location.href = "home.html"; // Redirect to your checklist
+                window.location.href = "home.html";
             } else {
                 errorMessageElement.style.display = "block";
-                document.getElementById("passwordInput").value = ""; // Clear the input
-                document.getElementById("passwordInput").focus();    // Focus back on input
+                document.getElementById("passwordInput").value = "";
+                document.getElementById("passwordInput").focus();
             }
         }
 
-        // Optional: Allow pressing Enter to submit
         document.getElementById("passwordInput").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
-                event.preventDefault(); // Prevent default form submission if it were in a form
+                event.preventDefault();
                 checkPassword();
             }
         });

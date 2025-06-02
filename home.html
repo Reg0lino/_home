@@ -2,130 +2,288 @@
 <html lang="en">
 <head>
     <script>
+        // Authentication check - MUST be the very first script
         if (sessionStorage.getItem('isAuthenticated') !== 'true') {
-            // If not authenticated, redirect back to the password page
             window.location.href = 'index.html';
         }
     </script>
-    <meta charset="UTF-A"> <!-- Corrected to UTF-8 -->
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Long Island Home Buying Checklist</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>My Long Island Home Buying & Moving Checklist</h1>
+        <h1>Our Home Buying & Moving Checklist</h1>
+        <nav>
+            <a href="home.html" class="active-nav">Checklist</a>
+            <a href="guide.html">The Blueprint</a>
+            <a href="contacts.html">Key Contacts</a>
+        </nav>
+        <button id="theme-toggle">Toggle Dark/Light Mode</button>
     </header>
-    <main>
-        <section id="phase1">
-            <h2>Phase 1: Initial Preparations & Financial Planning</h2>
 
+    <main id="checklist-app">
+        <div class="overall-progress-container">
+            <h3>Overall Progress</h3>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="overall-progress-bar"></div>
+            </div>
+            <span id="overall-progress-text">0%</span>
+        </div>
+
+        <!-- Phase 1 -->
+        <section id="phase1" class="checklist-phase">
+            <div class="phase-header">
+                <h2>Phase 1: Initial Preparations & Financial Planning</h2>
+                <div class="phase-progress">
+                    <span class="progress-text" id="phase1-progress-text">0/0</span>
+                    <div class="progress-bar-bg small-progress">
+                        <div class="progress-bar-fill" id="phase1-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
             <h3>Defining Your Needs & Budget:</h3>
             <ul>
-                <li><input type="checkbox" id="p1_needs_reevaluate"><label for="p1_needs_reevaluate">Re-evaluate "Must-Haves" vs. "Nice-to-Haves"</label></li>
-                <li><input type="checkbox" id="p1_needs_budgeting"><label for="p1_needs_budgeting">Detailed Budgeting & Affordability</label></li>
-                <li><input type="checkbox" id="p1_needs_downpayment"><label for="p1_needs_downpayment">Down Payment Strategy ($200k Consideration)</label></li>
+                <!-- Example Item Structure - Replicate for all your items -->
+                <li data-item-id="p1_needs_reevaluate">
+                    <input type="checkbox" id="cb_p1_needs_reevaluate">
+                    <label for="cb_p1_needs_reevaluate">Re-evaluate "Must-Haves" vs. "Nice-to-Haves"</label>
+                    <div class="item-controls">
+                        <select class="assignee-select">
+                            <option value="none">Assign</option>
+                            <option value="steve">Steve</option>
+                            <option value="nicole">Nicole</option>
+                            <option value="both">Both</option>
+                            <option value="agent">Agent</option>
+                        </select>
+                        <button class="notes-btn">Notes</button>
+                    </div>
+                    <div class="notes-area" style="display:none;">
+                        <textarea placeholder="Add notes here..."></textarea>
+                    </div>
+                </li>
+                <li data-item-id="p1_needs_budgeting">
+                    <input type="checkbox" id="cb_p1_needs_budgeting">
+                    <label for="cb_p1_needs_budgeting">Detailed Budgeting & Affordability</label>
+                    <div class="item-controls">
+                        <select class="assignee-select">
+                            <option value="none">Assign</option>
+                            <option value="steve">Steve</option>
+                            <option value="nicole">Nicole</option>
+                            <option value="both">Both</option>
+                        </select>
+                        <button class="notes-btn">Notes</button>
+                    </div>
+                    <div class="notes-area" style="display:none;">
+                        <textarea placeholder="Add notes here..."></textarea>
+                    </div>
+                </li>
+                <li data-item-id="p1_needs_downpayment">
+                    <input type="checkbox" id="cb_p1_needs_downpayment">
+                    <label for="cb_p1_needs_downpayment">Down Payment Strategy ($200k Consideration)</label>
+                    <div class="item-controls">
+                        <select class="assignee-select">
+                            <option value="none">Assign</option>
+                            <option value="steve">Steve</option>
+                            <option value="nicole">Nicole</option>
+                            <option value="both">Both</option>
+                        </select>
+                        <button class="notes-btn">Notes</button>
+                    </div>
+                    <div class="notes-area" style="display:none;">
+                        <textarea placeholder="Add notes here..."></textarea>
+                    </div>
+                </li>
             </ul>
-
             <h3>Financial Readiness:</h3>
             <ul>
-                <li><input type="checkbox" id="p1_fin_docs"><label for="p1_fin_docs">Gather All Financial Documents</label></li>
-                <li><input type="checkbox" id="p1_fin_credit"><label for="p1_fin_credit">Credit Score & Report Review</label></li>
-                <li><input type="checkbox" id="p1_fin_preapproval"><label for="p1_fin_preapproval">Mortgage Pre-Approval (Crucial First Step)</label></li>
+                 <li data-item-id="p1_fin_docs">
+                    <input type="checkbox" id="cb_p1_fin_docs">
+                    <label for="cb_p1_fin_docs">Gather All Financial Documents</label>
+                    <div class="item-controls">
+                        <select class="assignee-select">
+                            <option value="none">Assign</option>
+                            <option value="steve">Steve</option>
+                            <option value="nicole">Nicole</option>
+                            <option value="both">Both</option>
+                        </select>
+                        <button class="notes-btn">Notes</button>
+                    </div>
+                    <div class="notes-area" style="display:none;">
+                        <textarea placeholder="Add notes here..."></textarea>
+                    </div>
+                </li>
+                <li data-item-id="p1_fin_credit">
+                    <input type="checkbox" id="cb_p1_fin_credit">
+                    <label for="cb_p1_fin_credit">Credit Score & Report Review</label>
+                    <div class="item-controls">
+                        <select class="assignee-select">
+                            <option value="none">Assign</option>
+                            <option value="steve">Steve</option>
+                            <option value="nicole">Nicole</option>
+                            <option value="both">Both</option>
+                        </select>
+                        <button class="notes-btn">Notes</button>
+                    </div>
+                    <div class="notes-area" style="display:none;">
+                        <textarea placeholder="Add notes here..."></textarea>
+                    </div>
+                </li>
+                <li data-item-id="p1_fin_preapproval">
+                    <input type="checkbox" id="cb_p1_fin_preapproval">
+                    <label for="cb_p1_fin_preapproval">Mortgage Pre-Approval (Crucial First Step)</label>
+                    <div class="item-controls">
+                        <select class="assignee-select">
+                            <option value="none">Assign</option>
+                            <option value="steve">Steve</option>
+                            <option value="nicole">Nicole</option>
+                            <option value="both">Both</option>
+                        </select>
+                        <button class="notes-btn">Notes</button>
+                    </div>
+                    <div class="notes-area" style="display:none;">
+                        <textarea placeholder="Add notes here..."></textarea>
+                    </div>
+                </li>
             </ul>
-
-            <h3>Assembling Your Professional Team:</h3>
+             <h3>Assembling Your Professional Team:</h3>
             <ul>
-                <li><input type="checkbox" id="p1_team_agent"><label for="p1_team_agent">Select a Buyer's Real Estate Agent</label></li>
-                <li><input type="checkbox" id="p1_team_attorney"><label for="p1_team_attorney">Select a Real Estate Attorney (Required in NY)</label></li>
-                <li><input type="checkbox" id="p1_team_inspectors"><label for="p1_team_inspectors">Identify Potential Home Inspectors</label></li>
-                <li><input type="checkbox" id="p1_team_appraisal"><label for="p1_team_appraisal">Understand the Appraisal Process</label></li>
+                <li data-item-id="p1_team_agent"><input type="checkbox" id="cb_p1_team_agent"><label for="cb_p1_team_agent">Select a Buyer's Real Estate Agent</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p1_team_attorney"><input type="checkbox" id="cb_p1_team_attorney"><label for="cb_p1_team_attorney">Select a Real Estate Attorney (Required in NY)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p1_team_inspectors"><input type="checkbox" id="cb_p1_team_inspectors"><label for="cb_p1_team_inspectors">Identify Potential Home Inspectors</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p1_team_appraisal"><input type="checkbox" id="cb_p1_team_appraisal"><label for="cb_p1_team_appraisal">Understand the Appraisal Process</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
         </section>
 
-        <section id="phase2">
-            <h2>Phase 2: The House Hunt & Making an Offer</h2>
-             <h3>Searching for Your Home:</h3>
+        <!-- Phase 2 -->
+        <section id="phase2" class="checklist-phase">
+            <div class="phase-header">
+                <h2>Phase 2: The House Hunt & Making an Offer</h2>
+                <div class="phase-progress">
+                    <span class="progress-text" id="phase2-progress-text">0/0</span>
+                    <div class="progress-bar-bg small-progress">
+                        <div class="progress-bar-fill" id="phase2-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <h3>Searching for Your Home:</h3>
             <ul>
-                <li><input type="checkbox" id="p2_search_area"><label for="p2_search_area">Refine Search Area</label></li>
-                <li><input type="checkbox" id="p2_search_strategy"><label for="p2_search_strategy">Property Search Strategy</label></li>
-                <li><input type="checkbox" id="p2_search_viewing"><label for="p2_search_viewing">Efficient Property Viewing</label></li>
+                <li data-item-id="p2_search_area"><input type="checkbox" id="cb_p2_search_area"><label for="cb_p2_search_area">Refine Search Area</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_search_strategy"><input type="checkbox" id="cb_p2_search_strategy"><label for="cb_p2_search_strategy">Property Search Strategy</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_search_viewing"><input type="checkbox" id="cb_p2_search_viewing"><label for="cb_p2_search_viewing">Efficient Property Viewing</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
-
             <h3>Making a Competitive Offer:</h3>
             <ul>
-                <li><input type="checkbox" id="p2_offer_comps"><label for="p2_offer_comps">Analyze Comparable Sales (Comps)</label></li>
-                <li><input type="checkbox" id="p2_offer_price"><label for="p2_offer_price">Determine Your Offer Price</label></li>
-                <li><input type="checkbox" id="p2_offer_earnest"><label for="p2_offer_earnest">Earnest Money Deposit</label></li>
-                <li><input type="checkbox" id="p2_offer_contingencies"><label for="p2_offer_contingencies">Contingencies - Understand Risks & Benefits</label></li>
-                <li><input type="checkbox" id="p2_offer_escalation"><label for="p2_offer_escalation">Consider an Escalation Clause</label></li>
-                <li><input type="checkbox" id="p2_offer_timeline"><label for="p2_offer_timeline">Seller's Timeline Flexibility</label></li>
-                <li><input type="checkbox" id="p2_offer_packet"><label for="p2_offer_packet">Prepare "Property Information Packet"</label></li>
-                <li><input type="checkbox" id="p2_offer_submit"><label for="p2_offer_submit">Offer Submission & Negotiation</label></li>
+                <li data-item-id="p2_offer_comps"><input type="checkbox" id="cb_p2_offer_comps"><label for="cb_p2_offer_comps">Analyze Comparable Sales (Comps)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="agent">Agent</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_price"><input type="checkbox" id="cb_p2_offer_price"><label for="cb_p2_offer_price">Determine Your Offer Price</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_earnest"><input type="checkbox" id="cb_p2_offer_earnest"><label for="cb_p2_offer_earnest">Earnest Money Deposit</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_contingencies"><input type="checkbox" id="cb_p2_offer_contingencies"><label for="cb_p2_offer_contingencies">Contingencies - Understand Risks & Benefits</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="attorney">Attorney</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_escalation"><input type="checkbox" id="cb_p2_offer_escalation"><label for="cb_p2_offer_escalation">Consider an Escalation Clause</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_timeline"><input type="checkbox" id="cb_p2_offer_timeline"><label for="cb_p2_offer_timeline">Seller's Timeline Flexibility</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_packet"><input type="checkbox" id="cb_p2_offer_packet"><label for="cb_p2_offer_packet">Prepare "Property Information Packet"</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p2_offer_submit"><input type="checkbox" id="cb_p2_offer_submit"><label for="cb_p2_offer_submit">Offer Submission & Negotiation</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="agent">Agent</option><option value="attorney">Attorney</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
         </section>
 
-        <section id="phase3">
-            <h2>Phase 3: Due Diligence & Closing Process</h2>
-            <h3>After Offer Acceptance:</h3>
+        <!-- Phase 3 -->
+        <section id="phase3" class="checklist-phase">
+            <div class="phase-header">
+                <h2>Phase 3: Due Diligence & Closing Process</h2>
+                <div class="phase-progress">
+                    <span class="progress-text" id="phase3-progress-text">0/0</span>
+                    <div class="progress-bar-bg small-progress">
+                        <div class="progress-bar-fill" id="phase3-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+             <h3>After Offer Acceptance:</h3>
             <ul>
-                <li><input type="checkbox" id="p3_due_inspection_schedule"><label for="p3_due_inspection_schedule">Schedule Home Inspection Immediately</label></li>
-                <li><input type="checkbox" id="p3_due_inspection_review"><label for="p3_due_inspection_review">Review Inspection Report Thoroughly</label></li>
-                <li><input type="checkbox" id="p3_due_appraisal"><label for="p3_due_appraisal">Lender Orders Appraisal</label></li>
-                <li><input type="checkbox" id="p3_due_insurance"><label for="p3_due_insurance">Secure Homeowners Insurance</label></li>
-                <li><input type="checkbox" id="p3_due_title"><label for="p3_due_title">Title Search & Insurance</label></li>
-                <li><input type="checkbox" id="p3_due_mortgage_commitment"><label for="p3_due_mortgage_commitment">Final Mortgage Commitment</label></li>
-                <li><input type="checkbox" id="p3_due_closing_disclosure"><label for="p3_due_closing_disclosure">Review Closing Disclosure (CD)</label></li>
-                <li><input type="checkbox" id="p3_due_walkthrough"><label for="p3_due_walkthrough">Final Walk-Through</label></li>
+                <li data-item-id="p3_due_inspection_schedule"><input type="checkbox" id="cb_p3_due_inspection_schedule"><label for="cb_p3_due_inspection_schedule">Schedule Home Inspection Immediately</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_due_inspection_review"><input type="checkbox" id="cb_p3_due_inspection_review"><label for="cb_p3_due_inspection_review">Review Inspection Report Thoroughly</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="attorney">Attorney</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_due_appraisal"><input type="checkbox" id="cb_p3_due_appraisal"><label for="cb_p3_due_appraisal">Lender Orders Appraisal</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="lender">Lender</option><option value="steve">Steve (Follow up)</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_due_insurance"><input type="checkbox" id="cb_p3_due_insurance"><label for="cb_p3_due_insurance">Secure Homeowners Insurance</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option>
+                            <option value="steve">Steve</option>
+                            <option value="nicole">Nicole</option>
+                            <option value="both">Both</option>
+                        </select>
+                        <button class="notes-btn">Notes</button>
+                    </div>
+                    <div class="notes-area" style="display:none;">
+                        <textarea placeholder="Add notes here..."></textarea>
+                    </div>
+                </li>
+                <li data-item-id="p3_due_title"><input type="checkbox" id="cb_p3_due_title"><label for="cb_p3_due_title">Title Search & Insurance</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="attorney">Attorney</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_due_mortgage_commitment"><input type="checkbox" id="cb_p3_due_mortgage_commitment"><label for="cb_p3_due_mortgage_commitment">Final Mortgage Commitment</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="lender">Lender</option><option value="steve">Steve (Follow up)</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_due_closing_disclosure"><input type="checkbox" id="cb_p3_due_closing_disclosure"><label for="cb_p3_due_closing_disclosure">Review Closing Disclosure (CD)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="attorney">Attorney</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_due_walkthrough"><input type="checkbox" id="cb_p3_due_walkthrough"><label for="cb_p3_due_walkthrough">Final Walk-Through</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="agent">Agent</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
-
             <h3>Closing Day:</h3>
             <ul>
-                <li><input type="checkbox" id="p3_closing_funds"><label for="p3_closing_funds">Prepare Certified Funds</label></li>
-                <li><input type="checkbox" id="p3_closing_id"><label for="p3_closing_id">Bring Valid Photo ID</label></li>
-                <li><input type="checkbox" id="p3_closing_docs"><label for="p3_closing_docs">Sign All Documents</label></li>
-                <li><input type="checkbox" id="p3_closing_keys"><label for="p3_closing_keys">Receive Keys!</label></li>
+                <li data-item-id="p3_closing_funds"><input type="checkbox" id="cb_p3_closing_funds"><label for="cb_p3_closing_funds">Prepare Certified Funds</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_closing_id"><input type="checkbox" id="cb_p3_closing_id"><label for="cb_p3_closing_id">Bring Valid Photo ID</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_closing_docs"><input type="checkbox" id="cb_p3_closing_docs"><label for="cb_p3_closing_docs">Sign All Documents</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option><option value="attorney">Attorney</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p3_closing_keys"><input type="checkbox" id="cb_p3_closing_keys"><label for="cb_p3_closing_keys">Receive Keys!</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
         </section>
 
-        <section id="phase4">
-            <h2>Phase 4: Moving & Transition Logistics</h2>
+        <!-- Phase 4 -->
+        <section id="phase4" class="checklist-phase">
+            <div class="phase-header">
+                <h2>Phase 4: Moving & Transition Logistics</h2>
+                <div class="phase-progress">
+                    <span class="progress-text" id="phase4-progress-text">0/0</span>
+                    <div class="progress-bar-bg small-progress">
+                        <div class="progress-bar-fill" id="phase4-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
             <h3>Planning Your Move Out:</h3>
             <ul>
-                <li><input type="checkbox" id="p4_move_date"><label for="p4_move_date">Set a Target Move-Out Date</label></li>
-                <li><input type="checkbox" id="p4_move_declutter"><label for="p4_move_declutter">Declutter & Downsize Ruthlessly</label></li>
-                <li><input type="checkbox" id="p4_move_junk"><label for="p4_move_junk">Junk Removal Services (Consider Costs & Timeframes)</label></li>
-                <li><input type="checkbox" id="p4_move_yard"><label for="p4_move_yard">Yard Cleanup for Current Residence</label></li>
-                <li><input type="checkbox" id="p4_move_repairs"><label for="p4_move_repairs">Address Urgent Repairs for Current Home</label></li>
-                <li><input type="checkbox" id="p4_move_packing_strategy"><label for="p4_move_packing_strategy">Packing Strategy</label></li>
-                <li><input type="checkbox" id="p4_move_movers"><label for="p4_move_movers">Hiring Professional Movers (Consider Costs & Timeframes)</label></li>
+                <li data-item-id="p4_move_date"><input type="checkbox" id="cb_p4_move_date"><label for="cb_p4_move_date">Set a Target Move-Out Date</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_move_declutter"><input type="checkbox" id="cb_p4_move_declutter"><label for="cb_p4_move_declutter">Declutter & Downsize Ruthlessly</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_move_junk"><input type="checkbox" id="cb_p4_move_junk"><label for="cb_p4_move_junk">Junk Removal Services (Consider Costs & Timeframes)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_move_yard"><input type="checkbox" id="cb_p4_move_yard"><label for="cb_p4_move_yard">Yard Cleanup for Current Residence</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_move_repairs"><input type="checkbox" id="cb_p4_move_repairs"><label for="cb_p4_move_repairs">Address Urgent Repairs for Current Home</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_move_packing_strategy"><input type="checkbox" id="cb_p4_move_packing_strategy"><label for="cb_p4_move_packing_strategy">Packing Strategy</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_move_movers"><input type="checkbox" id="cb_p4_move_movers"><label for="cb_p4_move_movers">Hiring Professional Movers (Consider Costs & Timeframes)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
-
             <h3>Transitioning to Your New Home:</h3>
             <ul>
-                <li><input type="checkbox" id="p4_trans_utilities"><label for="p4_trans_utilities">Arrange Utilities</label></li>
-                <li><input type="checkbox" id="p4_trans_address"><label for="p4_trans_address">Change of Address</label></li>
-                <li><input type="checkbox" id="p4_trans_pets_children"><label for="p4_trans_pets_children">Plan for Pets/Children on Moving Day</label></li>
-                <li><input type="checkbox" id="p4_trans_deep_clean"><label for="p4_trans_deep_clean">Deep Clean New Home (Optional, Before Moving In)</label></li>
+                <li data-item-id="p4_trans_utilities"><input type="checkbox" id="cb_p4_trans_utilities"><label for="cb_p4_trans_utilities">Arrange Utilities</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_trans_address"><input type="checkbox" id="cb_p4_trans_address"><label for="cb_p4_trans_address">Change of Address</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_trans_pets_children"><input type="checkbox" id="cb_p4_trans_pets_children"><label for="cb_p4_trans_pets_children">Plan for Pets/Children on Moving Day</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p4_trans_deep_clean"><input type="checkbox" id="cb_p4_trans_deep_clean"><label for="cb_p4_trans_deep_clean">Deep Clean New Home (Optional, Before Moving In)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
         </section>
 
-        <section id="phase5">
-            <h2>Phase 5: Post-Closing & Settling In</h2>
+        <!-- Phase 5 -->
+        <section id="phase5" class="checklist-phase">
+            <div class="phase-header">
+                <h2>Phase 5: Post-Closing & Settling In</h2>
+                <div class="phase-progress">
+                    <span class="progress-text" id="phase5-progress-text">0/0</span>
+                    <div class="progress-bar-bg small-progress">
+                        <div class="progress-bar-fill" id="phase5-progress-bar"></div>
+                    </div>
+                </div>
+            </div>
             <ul>
-                <li><input type="checkbox" id="p5_settle_rekey"><label for="p5_settle_rekey">Rekey Locks</label></li>
-                <li><input type="checkbox" id="p5_settle_detectors"><label for="p5_settle_detectors">Test Smoke/Carbon Monoxide Detectors</label></li>
-                <li><input type="checkbox" id="p5_settle_water_shutoff"><label for="p5_settle_water_shutoff">Locate Main Water Shut-Off Valve & Circuit Breaker Panel</label></li>
-                <li><input type="checkbox" id="p5_settle_unpack"><label for="p5_settle_unpack">Unpack Systematically</label></li>
-                <li><input type="checkbox" id="p5_settle_maintenance"><label for="p5_settle_maintenance">Begin Home Maintenance Planning</label></li>
-                <li><input type="checkbox" id="p5_settle_homestead"><label for="p5_settle_homestead">File for Homestead Exemption (If applicable)</label></li>
-                <li><input type="checkbox" id="p5_settle_explore"><label for="p5_settle_explore">Explore Your New Neighborhood</label></li>
+                <li data-item-id="p5_settle_rekey"><input type="checkbox" id="cb_p5_settle_rekey"><label for="cb_p5_settle_rekey">Rekey Locks</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p5_settle_detectors"><input type="checkbox" id="cb_p5_settle_detectors"><label for="cb_p5_settle_detectors">Test Smoke/Carbon Monoxide Detectors</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p5_settle_water_shutoff"><input type="checkbox" id="cb_p5_settle_water_shutoff"><label for="cb_p5_settle_water_shutoff">Locate Main Water Shut-Off Valve & Circuit Breaker Panel</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p5_settle_unpack"><input type="checkbox" id="cb_p5_settle_unpack"><label for="cb_p5_settle_unpack">Unpack Systematically</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p5_settle_maintenance"><input type="checkbox" id="cb_p5_settle_maintenance"><label for="cb_p5_settle_maintenance">Begin Home Maintenance Planning</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p5_settle_homestead"><input type="checkbox" id="cb_p5_settle_homestead"><label for="cb_p5_settle_homestead">File for Homestead Exemption (If applicable)</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
+                <li data-item-id="p5_settle_explore"><input type="checkbox" id="cb_p5_settle_explore"><label for="cb_p5_settle_explore">Explore Your New Neighborhood</label><div class="item-controls"><select class="assignee-select"><option value="none">Assign</option><option value="steve">Steve</option><option value="nicole">Nicole</option><option value="both">Both</option></select><button class="notes-btn">Notes</button></div><div class="notes-area" style="display:none;"><textarea placeholder="Add notes here..."></textarea></div></li>
             </ul>
         </section>
+        <!-- End of Phases -->
+
     </main>
 
     <footer>
-        <p>Happy Home Owning!</p>
+        <p>Happy Home Owning! Stay Focused!</p>
     </footer>
 
     <script src="script.js"></script>
