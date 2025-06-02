@@ -122,6 +122,7 @@ const firebaseConfig = {
       // --- FUNCTION TO INITIALIZE CHECKLIST APP (HOME PAGE) ---
       function initializeChecklistApp() {
           const checklistItemsFromDOM = document.querySelectorAll('#checklist-app li[data-item-id]');
+          const dailyPrioritiesDisplay = document.getElementById('daily-priorities-display');
           const dailyPrioritiesTextarea = document.getElementById('daily-priorities');
           const filterAssigneeSelect = document.getElementById('filter-assignee');
           const filterStatusSelect = document.getElementById('filter-status');
@@ -170,9 +171,28 @@ const firebaseConfig = {
                           }
                       });
   
-                      if (dailyPrioritiesTextarea) {
-                          dailyPrioritiesTextarea.value = firestoreData.dailyPriorities || '';
+                      if (dailyPrioritiesDisplay && dailyPrioritiesTextarea) {
+                          const val = firestoreData.dailyPriorities || '';
+                          dailyPrioritiesDisplay.innerHTML = linkify(val);
+                          dailyPrioritiesTextarea.value = val;
+                          dailyPrioritiesDisplay.style.display = '';
+                          dailyPrioritiesTextarea.style.display = 'none';
                       }
+  
+                      checklistItemsFromDOM.forEach(item => {
+                          const itemId = item.dataset.itemId;
+                          const itemDataFromFirestore = reconstructedChecklistItems[itemId] || { checked: false, notes: '', assignee: 'none' };
+                          const notesArea = item.querySelector('.notes-area');
+                          const notesDisplay = notesArea ? notesArea.querySelector('.notes-display') : null;
+                          const notesTextarea = notesArea ? notesArea.querySelector('.notes-edit') : null;
+                          if (notesDisplay && notesTextarea) {
+                              const val = itemDataFromFirestore.notes || '';
+                              notesDisplay.innerHTML = linkify(val);
+                              notesTextarea.value = val;
+                              notesDisplay.style.display = '';
+                              notesTextarea.style.display = 'none';
+                          }
+                      });
                   } else {
                       console.log("No shared data document found! (Checklist).");
                   }
@@ -596,3 +616,10 @@ const firebaseConfig = {
       } // End of initializeContactsPage
   
   }); // End of DOMContentLoaded
+
+  // --- Helper: Linkify plain text URLs ---
+  function linkify(text) {
+      if (!text) return '';
+      const urlPattern = /(\bhttps?:\/\/[^\s]+)/gi;
+      return text.replace(urlPattern, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  }
