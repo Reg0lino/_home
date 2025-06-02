@@ -463,16 +463,16 @@ body.theme-barnaby {
     --text-color: #e0e0e0;
     --card-bg: #23180f; /* Very dark brown */
     --item-bg: #23180f;
-    --notes-bg: #2d1e13;
-    --border-color: #6d4c41; /* Brownish */
+    --notes-bg: #130c08;
+    --border-color: rgb(56, 39, 34); /* Brownish */
     --table-header-bg: #23180f;
-    --header-bg: #3e2723; /* Dark espresso brown */
+    --header-bg: #2e1d1a; /* Dark espresso brown */
     --header-text: #e0e0e0;
     --nav-link: #bdbdbd; /* Grey */
     --nav-link-active-bg: #bdbdbd;
     --nav-link-active-text: #1a120b;
     --primary-accent: #bdbdbd; /* Grey */
-    --secondary-accent: #a1887f; /* Lighter brown */
+    --secondary-accent: #8f6b5e; /* Lighter brown */
     --button-text: #1a120b;
     --item-border-accent: var(--secondary-accent);
     --shadow-color: rgba(61, 39, 35, 0.18);
