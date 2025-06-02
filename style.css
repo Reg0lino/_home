@@ -430,6 +430,14 @@ body.dark-mode .delete-row-btn { background-color: #c9302c; }
 /* Footer */
 footer { text-align: center; padding: 20px; background-color: var(--header-bg); color: var(--header-text); margin-top: 30px; font-size: 0.9em; }
 
+/* Optional: Add some spacing for emoji in nav and headers */
+header h1, nav a, main h2, main h3 {
+    /* Add a little left padding for emoji if needed */
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     header { padding: 0.8rem; }

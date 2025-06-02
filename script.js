@@ -663,3 +663,4 @@ const firebaseConfig = {
       html = html.replace(/\n/g, '<br>');
       return html;
   }
+// No changes needed for emoji display in JS.

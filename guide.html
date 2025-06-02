@@ -9,18 +9,80 @@
     </script> -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Blueprint - Home Buying Guide</title>
+    <title>📄 The Blueprint - Home Buying Guide</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 72 72%22><text y=%2258%22 font-size=%2258%22>🏠</text></svg>">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: #fff;
+            color: #222;
+            margin: 0;
+            padding: 0;
+        }
+        main {
+            max-width: 900px;
+            margin: 32px auto 32px auto;
+            background: #fafbfc;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #0001;
+            padding: 32px 32px 48px 32px;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Segoe UI Semibold', 'Arial', sans-serif;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        h1 { font-size: 2.2em; }
+        h2 { font-size: 1.6em; }
+        h3 { font-size: 1.2em; }
+        h4 { font-size: 1.1em; }
+        ul, ol {
+            margin-left: 2em;
+            margin-bottom: 1.2em;
+        }
+        ul.emoji-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul.emoji-list li {
+            margin-bottom: 0.5em;
+            font-size: 1.08em;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+            background: #fff;
+        }
+        th, td {
+            border: 1px solid #d0d0d0;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background: #f0f4fa;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 2em 0;
+        }
+        @media (max-width: 700px) {
+            main { padding: 12px 2vw 32px 2vw; }
+            table, th, td { font-size: 0.95em; }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Our Home Buying & Moving Checklist</h1>
+        <h1>🏠 Our Home Buying & Moving Checklist</h1>
         <nav>
-            <a href="home.html">Dashboard & Checklist</a>
-            <a href="guide.html" class="active-nav">The Blueprint</a>
-            <a href="contacts.html">Key Contacts</a>
-            <a href="documents.html">Important Documents</a>
-            <a href="deadlines.html">Critical Deadlines</a>
+            <a href="home.html">🏠 Dashboard & Checklist</a>
+            <a href="guide.html" class="active-nav">📄 The Blueprint</a>
+            <a href="contacts.html">📞 Key Contacts</a>
+            <a href="documents.html">📁 Important Documents</a>
+            <a href="deadlines.html">⏰ Critical Deadlines</a>
         </nav>
         <div class="header-controls">
             <select id="theme-selector">
@@ -33,15 +95,18 @@
                 <option value="theme-zenith-zone-dark">Zenith Zone (Dark)</option>
                 <option value="theme-zenith-zone-light">Zenith Zone (Light)</option>
             </select>
-            <button id="logout-button" style="margin-left: 10px;">Logout</button>
+            <button id="logout-button" style="margin-left: 10px;">🚪 Logout</button>
         </div>
     </header>
 
-    <main id="guide-content" class="static-content">
-        <h2>The 30-Day Blueprint: Accelerating Your First Home Purchase</h2>
-        <div id="guide-toc">
-            <!-- JS will populate this if you add that feature -->
-        </div>
+    <main id="guide-content">
+        <section id="summary-section">
+            <h2>🌟 Summary</h2>
+            <p>
+                Welcome! Buying a home is a huge milestone—and yes, it can feel overwhelming at times. But you’ve got this! 🏆<br>
+                This guide is here to break things down, keep you organized, and help you celebrate every small win along the way. Remember: it’s normal to feel stressed, but you’re not alone. We’re cheering you on every step of the journey! 🎉🏡
+            </p>
+        </section>
         <hr>
 
         <article>
@@ -57,13 +122,13 @@
             <p>
                 <strong>Current Market Dynamics in Mastic and Surrounding Affordable Areas</strong>
             </p>
-            <ul>
-                <li>Median sold price in Mastic (April 2025): <strong>$490,000</strong> (+7.7% YoY)</li>
-                <li>Median listing price in Mastic Beach: <strong>$449,500</strong> (+12.4% YoY)</li>
-                <li>Average days on market in Mastic: <strong>19 days</strong> (down from 81 days YoY)</li>
-                <li>Homes selling above asking price: <strong>66.7%</strong> in Mastic, <strong>100.24%</strong> in Mastic Beach</li>
-                <li>Listing inventory: <strong>45 homes</strong> for sale in Mastic (April 2025)</li>
-                <li>North Shore Suffolk: <strong>+13.4%</strong> YoY value growth, <strong>42 days</strong> avg. sale time</li>
+            <ul class="emoji-list">
+                <li>📈 Median sold price in Mastic (April 2025): <strong>$490,000</strong> (+7.7% YoY)</li>
+                <li>🏡 Median listing price in Mastic Beach: <strong>$449,500</strong> (+12.4% YoY)</li>
+                <li>⏱️ Average days on market in Mastic: <strong>19 days</strong> (down from 81 days YoY)</li>
+                <li>💸 Homes selling above asking price: <strong>66.7%</strong> in Mastic, <strong>100.24%</strong> in Mastic Beach</li>
+                <li>🏠 Listing inventory: <strong>45 homes</strong> for sale in Mastic (April 2025)</li>
+                <li>🌳 North Shore Suffolk: <strong>+13.4%</strong> YoY value growth, <strong>42 days</strong> avg. sale time</li>
             </ul>
             <p>
                 <strong>Long Island Market Snapshot (April 2025)</strong>
@@ -125,20 +190,20 @@
 
             <h3>III. Phase 1: The Financial & Team Sprint (Days 1-7)</h3>
             <h4>A. Mortgage Pre-Approval: Your Immediate Priority</h4>
-            <ul>
-                <li>Skip pre-qualification; go straight to <strong>full pre-approval</strong>.</li>
-                <li>Gather all required documents in advance:
-                    <ul>
-                        <li>Photo ID</li>
-                        <li>Recent pay stubs</li>
-                        <li>2 years tax returns (W-2s/1099s)</li>
-                        <li>2-3 months bank statements</li>
-                        <li>Statements for all debts</li>
-                        <li>Gift letter (if applicable)</li>
+            <ul class="emoji-list">
+                <li>🚫 Skip pre-qualification; go straight to <strong>full pre-approval</strong>.</li>
+                <li>📂 Gather all required documents in advance:
+                    <ul class="emoji-list">
+                        <li>🪪 Photo ID</li>
+                        <li>💵 Recent pay stubs</li>
+                        <li>🧾 2 years tax returns (W-2s/1099s)</li>
+                        <li>🏦 2-3 months bank statements</li>
+                        <li>📃 Statements for all debts</li>
+                        <li>🎁 Gift letter (if applicable)</li>
                     </ul>
                 </li>
-                <li>Optimize DTI and credit score quickly (pay down debts, avoid new credit).</li>
-                <li>Apply online for fastest turnaround.</li>
+                <li>⚡ Optimize DTI and credit score quickly (pay down debts, avoid new credit).</li>
+                <li>💻 Apply online for fastest turnaround.</li>
             </ul>
             <h4>Rapid Mortgage Pre-Approval Checklist</h4>
             <table>
@@ -179,105 +244,105 @@
             </table>
 
             <h4>B. Assembling Your Expert Team for Speed</h4>
-            <ul>
-                <li><strong>Buyer's Agent:</strong> Specializes in your area, experienced with first-time buyers, highly responsive, direct MLS access.</li>
-                <li><strong>Real Estate Attorney:</strong> Required in NY, must be experienced, responsive, and familiar with fast closings.</li>
-                <li><strong>Expedited Inspection Services:</strong> Seek "last-minute" or "same-day" inspection companies.</li>
-                <li><strong>Appraisal Management:</strong> Request expedited appraisal through lender; provide detailed property info to speed process.</li>
+            <ul class="emoji-list">
+                <li>🕵️‍♂️ <strong>Buyer's Agent:</strong> Specializes in your area, experienced with first-time buyers, highly responsive, direct MLS access.</li>
+                <li>⚖️ <strong>Real Estate Attorney:</strong> Required in NY, must be experienced, responsive, and familiar with fast closings.</li>
+                <li>🚀 <strong>Expedited Inspection Services:</strong> Seek "last-minute" or "same-day" inspection companies.</li>
+                <li>📝 <strong>Appraisal Management:</strong> Request expedited appraisal through lender; provide detailed property info to speed process.</li>
             </ul>
 
             <h3>IV. Phase 2: The House Hunt & Offer Blitz (Days 8-20)</h3>
             <h4>A. Hyper-Efficient Home Search</h4>
-            <ul>
-                <li>Set up instant alerts on Zillow and MLS.</li>
-                <li>Define "must-haves" vs. "nice-to-haves".</li>
-                <li>Use advanced filters and prioritize 3D tours.</li>
-                <li>Leverage agent's MLS access for early viewings.</li>
-                <li>Screen digitally first, then tour only top contenders.</li>
+            <ul class="emoji-list">
+                <li>🔔 Set up instant alerts on Zillow and MLS.</li>
+                <li>🎯 Define "must-haves" vs. "nice-to-haves".</li>
+                <li>🖥️ Use advanced filters and prioritize 3D tours.</li>
+                <li>🏃‍♂️ Leverage agent's MLS access for early viewings.</li>
+                <li>👀 Screen digitally first, then tour only top contenders.</li>
             </ul>
             <h4>B. Crafting a Winning Offer</h4>
-            <ul>
-                <li>Be prepared to offer at or above list price.</li>
-                <li>Consider escalation clauses and higher earnest money deposits (5%+).</li>
-                <li>Discuss contingency waivers with your agent/attorney (inspection, appraisal) but understand the risks.</li>
-                <li>Be flexible with closing timeline to appeal to seller needs.</li>
-                <li>Gather info on seller motivation to tailor your offer.</li>
+            <ul class="emoji-list">
+                <li>💰 Be prepared to offer at or above list price.</li>
+                <li>📈 Consider escalation clauses and higher earnest money deposits (5%+).</li>
+                <li>🤔 Discuss contingency waivers with your agent/attorney (inspection, appraisal) but understand the risks.</li>
+                <li>🕰️ Be flexible with closing timeline to appeal to seller needs.</li>
+                <li>🕵️ Gather info on seller motivation to tailor your offer.</li>
             </ul>
 
             <h3>V. Phase 3: Closing & Transition Acceleration (Days 21-30+)</h3>
             <h4>A. Expedited Closing Process</h4>
-            <ol>
-                <li>Contract Signing (with attorney review)</li>
-                <li>Title Search & Insurance (expedited possible)</li>
-                <li>Home Inspection & Appraisal (rush services available)</li>
-                <li>Mortgage Commitment (ensure all lender requirements met)</li>
-                <li>Final Walkthrough</li>
-                <li>Closing Meeting (sign documents, transfer funds)</li>
-                <li>Recording the Deed</li>
+            <ol class="emoji-list">
+                <li>📝 Contract Signing (with attorney review)</li>
+                <li>🔍 Title Search & Insurance (expedited possible)</li>
+                <li>🏚️ Home Inspection & Appraisal (rush services available)</li>
+                <li>💳 Mortgage Commitment (ensure all lender requirements met)</li>
+                <li>👣 Final Walkthrough</li>
+                <li>✍️ Closing Meeting (sign documents, transfer funds)</li>
+                <li>📜 Recording the Deed</li>
             </ol>
             <p>
                 <strong>Buyer Closing Costs (NY):</strong>
             </p>
-            <ul>
-                <li>Appraisal Fee: $300–$1,000</li>
-                <li>Inspection Fee: $300–$500</li>
-                <li>Loan Origination: 0.5%–1% of loan</li>
-                <li>Title Insurance: ~0.5% of price</li>
-                <li>Recording Fees, Prepaid Interest, Tax Escrow, etc.</li>
+            <ul class="emoji-list">
+                <li>💸 Appraisal Fee: $300–$1,000</li>
+                <li>🔎 Inspection Fee: $300–$500</li>
+                <li>🏦 Loan Origination: 0.5%–1% of loan</li>
+                <li>📑 Title Insurance: ~0.5% of price</li>
+                <li>🧾 Recording Fees, Prepaid Interest, Tax Escrow, etc.</li>
             </ul>
             <h4>B. Current Home Preparation & Moving Logistics</h4>
-            <ul>
-                <li><strong>Decluttering:</strong> Use the "One-Year Rule", hire junk removal for speed.</li>
-                <li><strong>Packing:</strong> Pack room-by-room, label boxes, use vacuum bags for bulky items.</li>
-                <li><strong>Professional Movers:</strong> Book companies offering emergency/same-day moves.</li>
-                <li><strong>Urgent Repairs:</strong> Prioritize basement door, ceiling tiles, yard cleanup, and deep cleaning.</li>
-                <li><strong>Outsource for Speed:</strong> Invest in professional help for moving and cleaning.</li>
+            <ul class="emoji-list">
+                <li>🧹 <strong>Decluttering:</strong> Use the "One-Year Rule", hire junk removal for speed.</li>
+                <li>📦 <strong>Packing:</strong> Pack room-by-room, label boxes, use vacuum bags for bulky items.</li>
+                <li>🚚 <strong>Professional Movers:</strong> Book companies offering emergency/same-day moves.</li>
+                <li>🔨 <strong>Urgent Repairs:</strong> Prioritize basement door, ceiling tiles, yard cleanup, and deep cleaning.</li>
+                <li>🦾 <strong>Outsource for Speed:</strong> Invest in professional help for moving and cleaning.</li>
             </ul>
 
             <h3>VI. Interactive Checklist: Your 30-Day Action Plan</h3>
             <section>
                 <h4>Week 1: Financial & Team Foundation (Days 1-7)</h4>
-                <ul>
-                    <li>[ ] Gather all financial documents</li>
-                    <li>[ ] Prepare gift letter (if applicable)</li>
-                    <li>[ ] Optimize DTI/credit (quick wins)</li>
-                    <li>[ ] Apply for mortgage pre-approval (online)</li>
-                    <li>[ ] Research and select buyer's agent</li>
-                    <li>[ ] Research and select real estate attorney</li>
-                    <li>[ ] Identify expedited inspection/appraisal services</li>
+                <ul class="emoji-list">
+                    <li>📂 Gather all financial documents</li>
+                    <li>🎁 Prepare gift letter (if applicable)</li>
+                    <li>⚡ Optimize DTI/credit (quick wins)</li>
+                    <li>💻 Apply for mortgage pre-approval (online)</li>
+                    <li>🕵️ Research and select buyer's agent</li>
+                    <li>⚖️ Research and select real estate attorney</li>
+                    <li>🚀 Identify expedited inspection/appraisal services</li>
                 </ul>
                 <h4>Week 2: House Hunt & Offer Strategy (Days 8-14)</h4>
-                <ul>
-                    <li>[ ] Set up Zillow/MLS alerts</li>
-                    <li>[ ] Define must-haves vs. nice-to-haves</li>
-                    <li>[ ] Use filters and 3D tours for screening</li>
-                    <li>[ ] Collaborate with agent for early access</li>
-                    <li>[ ] Prepare property info packet for appraisal</li>
-                    <li>[ ] Discuss offer strategy and contingencies</li>
-                    <li>[ ] Draft offer with escalation clause</li>
+                <ul class="emoji-list">
+                    <li>🔔 Set up Zillow/MLS alerts</li>
+                    <li>🎯 Define must-haves vs. nice-to-haves</li>
+                    <li>🖥️ Use filters and 3D tours for screening</li>
+                    <li>🏃‍♂️ Collaborate with agent for early access</li>
+                    <li>📑 Prepare property info packet for appraisal</li>
+                    <li>🤔 Discuss offer strategy and contingencies</li>
+                    <li>📈 Draft offer with escalation clause</li>
                 </ul>
                 <h4>Week 3: Offer to Contract & Home Prep (Days 15-21)</h4>
-                <ul>
-                    <li>[ ] Submit offer immediately</li>
-                    <li>[ ] Negotiate and sign contract</li>
-                    <li>[ ] Schedule expedited inspection</li>
-                    <li>[ ] Request expedited appraisal</li>
-                    <li>[ ] Book junk removal and begin decluttering</li>
-                    <li>[ ] Identify and prioritize repairs</li>
-                    <li>[ ] Begin yard cleanup</li>
+                <ul class="emoji-list">
+                    <li>🚀 Submit offer immediately</li>
+                    <li>✍️ Negotiate and sign contract</li>
+                    <li>🔎 Schedule expedited inspection</li>
+                    <li>🍕 Request expedited appraisal</li>
+                    <li>🧹 Book junk removal and begin decluttering</li>
+                    <li>🔨 Identify and prioritize repairs</li>
+                    <li>🌳 Begin yard cleanup</li>
                 </ul>
                 <h4>Week 4: Closing Countdown & Moving (Days 22-30+)</h4>
-                <ul>
-                    <li>[ ] Review inspection report</li>
-                    <li>[ ] Monitor appraisal progress</li>
-                    <li>[ ] Secure mortgage commitment</li>
-                    <li>[ ] Review closing disclosure</li>
-                    <li>[ ] Prepare closing funds</li>
-                    <li>[ ] Attend closing and sign documents</li>
-                    <li>[ ] Book movers and pack</li>
-                    <li>[ ] Complete urgent repairs and deep clean</li>
-                    <li>[ ] Arrange utilities transfer and mail forwarding</li>
-                    <li>[ ] Final walkthrough (current home)</li>
+                <ul class="emoji-list">
+                    <li>🕵️‍♂️ Review inspection report</li>
+                    <li>🍕 Monitor appraisal progress</li>
+                    <li>💸 Secure mortgage commitment</li>
+                    <li>🔍 Review closing disclosure</li>
+                    <li>💰 Prepare closing funds</li>
+                    <li>✍️ Attend closing and sign documents</li>
+                    <li>🦄 Book movers and pack</li>
+                    <li>🛠️ Complete urgent repairs and deep clean</li>
+                    <li>🔌 Arrange utilities transfer and mail forwarding</li>
+                    <li>🦖 Final walkthrough (current home)</li>
                 </ul>
             </section>
 
@@ -352,7 +417,7 @@
     </main>
 
     <footer>
-        <p>Refer to this guide often!</p>
+        <p>📚 Refer to this guide often!</p>
     </footer>
     <!-- Firebase SDK (Apps + Auth + Firestore for main app pages) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
