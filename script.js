@@ -98,7 +98,7 @@ const firebaseConfig = {
   
       // --- FUNCTION TO INITIALIZE CHECKLIST APP (HOME PAGE) ---
       function initializeChecklistApp() {
-          const checklistItems = document.querySelectorAll('#checklist-app li[data-item-id]');
+          const checklistItemsFromDOM = document.querySelectorAll('#checklist-app li[data-item-id]'); // Renamed to avoid confusion
           const dailyPrioritiesTextarea = document.getElementById('daily-priorities');
           const filterAssigneeSelect = document.getElementById('filter-assignee');
           const filterStatusSelect = document.getElementById('filter-status');
@@ -107,79 +107,72 @@ const firebaseConfig = {
           if (sharedDataDocRef) {
               sharedDataDocRef.onSnapshot((doc) => {
                   if (doc.exists) {
-                      const data = doc.data();
-                      console.log("Firestore data received for checklist:", data); // Overall data log
+                      const firestoreData = doc.data();
+                      console.log("Raw Firestore data received for checklist:", JSON.parse(JSON.stringify(firestoreData)));
   
-                      const firestoreChecklistItems = data.checklistItems || {};
-                      checklistItems.forEach(item => {
+                      // --- NEW LOGIC TO RECONSTRUCT firestoreChecklistItems ---
+                      const reconstructedChecklistItems = {};
+                      for (const key in firestoreData) {
+                          if (firestoreData.hasOwnProperty(key) && key.startsWith('checklistItems.')) {
+                              // Example key: "checklistItems.p1_needs_reevaluate.assignee"
+                              const parts = key.split('.'); // ["checklistItems", "p1_needs_reevaluate", "assignee"]
+                              if (parts.length === 3) {
+                                  const itemId = parts[1];
+                                  const property = parts[2];
+                                  const value = firestoreData[key];
+  
+                                  if (!reconstructedChecklistItems[itemId]) {
+                                      reconstructedChecklistItems[itemId] = { checked: false, notes: '', assignee: 'none' }; // Initialize with defaults
+                                  }
+                                  reconstructedChecklistItems[itemId][property] = value;
+                              }
+                          }
+                      }
+                      console.log("Reconstructed checklistItems object:", JSON.parse(JSON.stringify(reconstructedChecklistItems)));
+                      // --- END OF NEW LOGIC ---
+  
+                      checklistItemsFromDOM.forEach(item => {
                           const itemId = item.dataset.itemId;
-                          // --- NEW DIAGNOSTIC LOGS ---
-                        console.log(`+++ Processing Item ID from DOM: ${itemId} +++`);
-                        console.log(`Full firestoreChecklistItems object:`, JSON.parse(JSON.stringify(firestoreChecklistItems))); // Log a deep copy to avoid live object issues in console
-                        console.log(`Accessing firestoreChecklistItems['${itemId}']:`, firestoreChecklistItems[itemId]);
-                        // --- END OF NEW DIAGNOSTIC LOGS ---
-                          // Provide a default for itemData.assignee if itemData itself is undefined or assignee is missing
-                          const itemData = firestoreChecklistItems[itemId] || { checked: false, notes: '', assignee: 'none' };
-                          // Ensure assignee has a fallback even if itemData exists but assignee doesn't
-                          const assigneeFromFirebase = itemData.assignee || 'none'; 
+                          const itemDataFromFirestore = reconstructedChecklistItems[itemId] || { checked: false, notes: '', assignee: 'none' };
+                          const assigneeFromFirebase = itemDataFromFirestore.assignee || 'none'; 
                           
                           const checkbox = item.querySelector('input[type="checkbox"]');
                           const notesTextarea = item.querySelector('.notes-area textarea');
                           const assigneeSelect = item.querySelector('.assignee-select');
   
-                          if (checkbox) checkbox.checked = itemData.checked;
-                          if (notesTextarea) notesTextarea.value = itemData.notes;
+                          if (checkbox) checkbox.checked = itemDataFromFirestore.checked;
+                          if (notesTextarea) notesTextarea.value = itemDataFromFirestore.notes;
                           
                           if (assigneeSelect) {
-                              // --- DETAILED DIAGNOSTIC LOGS FOR ASSIGNEE ---
-                              console.log(`--- DIAGNOSING Item: ${itemId} ---`);
-                              console.log(`Value from Firebase (assigneeFromFirebase): '${assigneeFromFirebase}' (type: ${typeof assigneeFromFirebase})`);
+                              console.log(`--- Processing Item from DOM: ${itemId} ---`);
+                              console.log(`Value from RECONSTRUCTED data (assigneeFromFirebase): '${assigneeFromFirebase}'`);
                               console.log(`Current select value BEFORE setting: '${assigneeSelect.value}'`);
                               
-                              // Attempt to set the value
                               assigneeSelect.value = assigneeFromFirebase;
                               
                               console.log(`Current select value AFTER attempting to set to '${assigneeFromFirebase}': '${assigneeSelect.value}'`);
                               
-                              // Check if the value was actually set to what Firebase intended
-                              if (assigneeSelect.value !== assigneeFromFirebase) {
-                                  // Only log a strong warning if the Firebase value was something other than the default 'none'
-                                  // and it still didn't set correctly.
-                                  if (assigneeFromFirebase && assigneeFromFirebase !== 'none') {
-                                      console.warn(`WARN: Assignee for ${itemId} DID NOT SET AS EXPECTED.`);
-                                      console.warn(`   Firebase wanted: '${assigneeFromFirebase}'`);
-                                      console.warn(`   Dropdown shows: '${assigneeSelect.value}'`);
-                                      console.warn('   Available options in dropdown:', Array.from(assigneeSelect.options).map(opt => ({ text: opt.text, value: opt.value })));
-                                  } else if (assigneeSelect.value === '' && assigneeFromFirebase === 'none') {
-                                       // This can happen if "none" isn't explicitly the first selected option
-                                       // and the browser defaults to an empty value for the select.
-                                       // If firebase wants 'none' and select is empty, try setting to first option if its value is 'none'.
-                                       if (assigneeSelect.options.length > 0 && assigneeSelect.options[0].value === 'none') {
-                                           assigneeSelect.value = 'none'; // Explicitly set to 'none' if it's the first option
-                                           console.log(`   Attempted to default to 'none' for ${itemId}. New value: '${assigneeSelect.value}'`);
-                                       }
-                                  }
+                              if (assigneeSelect.value !== assigneeFromFirebase && assigneeFromFirebase !== 'none') {
+                                  console.warn(`WARN: Assignee for ${itemId} DID NOT SET AS EXPECTED.`);
                               } else {
-                                  console.log(`SUCCESS: Assignee for ${itemId} correctly set to '${assigneeFromFirebase}'`);
+                                  console.log(`Assignee for ${itemId} set to '${assigneeFromFirebase}' (or successfully defaulted).`);
                               }
                               console.log(`---------------------------------`);
-                              // --- END OF DETAILED DIAGNOSTIC LOGS ---
                           }
                       });
   
                       if (dailyPrioritiesTextarea) {
-                          dailyPrioritiesTextarea.value = data.dailyPriorities || '';
+                          // Daily priorities is likely a top-level field, not part of checklistItems.
+                          dailyPrioritiesTextarea.value = firestoreData.dailyPriorities || '';
                       }
                   } else {
                       console.log("No shared data document found! (Checklist). You might need to add initial data to Firestore.");
                   }
-                  // Using a slight delay to ensure DOM has potentially updated from above assignments
-                  // before reading from it for dashboard/progress.
                   setTimeout(() => {
                       console.log("Updating UI (Progress/Dashboard/Filters) after onSnapshot processing.");
                       updateAllProgressAndDashboard();
                       applyFilters();
-                  }, 0); // setTimeout with 0ms pushes execution to end of current event loop cycle
+                  }, 0);
               }, (error) => {
                   console.error("Error listening to Firestore document (Checklist):", error);
                   alert("Error loading checklist data. Please try refreshing the page.");
@@ -189,13 +182,17 @@ const firebaseConfig = {
           function saveChecklistItemData(itemId, property, value) {
               if (!sharedDataDocRef) return;
               const update = {};
+              // This save logic (dot notation) IS what created the current flat structure in Firestore.
+              // If we change how we read, we might eventually want to change how we write for consistency,
+              // e.g., fetch the whole checklistItems map, update it in JS, then save the whole map back.
+              // But for now, this save will continue to work with the new read logic.
               update[`checklistItems.${itemId}.${property}`] = value;
               sharedDataDocRef.set(update, { merge: true })
                   .then(() => console.log(`Checklist item ${itemId} property ${property} saved.`))
                   .catch(error => console.error("Error saving checklist item:", error));
           }
   
-          checklistItems.forEach(item => {
+          checklistItemsFromDOM.forEach(item => { // Changed variable name
               const itemId = item.dataset.itemId;
               const checkbox = item.querySelector('input[type="checkbox"]');
               const notesTextarea = item.querySelector('.notes-area textarea');
@@ -218,6 +215,7 @@ const firebaseConfig = {
           if (dailyPrioritiesTextarea) {
               dailyPrioritiesTextarea.addEventListener('blur', () => {
                   if (!sharedDataDocRef) return;
+                  // Assuming dailyPriorities is a top-level field
                   sharedDataDocRef.set({ dailyPriorities: dailyPrioritiesTextarea.value }, { merge: true })
                       .then(() => console.log("Daily priorities saved."))
                       .catch(error => console.error("Error saving daily priorities:", error));
@@ -244,38 +242,31 @@ const firebaseConfig = {
               if (overallProgressTextEl && overallProgressBarFillEl) {
                   const percentage = totalTasksOverall > 0 ? (completedTasksOverall / totalTasksOverall) * 100 : 0;
                   overallProgressBarFillEl.style.width = `${percentage}%`;
-                  overallProgressBarFillEl.textContent = `${Math.round(percentage)}%`; // Added text to bar
+                  overallProgressBarFillEl.textContent = `${Math.round(percentage)}%`;
               }
           }
           
           function populateQuickViewDashboard() {
               const steveTasksList = document.getElementById('steve-next-tasks');
               const nicoleTasksList = document.getElementById('nicole-next-tasks');
-              if (!steveTasksList || !nicoleTasksList) {
-                  // console.warn("Dashboard task list elements not found.");
-                  return;
-              }
+              if (!steveTasksList || !nicoleTasksList) return;
               steveTasksList.innerHTML = ''; nicoleTasksList.innerHTML = '';
               let steveTaskCount = 0; let nicoleTaskCount = 0;
               
-              // Iterate over the actual `li` items in the DOM, which should have been updated by onSnapshot
               document.querySelectorAll('#checklist-app li[data-item-id]').forEach(item => {
                   const checkbox = item.querySelector('input[type="checkbox"]');
-                  const assigneeSelect = item.querySelector('.assignee-select'); // Get the select element
-                  const labelElement = item.querySelector('label'); // Get the label element
+                  const assigneeSelect = item.querySelector('.assignee-select');
+                  const labelElement = item.querySelector('label');
   
-                  if(checkbox && assigneeSelect && labelElement) { // Ensure all elements exist
-                      const assignee = assigneeSelect.value; // Read the CURRENT value from the DOM select
+                  if(checkbox && assigneeSelect && labelElement) {
+                      const assignee = assigneeSelect.value; // Reads current DOM value
                       const label = labelElement.textContent;
-  
-                      if (!checkbox.checked) { // Only show incomplete tasks
+                      if (!checkbox.checked) {
                           const li = document.createElement('li');
                           li.textContent = label;
                           if (assignee === 'steve' && steveTaskCount < 3) { steveTasksList.appendChild(li); steveTaskCount++; }
                           else if (assignee === 'nicole' && nicoleTaskCount < 3) { nicoleTasksList.appendChild(li); nicoleTaskCount++; }
                       }
-                  } else {
-                      // console.warn("Missing elements in checklist item for dashboard:", item.dataset.itemId);
                   }
               });
               if (steveTaskCount === 0) steveTasksList.innerHTML = '<li>No pending tasks for Steve.</li>';
@@ -287,7 +278,7 @@ const firebaseConfig = {
               const selectedAssignee = filterAssigneeSelect.value;
               const selectedStatus = filterStatusSelect.value;
               document.querySelectorAll('#checklist-app li[data-item-id]').forEach(item => {
-                  const assignee = item.querySelector('.assignee-select').value; // Read current value from DOM
+                  const assignee = item.querySelector('.assignee-select').value;
                   const checkbox = item.querySelector('input[type="checkbox"]');
                   let showItem = true;
                   if (selectedAssignee !== 'all' && assignee !== selectedAssignee) showItem = false;
@@ -318,25 +309,17 @@ const firebaseConfig = {
   
       // --- Helper for ContentEditable Placeholders ---
       function handleContentEditablePlaceholder(element, placeholderText) {
-          // Store original placeholder if not already stored, and set initial text
           if (!element.dataset.placeholderOriginalText) {
-              element.dataset.placeholderOriginalText = placeholderText || element.textContent.trim(); // Use arg or initial
+              element.dataset.placeholderOriginalText = placeholderText || element.textContent.trim();
           }
           if (element.textContent.trim() === '' && element.dataset.placeholderOriginalText) {
               element.textContent = element.dataset.placeholderOriginalText;
           }
-  
           element.addEventListener('focus', () => {
-              if (element.textContent === element.dataset.placeholderOriginalText) {
-                  element.textContent = '';
-              }
+              if (element.textContent === element.dataset.placeholderOriginalText) element.textContent = '';
           });
           element.addEventListener('blur', () => {
-              if (element.textContent.trim() === '') {
-                  element.textContent = element.dataset.placeholderOriginalText;
-              }
-              // For tables, actual save is handled by table-wide functions
-              // For contacts, it's handled by the specific blur listener in initializeContactsPage
+              if (element.textContent.trim() === '') element.textContent = element.dataset.placeholderOriginalText;
           });
       }
   
@@ -345,13 +328,13 @@ const firebaseConfig = {
           const addDocBtn = document.getElementById('add-document-row');
           const docsTableBody = document.getElementById('documents-table-body');
   
-          function renderDocsTable(docsData = []) {
+          function renderDocsTable(docsData = []) { /* ... (same as before) ... */ 
               docsTableBody.innerHTML = '';
-              docsData.forEach((doc) => {
+              (docsData || []).forEach((doc) => {
                   const row = docsTableBody.insertRow();
                   row.dataset.docId = doc.id;
                   row.innerHTML = `
-                      <td contenteditable="true" class="doc-name editable-cell" data-placeholder="Document Name">${doc.name || ''}</td>
+                      <td contenteditable="true" class="doc-name editable-cell">${doc.name || ''}</td>
                       <td>
                           <select class="doc-status">
                               <option value="needed" ${doc.status === 'needed' ? 'selected' : ''}>Needed</option>
@@ -372,19 +355,20 @@ const firebaseConfig = {
                               <option value="lender" ${doc.responsible === 'lender' ? 'selected' : ''}>Lender</option>
                           </select>
                       </td>
-                      <td contenteditable="true" class="doc-link editable-cell" data-placeholder="Cloud link...">${doc.link || ''}</td>
-                      <td contenteditable="true" class="doc-notes editable-cell" data-placeholder="Details...">${doc.notes || ''}</td>
+                      <td contenteditable="true" class="doc-link editable-cell">${doc.link || ''}</td>
+                      <td contenteditable="true" class="doc-notes editable-cell">${doc.notes || ''}</td>
                       <td><button class="delete-row-btn">Delete</button></td>
                   `;
                   row.querySelectorAll('.editable-cell').forEach(cell => {
-                      // Use data-placeholder attribute if present
-                      handleContentEditablePlaceholder(cell, cell.dataset.placeholder || '');
+                      const placeholder = cell.classList.contains('doc-name') ? 'Document Name' : 
+                                        cell.classList.contains('doc-link') ? 'Cloud link...' : 
+                                        cell.classList.contains('doc-notes') ? 'Details...' : '';
+                      handleContentEditablePlaceholder(cell, placeholder);
                   });
               });
               addDocEventListeners();
           }
-  
-          function addDocEventListeners() {
+          function addDocEventListeners() { /* ... (same as before) ... */
               docsTableBody.querySelectorAll('tr').forEach(row => {
                   row.querySelectorAll('td[contenteditable="true"].editable-cell, select').forEach(cell => {
                       cell.addEventListener('change', updateDocsInFirestore);
@@ -405,8 +389,7 @@ const firebaseConfig = {
                   });
               });
           }
-          
-          function getCurrentDocsFromTable() {
+          function getCurrentDocsFromTable() { /* ... (same as before) ... */
               const docs = [];
               docsTableBody.querySelectorAll('tr').forEach(row => {
                   const nameCell = row.querySelector('.doc-name');
@@ -423,16 +406,14 @@ const firebaseConfig = {
               });
               return docs;
           }
-  
-          function updateDocsInFirestore() {
+          function updateDocsInFirestore() { /* ... (same as before) ... */
               if (!sharedDataDocRef) return;
               const currentDocs = getCurrentDocsFromTable();
               sharedDataDocRef.set({ documents: currentDocs }, { merge: true })
                   .then(() => console.log("Documents updated in Firestore."))
                   .catch(error => console.error("Error updating documents:", error));
           }
-  
-          if (addDocBtn) {
+          if (addDocBtn) { /* ... (same as before) ... */
               addDocBtn.addEventListener('click', () => {
                   if (!sharedDataDocRef) return;
                   const newDocId = `doc_${Date.now()}`;
@@ -446,8 +427,7 @@ const firebaseConfig = {
                   });
               });
           }
-  
-          if (sharedDataDocRef) {
+          if (sharedDataDocRef) { /* ... (same as before) ... */
               sharedDataDocRef.onSnapshot((doc) => {
                   if (doc.exists) renderDocsTable(doc.data().documents || []);
                   else renderDocsTable([]);
@@ -462,8 +442,7 @@ const firebaseConfig = {
       function initializeDeadlinesTracker() {
           const addDeadlineBtn = document.getElementById('add-deadline-row');
           const deadlinesTableBody = document.getElementById('deadlines-table-body');
-  
-          function generateICS(deadline) { /* ... (ICS function remains the same) ... */ 
+          function generateICS(deadline) { /* ... (same as before) ... */ 
               const startDate = deadline.date ? new Date(deadline.date + 'T09:00:00') : new Date();
               if (isNaN(startDate)) { alert("Invalid date for calendar event."); return; }
               const endDate = new Date(startDate);
@@ -483,8 +462,7 @@ const firebaseConfig = {
               link.download = `${(deadline.description || 'Deadline').replace(/[^a-z0-9]/gi, '_')}.ics`;
               document.body.appendChild(link); link.click(); document.body.removeChild(link);
           }
-  
-          function renderDeadlinesTable(deadlinesData = []) {
+          function renderDeadlinesTable(deadlinesData = []) { /* ... (same as before, ensure placeholder handler applied) ... */
               deadlinesTableBody.innerHTML = '';
               const sortedDeadlines = (deadlinesData || []).sort((a,b) => new Date(a.date) - new Date(b.date));
               sortedDeadlines.forEach((deadline) => {
@@ -492,7 +470,7 @@ const firebaseConfig = {
                   row.dataset.deadlineId = deadline.id;
                   row.innerHTML = `
                       <td><input type="date" class="deadline-date" value="${deadline.date || ''}"></td>
-                      <td contenteditable="true" class="deadline-description editable-cell" data-placeholder="Deadline Description">${deadline.description || ''}</td>
+                      <td contenteditable="true" class="deadline-description editable-cell">${deadline.description || ''}</td>
                       <td>
                           <select class="deadline-responsible">
                               <option value="none" ${deadline.responsible === 'none' ? 'selected' : ''}>N/A</option>
@@ -503,18 +481,19 @@ const firebaseConfig = {
                               <option value="attorney" ${deadline.responsible === 'attorney' ? 'selected' : ''}>Attorney</option>
                           </select>
                       </td>
-                      <td contenteditable="true" class="deadline-notes editable-cell" data-placeholder="Details...">${deadline.notes || ''}</td>
+                      <td contenteditable="true" class="deadline-notes editable-cell">${deadline.notes || ''}</td>
                       <td><button class="add-to-calendar-btn">To Calendar</button></td>
                       <td><button class="delete-row-btn">Delete</button></td>
                   `;
                   row.querySelectorAll('.editable-cell').forEach(cell => {
-                      handleContentEditablePlaceholder(cell, cell.dataset.placeholder || '');
+                      const placeholder = cell.classList.contains('deadline-description') ? 'Deadline Description' : 
+                                        cell.classList.contains('deadline-notes') ? 'Details...' : '';
+                      handleContentEditablePlaceholder(cell, placeholder);
                   });
               });
               addDeadlineEventListeners();
           }
-  
-          function addDeadlineEventListeners() {
+          function addDeadlineEventListeners() { /* ... (same as before) ... */
               deadlinesTableBody.querySelectorAll('tr').forEach(row => {
                   row.querySelectorAll('td[contenteditable="true"].editable-cell, input[type="date"], select').forEach(cell => {
                       cell.addEventListener('change', updateDeadlinesInFirestore);
@@ -541,8 +520,7 @@ const firebaseConfig = {
                   });
               });
           }
-          
-          function getCurrentDeadlinesFromTable() {
+          function getCurrentDeadlinesFromTable() { /* ... (same as before) ... */
               const deadlines = [];
               deadlinesTableBody.querySelectorAll('tr').forEach(row => {
                   const descriptionCell = row.querySelector('.deadline-description');
@@ -557,16 +535,14 @@ const firebaseConfig = {
               });
               return deadlines;
           }
-  
-          function updateDeadlinesInFirestore() {
+          function updateDeadlinesInFirestore() { /* ... (same as before) ... */
               if (!sharedDataDocRef) return;
               const currentDeadlines = getCurrentDeadlinesFromTable();
               sharedDataDocRef.set({ deadlines: currentDeadlines }, { merge: true })
                   .then(() => console.log("Deadlines updated in Firestore."))
                   .catch(error => console.error("Error updating deadlines:", error));
           }
-  
-          if (addDeadlineBtn) {
+          if (addDeadlineBtn) { /* ... (same as before) ... */
               addDeadlineBtn.addEventListener('click', () => {
                   if (!sharedDataDocRef) return;
                   const newDeadlineId = `deadline_${Date.now()}`;
@@ -580,8 +556,7 @@ const firebaseConfig = {
                   });
               });
           }
-          
-          if (sharedDataDocRef) {
+          if (sharedDataDocRef) { /* ... (same as before) ... */
               sharedDataDocRef.onSnapshot((doc) => {
                   if (doc.exists) renderDeadlinesTable(doc.data().deadlines || []);
                   else renderDeadlinesTable([]);
@@ -593,18 +568,14 @@ const firebaseConfig = {
       } // End of initializeDeadlinesTracker
   
       // --- FUNCTION TO INITIALIZE CONTACTS PAGE ---
-      function initializeContactsPage() {
+      function initializeContactsPage() { /* ... (same as before) ... */
           const contactFields = document.querySelectorAll('#contacts-content .editable[data-ls-key]');
-  
           contactFields.forEach(field => {
               const key = field.dataset.lsKey;
-              // Use the field's initial textContent as the placeholder for the helper
               handleContentEditablePlaceholder(field, field.textContent.trim()); 
-  
               field.addEventListener('blur', () => {
                   if (!sharedDataDocRef) return;
                   const update = {};
-                  // Save empty string if content is the placeholder, otherwise save content
                   const valueToSave = field.textContent.trim() === field.dataset.placeholderOriginalText ? '' : field.textContent.trim();
                   update[`contacts.${key}`] = valueToSave;
                   sharedDataDocRef.set(update, { merge: true })
@@ -612,13 +583,9 @@ const firebaseConfig = {
                       .catch(err => console.error("Error saving contact field:", err));
               });
               field.addEventListener('keypress', (event) => {
-                  if (event.key === 'Enter') {
-                      event.preventDefault();
-                      field.blur();
-                  }
+                  if (event.key === 'Enter') { event.preventDefault(); field.blur(); }
               });
           });
-          
           if (sharedDataDocRef) {
               sharedDataDocRef.onSnapshot(doc => {
                   if (doc.exists) {
@@ -626,29 +593,19 @@ const firebaseConfig = {
                       const firestoreContacts = data.contacts || {};
                       contactFields.forEach(field => {
                           const key = field.dataset.lsKey;
-                          // Ensure placeholder text is stored on the element if not already
-                          if (!field.dataset.placeholderOriginalText) {
-                              field.dataset.placeholderOriginalText = field.textContent.trim();
-                          }
+                          if (!field.dataset.placeholderOriginalText) field.dataset.placeholderOriginalText = field.textContent.trim();
                           const savedValue = firestoreContacts[key];
-                          if (savedValue !== undefined && savedValue.trim() !== '') {
-                              field.textContent = savedValue;
-                          } else {
-                              field.textContent = field.dataset.placeholderOriginalText; 
-                          }
+                          if (savedValue !== undefined && savedValue.trim() !== '') field.textContent = savedValue;
+                          else field.textContent = field.dataset.placeholderOriginalText; 
                       });
                   } else {
                       console.log("Contacts data section does not exist in Firestore yet.");
                        contactFields.forEach(field => {
-                          if (!field.dataset.placeholderOriginalText) {
-                              field.dataset.placeholderOriginalText = field.textContent.trim();
-                          }
+                          if (!field.dataset.placeholderOriginalText) field.dataset.placeholderOriginalText = field.textContent.trim();
                           field.textContent = field.dataset.placeholderOriginalText;
                       });
                   }
-              }, error => {
-                  console.error("Error loading contacts from Firestore:", error);
-              });
+              }, error => console.error("Error loading contacts from Firestore:", error));
           }
       } // End of initializeContactsPage
   
