@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Protected Checklist</title>
+    <title>Login - Home Buying Checklist</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,6 +26,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             text-align: center;
+            width: 360px; /* A common width for login forms */
             transition: background-color 0.3s;
         }
         body.dark-mode .container {
@@ -34,78 +35,100 @@
         }
         h1 {
             color: #1c1e21; /* Light mode heading */
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Adjusted margin */
+            font-size: 1.8em;
         }
         body.dark-mode h1 {
             color: #e4e6eb; /* Dark mode heading */
         }
+        .container p { /* Style for the intro paragraph */
+            font-size: 0.95em;
+            color: #606770;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .container p {
+            color: #b0b3b8;
+        }
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px; /* Reduced margin */
             font-weight: bold;
             color: #606770; /* Light mode label */
+            text-align: left; /* Align labels to the left */
+            font-size: 0.9em;
         }
         body.dark-mode label {
             color: #b0b3b8; /* Dark mode label */
         }
+        input[type="email"], /* UPDATED to include email input */
         input[type="password"] {
-            width: calc(100% - 22px);
+            width: calc(100% - 22px); /* Full width minus padding */
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Space between inputs */
             border: 1px solid #dddfe2; /* Light mode border */
             border-radius: 6px;
             font-size: 16px;
             background-color: #fff; /* Light mode input bg */
             color: #1c1e21; /* Light mode input text */
         }
+        body.dark-mode input[type="email"],
         body.dark-mode input[type="password"] {
             border-color: #3e4042; /* Dark mode border */
             background-color: #3a3b3c; /* Dark mode input bg */
             color: #e4e6eb; /* Dark mode input text */
         }
         button {
-            background-color: #1877f2;
+            background-color: #1877f2; /* Facebook blue */
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
+            width: 100%; /* Make button full width */
+            margin-top: 10px; /* Space above button */
             transition: background-color 0.3s;
         }
         button:hover {
             background-color: #166fe5;
         }
         .error-message {
-            color: red;
+            color: #fa383e; /* Brighter red for errors */
             margin-top: 15px;
-            font-size: 14px;
+            font-size: 0.9em; /* Slightly smaller error text */
+            min-height: 1.2em; /* Reserve space for error message */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Enter Password</h1>
-        <p>Please enter the password to access the Home Buying Checklist.</p>
+        <h1>Login to Checklist</h1>
+        <p>Please sign in to access your Home Buying Checklist.</p>
+
+        <label for="emailInput">Email:</label>
+        <input type="email" id="emailInput" name="email" placeholder="Enter your email" autocomplete="email">
+
         <label for="passwordInput">Password:</label>
-        <input type="password" id="passwordInput" name="password">
-        <button onclick="checkPassword()">Submit</button>
-        <p id="errorMessage" class="error-message" style="display:none;">Incorrect password. Please try again.</p>
+        <input type="password" id="passwordInput" name="password" placeholder="Enter your password" autocomplete="current-password">
+
+        <button onclick="signInUser()">Sign In</button>
+        <p id="errorMessage" class="error-message" style="display:none;"></p>
     </div>
 
     <!-- Firebase SDK (Apps + Auth for login page) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
     <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyA5CXcX7hM6QH13Q-EXN8mCg8Kyc7H-fQc",
-          authDomain: "home-881fe.firebaseapp.com",
-          projectId: "home-881fe",
-          storageBucket: "home-881fe.firebasestorage.app",
-          messagingSenderId: "420018374054",
-          appId: "1:420018374054:web:b90c0376a0c301ef787b67",
-          measurementId: "G-KEGM94MV70"
+          apiKey: "AIzaSyA5CXcX7hM6QH13Q-EXN8mCg8Kyc7H-fQc", // YOUR ACTUAL KEY
+          authDomain: "home-881fe.firebaseapp.com",          // YOUR ACTUAL DOMAIN
+          projectId: "home-881fe",                           // YOUR ACTUAL PROJECT ID
+          storageBucket: "home-881fe.appspot.com",           // YOUR ACTUAL BUCKET
+          messagingSenderId: "420018374054",                 // YOUR ACTUAL SENDER ID
+          appId: "1:420018374054:web:b90c0376a0c301ef787b67", // YOUR ACTUAL APP ID
+          measurementId: "G-KEGM94MV70"                      // YOUR ACTUAL MEASUREMENT ID (if you have one)
         };
 
         // Initialize Firebase
@@ -120,37 +143,89 @@
             alert("Error initializing application. Please try again later.");
         }
 
-        // Basic theme persistence for password page
-        function applyTheme() {
+        // DOM Elements
+        const emailInput = document.getElementById("emailInput");
+        const passwordInput = document.getElementById("passwordInput");
+        const errorMessageElement = document.getElementById("errorMessage");
+
+        // Apply theme from localStorage
+        function applyLoginPageTheme() {
             if (localStorage.getItem('theme') === 'dark-mode') {
                 document.body.classList.add('dark-mode');
             } else {
                 document.body.classList.remove('dark-mode');
             }
         }
-        applyTheme(); // Apply theme on initial load
+        applyLoginPageTheme(); // Apply theme on initial load
 
-        function checkPassword() {
-            const correctPassword = "BarnabySimon123";
-            const enteredPassword = document.getElementById("passwordInput").value;
-            const errorMessageElement = document.getElementById("errorMessage");
+        async function signInUser() {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            errorMessageElement.textContent = ""; // Clear previous errors
+            errorMessageElement.style.display = "none";
 
-            if (enteredPassword === correctPassword) {
-                sessionStorage.setItem('isAuthenticated', 'true');
-                window.location.href = "home.html";
-            } else {
+            if (!email || !password) {
+                errorMessageElement.textContent = "Please enter both email and password.";
                 errorMessageElement.style.display = "block";
-                document.getElementById("passwordInput").value = "";
-                document.getElementById("passwordInput").focus();
+                return;
+            }
+
+            try {
+                console.log("Attempting to sign in with Firebase...");
+                await auth.signInWithEmailAndPassword(email, password);
+                // User is signed in. The onAuthStateChanged listener (below) will handle redirect.
+                console.log("Firebase signInWithEmailAndPassword successful (waiting for auth state change).");
+            } catch (error) {
+                console.error("Firebase Sign In Error:", error);
+                // Provide more user-friendly error messages
+                let friendlyMessage = "Login failed. Please check your credentials and try again.";
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    friendlyMessage = "Invalid email or password.";
+                } else if (error.code === 'auth/invalid-email') {
+                    friendlyMessage = "The email address is not valid.";
+                } else if (error.code === 'auth/network-request-failed') {
+                    friendlyMessage = "Network error. Please check your internet connection.";
+                }
+                errorMessageElement.textContent = friendlyMessage;
+                errorMessageElement.style.display = "block";
             }
         }
 
-        document.getElementById("passwordInput").addEventListener("keypress", function(event) {
+        // Listen for Enter key on password field
+        passwordInput.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
-                event.preventDefault();
-                checkPassword();
+                event.preventDefault(); // Prevent default form submission behavior
+                signInUser();
             }
         });
+        // Also listen for Enter key on email field
+        emailInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                signInUser();
+            }
+        });
+
+        // Listen for authentication state changes
+        // This is crucial for redirecting after successful login or if user is already logged in
+        if (auth) { // Make sure auth is initialized
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    // User is signed in.
+                    console.log("User is signed in (auth state changed on login page):", user.uid);
+                    // Redirect to home page
+                    window.location.href = "home.html";
+                } else {
+                    // User is signed out or not yet signed in.
+                    console.log("User is signed out or not yet signed in (auth state changed on login page).");
+                    // Stay on login page, or clear fields, etc.
+                    // No action needed here for this simple login page if user is signed out.
+                }
+            });
+        } else {
+            console.error("Firebase auth object not available for onAuthStateChanged listener on login page.");
+        }
+
     </script>
 </body>
 </html>
