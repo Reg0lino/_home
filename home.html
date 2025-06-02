@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Home Buying & Moving Checklist</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Responsive Quick View Dashboard */
+        @media (max-width: 900px) {
+            .dashboard-columns {
+                flex-direction: column !important;
+                display: flex !important;
+            }
+            .dashboard-column {
+                width: 100% !important;
+                min-width: 0 !important;
+                margin-bottom: 16px;
+            }
+        }
+        .dashboard-columns {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .dashboard-column {
+            flex: 1 1 0;
+            min-width: 250px;
+        }
+        /* Priorities area should not overflow */
+        #daily-priorities-display, #daily-priorities {
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 100vw;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -52,7 +83,7 @@
                 </div>
                 <div class="dashboard-column">
                     <h3>Daily/Weekly Priorities</h3>
-                    <div id="daily-priorities-display" class="priorities-display" tabindex="0" style="min-height:100px; padding:8px; border:1px solid var(--border-color); border-radius:4px; background-color:var(--notes-bg); color:var(--text-color);"></div>
+                    <div id="daily-priorities-display" class="priorities-display" tabindex="0" contenteditable="true" style="min-height:100px; padding:8px; border:1px solid var(--border-color); border-radius:4px; background-color:var(--notes-bg); color:var(--text-color);"></div>
                     <textarea id="daily-priorities" class="priorities-edit" placeholder="Our top focus for today/this week..." style="display:none;"></textarea>
                 </div>
             </div>
