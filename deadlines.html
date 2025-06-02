@@ -57,13 +57,17 @@
                         <td>
                             <select class="deadline-responsible">
                                 <option value="none">N/A</option>
-                                <option value="me">Me</option>
-                                <option value="fiancee">Fiancée</option>
+                                <option value="steve">Steve</option>
+                                <option value="nicole">Nicole</option>
+                                <option value="both">Both</option>
                                 <option value="agent">Agent</option>
                                 <option value="attorney">Attorney</option>
                             </select>
                         </td>
-                        <td contenteditable="true" class="deadline-notes editable-cell" data-placeholder="Details...">Must respond by 5 PM</td>
+                        <td>
+                            <div class="deadline-notes-display" tabindex="0" style="min-height:20px;"></div>
+                            <textarea class="deadline-notes-edit" style="display:none;"></textarea>
+                        </td>
                         <td><button class="add-to-calendar-btn">Add to Calendar</button></td>
                         <td><button class="delete-row-btn">Delete</button></td>
                     </tr>

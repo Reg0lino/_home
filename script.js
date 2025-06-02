@@ -566,6 +566,11 @@ const firebaseConfig = {
                   if (doc.exists) { 
                       const data = doc.data();
                       const firestoreContacts = {}; 
+                      // Support both flattened and nested contacts data
+                      if (data.contacts && typeof data.contacts === 'object') {
+                          // Nested object style: contacts: { key: value }
+                          Object.assign(firestoreContacts, data.contacts);
+                      }
                       for (const rawKey in data) {
                           if (data.hasOwnProperty(rawKey) && rawKey.startsWith('contacts.')) {
                               const parts = rawKey.split('.');
