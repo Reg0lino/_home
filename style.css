@@ -170,6 +170,336 @@ body.theme-zenith-zone-light {
 }
 
 
+/* --- Sunny Suburbia (Light) --- */
+body.theme-sunny-suburbia {
+    --theme-name: "Sunny Suburbia";
+    --page-bg: #FFFDE7; /* Soft yellow */
+    --text-color: #3E4A00; /* Olive green */
+    --card-bg: #FFFFFF;
+    --item-bg: #FFF9C4; /* Pale yellow */
+    --notes-bg: #FFFDE0; /* Lighter yellow */
+    --border-color: #FFECB3; /* Light gold */
+    --table-header-bg: #FFF8B2;
+    --header-bg: #FFEB3B; /* Sun yellow */
+    --header-text: #3E4A00;
+    --nav-link: #AEEA00; /* Pastel green */
+    --nav-link-active-bg: #81D4FA; /* Sky blue */
+    --nav-link-active-text: #3E4A00;
+    --primary-accent: #81D4FA; /* Sky blue */
+    --secondary-accent: #AEEA00; /* Pastel green */
+    --button-text: #3E4A00;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(255, 235, 59, 0.12);
+}
+
+/* --- Minimal Mint (Light) --- */
+body.theme-minimal-mint {
+    --theme-name: "Minimal Mint";
+    --page-bg: #E8FFF8; /* Pale mint */
+    --text-color: #2E4D43; /* Deep teal */
+    --card-bg: #FFFFFF;
+    --item-bg: #F4FFFB; /* Lighter mint */
+    --notes-bg: #D6F5E9;
+    --border-color: #B2DFDB; /* Soft teal */
+    --table-header-bg: #C8F7E5;
+    --header-bg: #B2DFDB; /* Mint border */
+    --header-text: #2E4D43;
+    --nav-link: #A7FFEB; /* Light mint */
+    --nav-link-active-bg: #26A69A; /* Teal */
+    --nav-link-active-text: #FFFFFF;
+    --primary-accent: #26A69A; /* Teal */
+    --secondary-accent: #80CBC4; /* Muted teal */
+    --button-text: #2E4D43;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(38, 166, 154, 0.08);
+}
+
+/* --- Midnight Blueprint (Dark) --- */
+body.theme-midnight-blueprint {
+    --theme-name: "Midnight Blueprint";
+    --page-bg: #0A192F; /* Deep navy */
+    --text-color: #E0F7FA; /* Pale cyan */
+    --card-bg: #112240; /* Slightly lighter navy */
+    --item-bg: #102040; /* Blueprint grid */
+    --notes-bg: #1B263B;
+    --border-color: #64FFDA; /* Neon cyan */
+    --table-header-bg: #112240;
+    --header-bg: #1976D2; /* Electric blue */
+    --header-text: #E0F7FA;
+    --nav-link: #64FFDA;
+    --nav-link-active-bg: #0FF0FC; /* Neon cyan */
+    --nav-link-active-text: #0A192F;
+    --primary-accent: #64FFDA; /* Neon cyan */
+    --secondary-accent: #1976D2; /* Electric blue */
+    --button-text: #0A192F;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(25, 118, 210, 0.18);
+}
+
+/* --- Coffeehouse Cozy (Dark) --- */
+body.theme-coffeehouse-cozy {
+    --theme-name: "Coffeehouse Cozy";
+    --page-bg: #3E2723; /* Espresso brown */
+    --text-color: #FFF8E1; /* Cream */
+    --card-bg: #4E342E; /* Mocha */
+    --item-bg: #5D4037; /* Lighter brown */
+    --notes-bg: #6D4C41; /* Caramel */
+    --border-color: #A1887F; /* Latte */
+    --table-header-bg: #795548;
+    --header-bg: #6D4C41; /* Mocha */
+    --header-text: #FFF8E1;
+    --nav-link: #D7CCC8; /* Cream */
+    --nav-link-active-bg: #FFB300; /* Caramel accent */
+    --nav-link-active-text: #3E2723;
+    --primary-accent: #FFB300; /* Caramel */
+    --secondary-accent: #A1887F; /* Latte */
+    --button-text: #3E2723;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(61, 39, 35, 0.18);
+}
+
+/* --- Retro Terminal (Dark) --- */
+body.theme-retro-terminal {
+    --theme-name: "Retro Terminal";
+    --page-bg: #181818; /* Black/charcoal */
+    --text-color: #39FF14; /* CRT green */
+    --card-bg: #232323;
+    --item-bg: #181818;
+    --notes-bg: #232323;
+    --border-color: #39FF14;
+    --table-header-bg: #232323;
+    --header-bg: #232323;
+    --header-text: #39FF14;
+    --nav-link: #FFB86C; /* Orange */
+    --nav-link-active-bg: #39FF14;
+    --nav-link-active-text: #181818;
+    --primary-accent: #39FF14; /* CRT green */
+    --secondary-accent: #FFB86C; /* Orange */
+    --button-text: #181818;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(57, 255, 20, 0.12);
+}
+
+/* --- Rocket Raccoon (Dark/Marvel) --- */
+body.theme-rocket-raccoon {
+    --theme-name: "Rocket Raccoon";
+    --page-bg: #181f23; /* Space black */
+    --text-color: #e0e6e9;
+    --card-bg: #232b2f;
+    --item-bg: #232b2f;
+    --notes-bg: #1b2327;
+    --border-color: #3e4c50;
+    --table-header-bg: #263238;
+    --header-bg: #ff9800; /* Orange */
+    --header-text: #232b2f;
+    --nav-link: #80cbc4; /* Teal */
+    --nav-link-active-bg: #00bcd4; /* Tech blue */
+    --nav-link-active-text: #181f23;
+    --primary-accent: #ff9800; /* Orange */
+    --secondary-accent: #00bcd4; /* Tech blue */
+    --button-text: #232b2f;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(255, 152, 0, 0.12);
+}
+
+/* --- Metal Gear Solid (Dark) --- */
+body.theme-metal-gear {
+    --theme-name: "Metal Gear";
+    --page-bg: #232b24; /* Stealth olive/gray */
+    --text-color: #e0e6e9;
+    --card-bg: #2e3b2f;
+    --item-bg: #2e3b2f;
+    --notes-bg: #1a211a;
+    --border-color: #4b5d4b;
+    --table-header-bg: #374d3b;
+    --header-bg: #ff7043; /* Alert orange */
+    --header-text: #232b24;
+    --nav-link: #8bc34a; /* Codec green */
+    --nav-link-active-bg: #ff7043;
+    --nav-link-active-text: #232b24;
+    --primary-accent: #8bc34a; /* Codec green */
+    --secondary-accent: #ff7043; /* Alert orange */
+    --button-text: #232b24;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(255, 112, 67, 0.12);
+}
+
+/* --- Final Fantasy (Light) --- */
+body.theme-final-fantasy {
+    --theme-name: "Final Fantasy";
+    --page-bg: #eaf6ff; /* Crystal blue */
+    --text-color: #2d3a4a;
+    --card-bg: #ffffff;
+    --item-bg: #f6fbff;
+    --notes-bg: #e0eaff;
+    --border-color: #b3c6e0;
+    --table-header-bg: #dbeaff;
+    --header-bg: #ffd700; /* Gold */
+    --header-text: #2d3a4a;
+    --nav-link: #7ecfff; /* Sky blue */
+    --nav-link-active-bg: #ffd700;
+    --nav-link-active-text: #2d3a4a;
+    --primary-accent: #7ecfff; /* Sky blue */
+    --secondary-accent: #ffd700; /* Gold */
+    --button-text: #2d3a4a;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(126, 207, 255, 0.10);
+}
+
+/* --- Neon Dream (Dark) --- */
+body.theme-neon-dream {
+    --theme-name: "Neon Dream";
+    --page-bg: #18122b; /* Deep purple */
+    --text-color: #f8f8ff;
+    --card-bg: #231942;
+    --item-bg: #231942;
+    --notes-bg: #372554;
+    --border-color: #ff6ec7; /* Neon pink */
+    --table-header-bg: #372554;
+    --header-bg: #00fff7; /* Neon blue */
+    --header-text: #18122b;
+    --nav-link: #ff6ec7; /* Neon pink */
+    --nav-link-active-bg: #00fff7;
+    --nav-link-active-text: #18122b;
+    --primary-accent: #ff6ec7; /* Neon pink */
+    --secondary-accent: #00fff7; /* Neon blue */
+    --button-text: #18122b;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(255, 110, 199, 0.12);
+}
+
+/* --- Katamari (Light/Playful) --- */
+body.theme-katamari {
+    --theme-name: "Katamari";
+    --page-bg: #f9f6e7; /* Pastel yellow */
+    --text-color: #4a3b1e;
+    --card-bg: #fffbe7;
+    --item-bg: #e7f9e7; /* Pastel green */
+    --notes-bg: #e7e7f9; /* Pastel purple */
+    --border-color: #f7c6ff; /* Pastel pink */
+    --table-header-bg: #e7e7f9;
+    --header-bg: #ffb347; /* Orange */
+    --header-text: #4a3b1e;
+    --nav-link: #b4ffb4; /* Pastel green */
+    --nav-link-active-bg: #f7c6ff; /* Pastel pink */
+    --nav-link-active-text: #4a3b1e;
+    --primary-accent: #b4ffb4; /* Pastel green */
+    --secondary-accent: #f7c6ff; /* Pastel pink */
+    --button-text: #4a3b1e;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(247, 198, 255, 0.10);
+}
+
+/* --- Dragon Ball (Light/Orange) --- */
+body.theme-dragon-ball {
+    --theme-name: "Dragon Ball";
+    --page-bg: #fff3e0; /* Light orange */
+    --text-color: #2d2d2d;
+    --card-bg: #fff;
+    --item-bg: #ffe0b2; /* Orange */
+    --notes-bg: #e3f2fd; /* Blue */
+    --border-color: #ffb300; /* Dragon Ball yellow */
+    --table-header-bg: #ffe082;
+    --header-bg: #ff9800; /* Goku orange */
+    --header-text: #fff;
+    --nav-link: #1976d2; /* Blue */
+    --nav-link-active-bg: #ffb300;
+    --nav-link-active-text: #2d2d2d;
+    --primary-accent: #ff9800; /* Orange */
+    --secondary-accent: #1976d2; /* Blue */
+    --button-text: #fff;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(255, 152, 0, 0.10);
+}
+
+/* --- Punk Metal (Dark) --- */
+body.theme-punk-metal {
+    --theme-name: "Punk Metal";
+    --page-bg: #181818;
+    --text-color: #f8f8f8;
+    --card-bg: #232323;
+    --item-bg: #232323;
+    --notes-bg: #2d2d2d;
+    --border-color: #ff1744; /* Punk red */
+    --table-header-bg: #232323;
+    --header-bg: #ff1744; /* Punk red */
+    --header-text: #181818;
+    --nav-link: #00e676; /* Neon green */
+    --nav-link-active-bg: #ff1744;
+    --nav-link-active-text: #181818;
+    --primary-accent: #ff1744; /* Punk red */
+    --secondary-accent: #00e676; /* Neon green */
+    --button-text: #181818;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(255, 23, 68, 0.12);
+}
+
+/* --- Pink & Purple (Dark) --- */
+body.theme-pink-purple {
+    --theme-name: "Pink & Purple";
+    --page-bg: #1a0025;
+    --text-color: #f8e1ff;
+    --card-bg: #2a003f;
+    --item-bg: #2a003f;
+    --notes-bg: #3a005a;
+    --border-color: #ff7ce5;
+    --table-header-bg: #3a005a;
+    --header-bg: #ff7ce5;
+    --header-text: #1a0025;
+    --nav-link: #b388ff;
+    --nav-link-active-bg: #ff7ce5;
+    --nav-link-active-text: #1a0025;
+    --primary-accent: #ff7ce5;
+    --secondary-accent: #b388ff;
+    --button-text: #1a0025;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(255, 124, 229, 0.12);
+}
+
+/* --- Barnaby (Dark, Black Cat) --- */
+body.theme-barnaby {
+    --theme-name: "Barnaby";
+    --page-bg: #1a120b; /* Much darker brown */
+    --text-color: #e0e0e0;
+    --card-bg: #23180f; /* Very dark brown */
+    --item-bg: #23180f;
+    --notes-bg: #2d1e13;
+    --border-color: #6d4c41; /* Brownish */
+    --table-header-bg: #23180f;
+    --header-bg: #3e2723; /* Dark espresso brown */
+    --header-text: #e0e0e0;
+    --nav-link: #bdbdbd; /* Grey */
+    --nav-link-active-bg: #bdbdbd;
+    --nav-link-active-text: #1a120b;
+    --primary-accent: #bdbdbd; /* Grey */
+    --secondary-accent: #a1887f; /* Lighter brown */
+    --button-text: #1a120b;
+    --item-border-accent: var(--secondary-accent);
+    --shadow-color: rgba(61, 39, 35, 0.18);
+}
+
+/* --- Simon (Light, Orange Cat) --- */
+body.theme-simon {
+    --theme-name: "Simon";
+    --page-bg: #fff8e1; /* Creamy orange */
+    --text-color: #a65c00; /* Orange-brown */
+    --card-bg: #fff3e0;
+    --item-bg: #ffe0b2;
+    --notes-bg: #fffde7;
+    --border-color: #ffb74d; /* Orange */
+    --table-header-bg: #ffe0b2;
+    --header-bg: #ffb74d; /* Orange */
+    --header-text: #a65c00;
+    --nav-link: #fffde7; /* Cream */
+    --nav-link-active-bg: #ffb74d;
+    --nav-link-active-text: #a65c00;
+    --primary-accent: #ffb74d; /* Orange */
+    --secondary-accent: #fffde7; /* Cream */
+    --button-text: #a65c00;
+    --item-border-accent: var(--primary-accent);
+    --shadow-color: rgba(255, 183, 77, 0.10);
+}
+
 /* --- General Styles Using Variables --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
