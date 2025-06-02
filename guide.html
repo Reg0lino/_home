@@ -345,33 +345,5 @@
     <footer>
         <p>Refer to this guide often!</p>
     </footer>
-    <script>
-        // Theme toggle script for guide.html (and contacts.html)
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const body = document.body;
-
-            function applyTheme() {
-                if (localStorage.getItem('theme') === 'dark-mode') {
-                    body.classList.add('dark-mode');
-                } else {
-                    body.classList.remove('dark-mode');
-                }
-            }
-
-            applyTheme(); // Apply theme on initial load
-
-            if (themeToggleBtn) {
-                themeToggleBtn.addEventListener('click', () => {
-                    body.classList.toggle('dark-mode');
-                    if (body.classList.contains('dark-mode')) {
-                        localStorage.setItem('theme', 'dark-mode');
-                    } else {
-                        localStorage.setItem('theme', 'light-mode');
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>
