@@ -231,7 +231,59 @@ nav a:hover, nav a.active-nav {
     margin-top: 0.5rem;
     width: 100%; /* Allow it to take space for potential centering */
 }
+/* --- Enhanced Borders for Light Themes --- */
+:root {
+    /* Define a common enhanced border color for light themes */
+    /* This color should be visible against your lightest page/card backgrounds */
+    --light-theme-visual-border-enhancement: rgba(0, 0, 0, 0.15); /* Subtle dark shadow as border */
+    /* Alternative: --light-theme-visual-border-enhancement: #b0b0b0; (a light grey) */
+}
 
+/* Apply to elements that should have more prominent borders in light themes */
+/* List all your DARK theme classes in the :not() selectors */
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) li,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) .dashboard-column,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) #checklist-filters,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) .contact-entry,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) .overall-progress-container,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) table th, /* Table headers */
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) table td  /* Table cells */
+{
+    /* This adds a subtle inner shadow that looks like a border line */
+    /* Adjust spread (1px) and color as needed */
+    /* It respects existing box-shadows by being added first if original had one */
+    box-shadow: inset 0 0 0 1px var(--light-theme-visual-border-enhancement), 
+                /* Attempt to preserve original box-shadow if any. This part is tricky.
+                   If elements already have complex shadows, this might need careful integration.
+                   For elements that only had 'var(--shadow-color)' for a drop shadow: */
+                0 1px 3px var(--shadow-color); /* Assuming this was the general shadow */
+}
+
+/* For elements that might not have a primary drop shadow but need border emphasis */
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) .filter-controls select,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) .filter-controls button:not(#reset-filters), /* Exclude reset if it has its own strong bg */
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) .assignee-select,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) .notes-area textarea,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) #daily-priorities,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) table input,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) table select
+{
+    /* For form elements, a direct border might be better than inset shadow */
+     border: 1px solid var(--light-theme-visual-border-enhancement) !important; /* Overrides existing border */
+     /* Or, if you want to darken existing theme border:
+        border-color: color-mix(in srgb, var(--border-color) 70%, black 30%);
+        This requires modern browser for color-mix.
+     */
+}
+
+/* Specifically for table borders if the inset shadow isn't enough or looks odd */
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) table {
+    border: 1px solid var(--light-theme-visual-border-enhancement);
+}
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) table th,
+body:not(.theme-default-dark):not(.theme-zenith-zone-dark) table td {
+    border: 1px solid var(--light-theme-visual-border-enhancement); /* Ensure table cells also get it */
+}
 #theme-selector, /* New ID for the theme dropdown */
 #theme-toggle, /* Old toggle, can be repurposed or removed if selector replaces it */
 #logout-button {
