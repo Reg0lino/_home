@@ -247,31 +247,52 @@ const firebaseConfig = {
           }
           
           function populateQuickViewDashboard() {
-              const steveTasksList = document.getElementById('steve-next-tasks');
-              const nicoleTasksList = document.getElementById('nicole-next-tasks');
-              if (!steveTasksList || !nicoleTasksList) return;
-              steveTasksList.innerHTML = ''; nicoleTasksList.innerHTML = '';
-              let steveTaskCount = 0; let nicoleTaskCount = 0;
-              
-              document.querySelectorAll('#checklist-app li[data-item-id]').forEach(item => {
-                  const checkbox = item.querySelector('input[type="checkbox"]');
-                  const assigneeSelect = item.querySelector('.assignee-select');
-                  const labelElement = item.querySelector('label');
-  
-                  if(checkbox && assigneeSelect && labelElement) {
-                      const assignee = assigneeSelect.value; // Reads current DOM value
-                      const label = labelElement.textContent;
-                      if (!checkbox.checked) {
-                          const li = document.createElement('li');
-                          li.textContent = label;
-                          if (assignee === 'steve' && steveTaskCount < 3) { steveTasksList.appendChild(li); steveTaskCount++; }
-                          else if (assignee === 'nicole' && nicoleTaskCount < 3) { nicoleTasksList.appendChild(li); nicoleTaskCount++; }
-                      }
-                  }
-              });
-              if (steveTaskCount === 0) steveTasksList.innerHTML = '<li>No pending tasks for Steve.</li>';
-              if (nicoleTaskCount === 0) nicoleTasksList.innerHTML = '<li>No pending tasks for Nicole.</li>';
-          }
+            const steveTasksList = document.getElementById('steve-next-tasks');
+            const nicoleTasksList = document.getElementById('nicole-next-tasks');
+            if (!steveTasksList || !nicoleTasksList) {
+                // console.warn("Dashboard task list elements not found.");
+                return;
+            }
+            steveTasksList.innerHTML = ''; nicoleTasksList.innerHTML = '';
+            let steveTaskCount = 0; let nicoleTaskCount = 0;
+            
+            // Iterate over the actual `li` items in the DOM, which should have been updated by onSnapshot
+            document.querySelectorAll('#checklist-app li[data-item-id]').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                const assigneeSelect = item.querySelector('.assignee-select'); // Get the select element
+                const labelElement = item.querySelector('label'); // Get the label element
+
+                if(checkbox && assigneeSelect && labelElement) { // Ensure all elements exist
+                    const assignee = assigneeSelect.value; // Read the CURRENT value from the DOM select
+                    const label = labelElement.textContent;
+
+                    if (!checkbox.checked) { // Only show incomplete tasks
+                        // --- NEW LOGIC ---
+                        if (assignee === 'steve' || assignee === 'both') {
+                            if (steveTaskCount < 3) {
+                                const liSteve = document.createElement('li'); // Create a new li for Steve's list
+                                liSteve.textContent = label;
+                                steveTasksList.appendChild(liSteve);
+                                steveTaskCount++;
+                            }
+                        }
+                        if (assignee === 'nicole' || assignee === 'both') {
+                            if (nicoleTaskCount < 3) {
+                                const liNicole = document.createElement('li'); // Create a new li for Nicole's list
+                                liNicole.textContent = label;
+                                nicoleTasksList.appendChild(liNicole);
+                                nicoleTaskCount++;
+                            }
+                        }
+                        // --- END OF NEW LOGIC ---
+                    }
+                } else {
+                    // console.warn("Missing elements in checklist item for dashboard:", item.dataset.itemId);
+                }
+            });
+            if (steveTaskCount === 0) steveTasksList.innerHTML = '<li>No pending tasks for Steve.</li>';
+            if (nicoleTaskCount === 0) nicoleTasksList.innerHTML = '<li>No pending tasks for Nicole.</li>';
+        }
   
           function applyFilters() {
               if (!filterAssigneeSelect || !filterStatusSelect) return;
