@@ -301,7 +301,6 @@ body.theme-rocket-raccoon {
     --item-border-accent: var(--primary-accent);
     --shadow-color: rgba(255, 140, 0, 0.15); /* Subtle orange shadow */
 }
-}
 
 /* --- Metal Gear Solid (Dark) --- */
 body.theme-metal-gear {
