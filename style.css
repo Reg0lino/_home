@@ -459,23 +459,23 @@ body.theme-pink-purple {
 /* --- Barnaby (Dark, Black Cat) --- */
 body.theme-barnaby {
     --theme-name: "Barnaby";
-    --page-bg: #1a120b; /* Much darker brown */
-    --text-color: #e0e0e0;
-    --card-bg: #23180f; /* Very dark brown */
-    --item-bg: #23180f;
+    --page-bg: #0e0804; /* Much darker brown */
+    --text-color: #868686;
+    --card-bg: #0f0b07; /* Very dark brown */
+    --item-bg: #1d140c;
     --notes-bg: #130c08;
-    --border-color: rgb(56, 39, 34); /* Brownish */
+    --border-color: rgb(49, 28, 27); /* Brownish */
     --table-header-bg: #23180f;
-    --header-bg: #2e1d1a; /* Dark espresso brown */
-    --header-text: #e0e0e0;
-    --nav-link: #bdbdbd; /* Grey */
-    --nav-link-active-bg: #bdbdbd;
+    --header-bg: #271a15; /* Dark espresso brown */
+    --header-text: #b6b4b4;
+    --nav-link: #808080; /* Grey */
+    --nav-link-active-bg: #929292;
     --nav-link-active-text: #1a120b;
-    --primary-accent: #bdbdbd; /* Grey */
+    --primary-accent: #8f8f8f; /* Grey */
     --secondary-accent: #8f6b5e; /* Lighter brown */
     --button-text: #1a120b;
     --item-border-accent: var(--secondary-accent);
-    --shadow-color: rgba(61, 39, 35, 0.18);
+    --shadow-color: rgba(0, 0, 0, 0.18);
 }
 
 /* --- Simon (Light, Orange Cat) --- */
