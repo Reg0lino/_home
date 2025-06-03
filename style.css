@@ -283,23 +283,24 @@ body.theme-retro-terminal {
 /* --- Rocket Raccoon (Dark/Marvel) --- */
 body.theme-rocket-raccoon {
     --theme-name: "Rocket Raccoon";
-    --page-bg: #181f23; /* Space black */
-    --text-color: #e0e6e9;
-    --card-bg: #232b2f;
-    --item-bg: #232b2f;
-    --notes-bg: #1b2327;
-    --border-color: #3e4c50;
-    --table-header-bg: #263238;
-    --header-bg: #f78f3f
-    --header-text: #232b2f;
-    --nav-link: #518cca;
-    --nav-link-active-bg: #518cca; /* Tech blue */
-    --nav-link-active-text: #181f23;
-    --primary-accent: #f78f3f
-    --secondary-accent: #518cca; /* Tech blue */
-    --button-text: #232b2f;
+    --page-bg: #181f23;           /* Deep space black */
+    --text-color: #f5f5dc;        /* Beige (for high contrast on dark bg) */
+    --card-bg: #2d2d2d;           /* Dark gray for cards */
+    --item-bg: #01468b;           
+    --notes-bg: #232b2f;          /* Slightly lighter than page for notes */
+    --border-color: #708090;       /* SlateGray (tech/metal) */
+    --table-header-bg: #3e4c50;   /* Muted blue-gray */
+    --header-bg: #a0522d;          /* Sienna (fur) */
+    --header-text: #f5f5dc;       /* Beige for header text */
+    --nav-link: #7cbcfc;           /* DodgerBlue (Guardians uniform) */
+    --nav-link-active-bg: #ff8c00;/* DarkOrange (highlight/accent) */
+    --nav-link-active-text: #232b2f; /* Very dark for contrast */
+    --primary-accent: #ff8c00;    /* DarkOrange (highlight) */
+    --secondary-accent: #708090;  /* SlateGray (tech/metal) */
+    --button-text: #232b2f;       /* Very dark for buttons on orange */
     --item-border-accent: var(--primary-accent);
-    --shadow-color: rgba(255, 152, 0, 0.12);
+    --shadow-color: rgba(255, 140, 0, 0.15); /* Subtle orange shadow */
+}
 }
 
 /* --- Metal Gear Solid (Dark) --- */
