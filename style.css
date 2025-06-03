@@ -290,13 +290,13 @@ body.theme-rocket-raccoon {
     --notes-bg: #1b2327;
     --border-color: #3e4c50;
     --table-header-bg: #263238;
-    --header-bg: #ff9800; /* Orange */
+    --header-bg: #f78f3f
     --header-text: #232b2f;
-    --nav-link: rgb(5, 102, 92);
-    --nav-link-active-bg: #00bcd4; /* Tech blue */
+    --nav-link: #518cca;
+    --nav-link-active-bg: #518cca; /* Tech blue */
     --nav-link-active-text: #181f23;
-    --primary-accent: #ff9800; /* Orange */
-    --secondary-accent: #00bcd4; /* Tech blue */
+    --primary-accent: #f78f3f
+    --secondary-accent: #518cca; /* Tech blue */
     --button-text: #232b2f;
     --item-border-accent: var(--primary-accent);
     --shadow-color: rgba(255, 152, 0, 0.12);
